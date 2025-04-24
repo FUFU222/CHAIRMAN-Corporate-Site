@@ -1,24 +1,30 @@
-name: 🚀 Test Deploy to Xserver
+# .github/workflows/prod-deploy.yml
+name: 🚀 Deploy to Xserver (Production)
 
+# main ブランチへの push かつ public_html 以下の変更でのみ発火
 on:
   push:
+    branches:
+      - main
     paths:
-      - "public_html/test-deploy/**"
+      - "public_html/**"
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # コードをチェックアウト
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy test-deploy folder via FTPS
+      # 公開フォルダを FTPS/SFTP で同期
+      - name: Deploy production folder via SFTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.XSERVER_HOST }}
           username: ${{ secrets.XSERVER_USERNAME }}
           password: ${{ secrets.XSERVER_PASSWORD }}
-          protocol: ftps
-          local-dir: public_html/test-deploy/ # ← 必ず末尾に /
-          server-dir: public_html/test-deploy/ # ← remote-dir → server-dir に変更
-          # git-ftp-args は削除
+          protocol: sftp
+          local-dir: public_html/ # ローカル側の公開フォルダ
+          server-dir: public_html/ # サーバー上の公開フォルダ
