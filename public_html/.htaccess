@@ -1,0 +1,30 @@
+RewriteEngine On
+# HTTPをHTTPSにリダイレクト
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# キャッシュ設定
+# キャッシュを無効化（すべてのリクエストに対して適用）
+# <FilesMatch "\.(html|htm|css|js|jpg|jpeg|png|gif|svg|ico)$">
+#     Header set Cache-Control "no-cache, no-store, must-revalidate"
+#     Header set Pragma "no-cache"
+#     Header set Expires "0"
+# </FilesMatch>
+# <IfModule mod_headers.c>
+#     Header unset ETag
+#     FileETag None
+# </IfModule>
+### BEGIN XPageSpeed - Do not edit the contents of this block! ###
+XPagespeedDisableFilters xoptimize_javascript
+XPagespeedDisableFilters lazyload_javascript
+XPagespeed on
+<IfModule pagespeed_module>
+    XPagespeed off
+</IfModule>
+### END XPageSpeed - Do not edit the contents of this block! ###
+# BASIC認証の設定
+# メンテナンスモード（管理者のIPアドレスを除く）
+# RewriteCond %{REQUEST_URI} !/maintenance.html$
+# RewriteCond %{REMOTE_ADDR} !^192\.0\.0\.2$
+# RewriteRule ^(.*)$ /maintenance.html [R=302,L]
+# SetEnvIf Request_URI ".*" Ngx_Cache_NoCacheMode
+

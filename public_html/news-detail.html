@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C1YTY7SVWF"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C1YTY7SVWF');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CHAIRMANのお知らせ詳細ページです。記事に関するご質問はお問い合わせフォームからどうぞ。">
+  <link rel="llmo" href="/llms.txt" type="text/plain" />
+  <link rel="icon" href="/assets/favicon-16x16.ico" sizes="16x16" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon-24x24.ico" sizes="24x24" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon-32x32.ico" sizes="32x32" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon-48x48.ico" sizes="48x48" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon-64x64.ico" sizes="64x64" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon-128x128.ico" sizes="128x128" type="image/x-icon">
+  <link rel="icon" href="/assets/favicon-256x256.ico" sizes="256x256" type="image/x-icon">
+  <link rel="apple-touch-icon" href="/assets/favicon-180x180.png" sizes="180x180">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/assets/favicon-128x128.ico">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Oswald:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <title id="page-title">株式会社CHAIRMAN | お知らせ詳細</title>
+</head>
+
+<body>
+
+  <div id="splash">
+    <div id="splash_text"></div>
+    <div class="loader_cover loader_cover-up"></div>
+    <div class="loader_cover loader_cover-down"></div>
+  </div>
+  </div>
+
+<header id="header">
+  <div class="header-container">
+    <div class="header-logo"><a href="index.html">
+      <img src="./images/CompanyLogo.png" alt="Company Logo"></a>
+    </div>
+    <div class="design-toggle">
+      <button id="design-toggle">
+        <span class="text-background">KOSOLIFE</span>
+      </button>
+    </div>
+    <div class="openbtn7">
+      <div class="openbtn-area">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+        
+  <nav class="header-menu-container">
+    <ul class="header-menu">
+      <li><a href="./index.html#service">事業紹介</a></li>
+      <li><a href="./index.html#team">チーム</a></li>
+      <li><a href="./index.html#track-record">運用実績</a></li>
+      <li><a href="about-us.html">私たちについて</a></li>
+      <li><a href="./news.html">ブログ</a></li>
+      <li><a href="./contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="news-detail">
+  <div class="news-detail-container">
+    <h1 id="news-title"></h1>
+    <div class="news-meta">
+      <div id="news-date"></div>
+      <div class="share-buttons-container">
+        <button id="share-twitter" class="share-button"><img src="./images/x.svg" alt="x-icon"></button>
+        <button id="share-facebook" class="share-button"><img src="./images/facebook.svg" alt="facebook-icon"></button>
+        <button id="share-line" class="share-button"><img src="./images/line.svg" alt="line-icon"></button>
+        <button id="copy-link" class="share-button"><img src="./images/link-solid.svg" alt="-copy-url"></button>
+      </div>
+    </div>
+    <div id="news-content">
+      <div class="cta-button-container">
+        <a href="https://chairman-official.com/contact.html" class="cta-button" target="_blank" rel="noopener noreferrer">
+          お問い合わせはこちら
+        </a>
+      </div>
+    </div>
+    <section class="author-card">
+      <h2 class="author-heading">この記事の著者</h2>
+      <div class="author-profile">
+        <img id="author-image" class="author-image" alt="著者画像" />
+        <div class="author-info">
+          <div id="author-title" class="author-title"></div>
+          <h3 id="author-name" class="author-name"></h3>
+          <p id="author-bio" class="author-bio"></p>
+        </div>
+      </div>
+    </section>
+      
+  </div>  
+  <div class="related-articles-container">
+    <h2 class="related-articles-title">関連記事</h2>
+    <ul id="related-articles" class="related-articles-list"></ul>
+  </div>
+  <div class="new-articles-container">
+    <h2 class="new-articles-title">新着記事</h2>
+    <ul id="new-articles" class="new-articles-list"></ul>
+  </div>
+  <div class="back-news-page">
+    <a href="./news.html">すべての記事へ</a>
+  </div>
+</main>
+
+<section id="footer">
+  <div class="footer02">
+    <ul class="menu">
+      <li><a href="#">top</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="index.html">
+      <img src="./images/CompanyLogo.png" alt="株式会社CHAIRMANロゴ">
+    </a>
+    <p class="copyright">
+      &copy;chairman all rights reserved.
+    </p>
+  </div>
+</section>
+
+<div id="overlay"></div>
+
+<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const { createClient } = microcms;
+  const client = createClient({
+    serviceDomain: '6p0edejcy2',
+    apiKey: 'VzmVhi0gICjPrmVJDtXS9LTCi1S7xBE3r8Ms'
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const articleId = params.get('id');
+
+  client
+    .get({
+      endpoint: 'blog',
+      contentId: articleId
+    })
+    .then((content) => {
+      document.getElementById('news-title').innerText = content.title;
+      document.getElementById('news-date').innerText = new Date(content.publishedAt).toLocaleDateString('ja-JP');
+      document.getElementById('news-content').innerHTML = content.content;
+      const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+          const fallbackText = content.content.replace(/<[^>]+>/g, '').slice(0, 100); // 本文から自動生成
+          const finalDescription = content.description || fallbackText;
+          metaDescription.setAttribute('content', finalDescription);
+        }
+
+      const ctaButton = document.createElement('div');
+      ctaButton.classList.add('cta-button-container');
+      ctaButton.innerHTML = `
+        <a href="https://chairman-official.com/contact.html" class="cta-button" target="_blank" rel="noopener noreferrer">
+          お問い合わせはこちら
+        </a>
+      `;
+      document.getElementById('news-content').appendChild(ctaButton);
+      const author = content.author;
+        if (author) {
+          document.getElementById('author-title').textContent = author["author-title"];
+          document.getElementById('author-name').textContent = author["author-name"];
+          document.getElementById('author-bio').textContent = author["author-bio"];
+          document.getElementById('author-image').src = author["author-image"]?.url || '/images/default-author.png';
+        }
+
+      const img = document.createElement('img');
+      img.src = content.eyecatch ? content.eyecatch.url : '/path/to/default/image.jpg';
+      img.alt = content.title;
+      img.classList.add('news-image');
+      const metaWrapper = document.querySelector('.news-meta');
+      const container = document.querySelector('.news-detail-container');
+      container.insertBefore(img, metaWrapper.nextSibling);
+      
+      const categoryId = content.category[0].id;
+      fetchRelatedArticles(categoryId, articleId);
+      fetchNewArticles();
+      setupShareButtons(content.title);
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": window.location.href
+        },
+        "headline": content.title,
+        "description": content.description || content.content.replace(/<[^>]+>/g, '').slice(0, 100),
+        "image": content.eyecatch?.url || "https://chairman-official.com/images/default-eyecatch.jpg",
+        "author": {
+          "@type": "Person",
+          "name": content.author?.["author-name"] || "CHAIRMAN編集部"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "株式会社CHAIRMAN",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://chairman-official.com/images/CompanyLogo2.png"
+          }
+        },
+        "datePublished": content.publishedAt,
+        "dateModified": content.revisedAt || content.publishedAt
+      };
+
+      const scriptTag = document.createElement('script');
+      scriptTag.type = 'application/ld+json';
+      scriptTag.textContent = JSON.stringify(structuredData, null, 2);
+      document.head.appendChild(scriptTag);
+
+      const pageTitle = document.getElementById('page-title');
+      if (pageTitle) {
+        pageTitle.textContent = `${content.title} | 株式会社CHAIRMAN`;
+      }
+    })
+    .catch((error) => {
+      console.error('Error fetching article:', error);
+    });
+
+  function fetchRelatedArticles(categoryId, currentArticleId) {
+    client
+      .get({
+        endpoint: 'blog',
+        queries: {
+          filters: `category[contains]${categoryId}`,
+          limit: 3,
+          orders: '-publishedAt'
+        }
+      })
+      .then((res) => {
+        const relatedArticlesContainer = document.getElementById('related-articles');
+        if (relatedArticlesContainer && res.contents.length > 0) {
+          res.contents.forEach((content) => {
+            if (content.id !== currentArticleId) {
+              const li = document.createElement('li');
+              li.classList.add('related-article-item');
+
+              const img = document.createElement('img');
+              img.classList.add('related-article-image');
+              img.src = content.eyecatch ? content.eyecatch.url : '/path/to/default/image.jpg';
+              img.alt = content.title;
+
+              const info = document.createElement('div');
+              info.classList.add('article-info');
+
+              const date = document.createElement('div');
+              date.classList.add('related-article-date');
+              date.innerHTML = `${new Date(content.publishedAt).toLocaleDateString('ja-JP')}`;
+
+              const title = document.createElement('h3');
+              title.classList.add('related-article-title');
+              title.innerHTML = `<a href="news-detail.html?id=${content.id}">${content.title}</a>`;
+
+              info.appendChild(date);
+              info.appendChild(title);
+              li.appendChild(img);
+              li.appendChild(info);
+              relatedArticlesContainer.appendChild(li);
+            }
+          });
+        } else {
+          console.log('No related articles found.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching related articles:', error);
+      });
+  }
+
+  function fetchNewArticles() {
+    client
+      .get({
+        endpoint: 'blog',
+        queries: {
+          limit: 3,
+          orders: '-publishedAt'
+        }
+      })
+      .then((res) => {
+        const newArticlesContainer = document.getElementById('new-articles');
+        if (newArticlesContainer && res.contents.length > 0) {
+          res.contents.forEach((content) => {
+            const li = document.createElement('li');
+            li.classList.add('new-article-item');
+
+            const img = document.createElement('img');
+            img.classList.add('new-article-image');
+            img.src = content.eyecatch ? content.eyecatch.url : '/path/to/default/image.jpg';
+            img.alt = content.title;
+
+            const info = document.createElement('div');
+            info.classList.add('article-info');
+
+            const date = document.createElement('div');
+            date.classList.add('new-article-date');
+            date.innerHTML = `${new Date(content.publishedAt).toLocaleDateString('ja-JP')}`;
+
+            const title = document.createElement('h3');
+            title.classList.add('new-article-title');
+            title.innerHTML = `<a href="news-detail.html?id=${content.id}">${content.title}</a>`;
+
+            info.appendChild(date);
+            info.appendChild(title);
+            li.appendChild(img);
+            li.appendChild(info);
+            newArticlesContainer.appendChild(li);
+          });
+        } else {
+          console.log('No new articles found.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching new articles:', error);
+      });
+  }
+
+  function setupShareButtons(title) {
+    const shareButtons = document.querySelectorAll('.share-button');
+    shareButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        let url = window.location.href;
+        if (button.id === 'share-twitter') {
+          window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+        } else if (button.id === 'share-facebook') {
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        } else if (button.id === 'share-line') {
+          window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}`, '_blank');
+        } else if (button.id === 'copy-link') {
+          navigator.clipboard.writeText(url).then(() => {
+            alert('リンクがコピーされました');
+          }, () => {
+            alert('リンクのコピーに失敗しました');
+          });
+        }
+      });
+    });
+  }
+});
+</script>
+<script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/5-2-7/js/5-2-7.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>

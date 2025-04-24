@@ -1,0 +1,23 @@
+name: 🚀 Test Deploy to Xserver
+
+on:
+  push:
+    paths:
+      - "public_html/test-deploy/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy test-deploy folder via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@4
+        with:
+          server: ${{ secrets.XSERVER_HOST }}
+          username: ${{ secrets.XSERVER_USERNAME }}
+          password: ${{ secrets.XSERVER_PASSWORD }}
+          protocol: ftps
+          local-dir: public_html/test-deploy # ← ここを変更
+          remote-dir: public_html/test-deploy # ← Xserver 上の同じパス
