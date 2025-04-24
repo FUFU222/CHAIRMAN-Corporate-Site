@@ -1291,6 +1291,7 @@ html .swiper .swiper-slide {
   font-size: 10px;
   color: #666;
   margin-bottom: 10px;
+  font-family: "Zen Kaku Gothic New", sans-serif;;
   text-transform: uppercase;
 }
 .more-news-link .load-more-button {
@@ -2159,7 +2160,7 @@ iframe {
 
   /* --------- ALL News --------*/
   #news .news-list .news-item .news-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   #news .news-list .news-item .news-summary {
     font-size: 12px;
@@ -2168,9 +2169,11 @@ iframe {
     font-size: 12px;
   }
   .latest-news-title h3 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
-
+  #news .news-category {
+    font-size: 16px;
+  }
   /* --------- News detail --------*/
   #news-title {
     padding-top: 80px;
