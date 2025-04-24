@@ -25,6 +25,6 @@ jobs:
           server: ${{ secrets.XSERVER_HOST }}
           username: ${{ secrets.XSERVER_USERNAME }}
           password: ${{ secrets.XSERVER_PASSWORD }}
-          protocol: sftp
+          protocol: ftps
           local-dir: public_html/ # ローカル側の公開フォルダ
           server-dir: public_html/ # サーバー上の公開フォルダ
