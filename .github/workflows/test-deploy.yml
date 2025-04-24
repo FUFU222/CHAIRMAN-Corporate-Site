@@ -28,3 +28,6 @@ jobs:
           protocol: ftps
           local-dir: public_html/ # ローカル側の公開フォルダ
           server-dir: public_html/ # サーバー上の公開フォルダ
+          exclude: |
+            videos/**/*.mp4
+            videos/**/*.webm
