@@ -184,13 +184,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Noto Serif JP", serif;
-}
-body.home .design-toggle {
-  display: block;
+  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 body {
   margin: 0 auto;
+  padding: 0 1%;
   max-width: 1600px;
   padding: 0;
   background-color: #e9e9e9;
@@ -217,7 +215,6 @@ button {
   top: 0;
   width: 100%;
   max-width: 1600px;
-  background-color: #e5e5e5;
   z-index: 30;
   transition: top 0.2s;
   overflow: hidden;
@@ -229,7 +226,7 @@ button {
   height: 100%;
   width: 100%;
   padding: 2%;
-  background-color: #e5e5e5;
+  background-color: rgba(255, 255, 255, 0.6);
   box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
 .header-logo {
@@ -247,19 +244,24 @@ button {
 /*---------------------------------------
   1. ハンバーガーボタンをヘッダー右端中央に固定
 ---------------------------------------*/
-.header-container .openbtn7 {
+.openbtn7 {
+  width: 2.2rem;
+  height: 2.2rem;
   position: absolute;
-  top: 30%;
-  right: 4rem;
+  top: 50%;
+  right: 1.5rem;
   transform: translateY(-50%);
   z-index: 99;
+  background: transparent;
+  cursor: pointer;
 }
-
 .openbtn7 .openbtn-area {
-  position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.4s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* 線（span） */
@@ -347,7 +349,7 @@ button {
 }
 .header-menu li a {
   display: inline-block;
-  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.268);
+  text-shadow: 0 2px 4px rgba(250, 250, 250, 0.6);
   font-size: 1.5rem;
   color: #801515;
   font-weight: bold;
@@ -364,76 +366,6 @@ button {
   z-index: 1;
 }
 
-/*-------------- デザイントグルボタン------------ */
-.design-toggle {
-  width: 50%;
-  padding: 1%;
-  display: none;
-}
-
-#design-toggle {
-  width: 50%;
-  height: 100%;
-  padding: 3% 0.5%;
-  margin-left: 20%;
-  border-radius: 15px;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  border: none;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s;
-  z-index: 31;
-  background: linear-gradient(45deg, #191919, #121212, #e1e1e1, #ececec);
-  background-size: 400% 400%;
-  animation: gradient 10s ease infinite;
-  box-shadow: 3px 3px 6px #c5c5c5, -3px -3px 6px #f2f2f2;
-  color: transparent;
-}
-
-#design-toggle span {
-  font-family: "Oswald", sans-serif;
-}
-#design-toggle .text-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(45deg, #ffffff, #ffffff, #1f1f1f, #191919);
-  background-size: 400% 400%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 10s ease infinite;
-  z-index: 1;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-#design-toggle:hover {
-  color: #f2f2f2;
-  transform: scale(0.97);
-  box-shadow: none;
-}
-
-#design-toggle:hover::before {
-  width: 250%;
-}
 
 /* hero-section */
 
@@ -703,7 +635,8 @@ button {
 .title-container h2 {
   text-align: left;
   padding: 0;
-  margin-left: 4.2%;
+  margin-left: 3%;
+  line-height: 1.2em;
   letter-spacing: 4px;
   font-size: 2.5rem;
   font-family: "Oswald", sans-serif;
@@ -712,19 +645,18 @@ button {
 .title-container h4 {
   opacity: 0;
   font-size: 1.5rem;
+  margin-left: 3%;
   letter-spacing: 5px;
   padding: 0;
-  margin: 0 0 2% 5%;
 }
 
 .title-container p {
   text-align: left;
-  font-size: 1rem;
+  font-size: 1.2rem;
   line-height: 30px;
   letter-spacing: 2.5px;
   padding: 0;
   margin: 5% 0 0 5%;
-  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 
 /* service-section */
@@ -732,7 +664,7 @@ button {
   border-top: none;
 }
 #service {
-  padding: 5% 1% 25% 1%;
+  padding: 5% 0;
   transition: background-color 0.7s ease, color 0.7s ease;
 }
 .card-grid {
@@ -740,82 +672,117 @@ button {
   flex-wrap: wrap;
   gap: 24px;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 80px 20px;
 }
 
-/* カード共通 */
+/* ──────────────────────────────────
+   ガラス風カード（厚め）＋控えめシャイン
+────────────────────────────────── */
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  padding: 4% 3%;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
   overflow: hidden;
-  flex: 1 1 250px;
-  max-width: 300px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  will-change: transform;
+  transform: perspective(800px) rotateY(-4deg) translateZ(0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  max-height: 480px;
+  min-height: 400px;
+  max-width: 400px;
 }
-
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  transform: perspective(800px) rotateY(0deg) translateZ(10px);
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.08),
+    inset 0 0 0 1px rgba(255,255,255,0.4);
+
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+/* シャイン用擬似要素 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -60%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0)   0%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0)   100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+  opacity: 0;
+}
+.card:hover::before {
+  animation: shine 0.9s ease-out forwards;
+  opacity: 1;
 }
 
-/* メディア部分（画像 or プラットフォームアイコン） */
+@keyframes shine {
+  from { left: -60%; }
+  to   { left: 160%; }
+}
+
+.card h3 {
+  font-family: "Oswald", sans-serif;
+  font-size: 1.5rem;
+  color:#393939;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+/* メディア部分 */
 .card-media {
   position: relative;
-  height: 180px;
+  height: 200px;
   background: #f5f5f5;
 }
 
 .card-media img {
   width: 100%;
   height: 100%;
+  border-radius: 8px;
   object-fit: cover;
 }
 
-/* 中国プラットフォームアイコン */
+/* プラットフォームアイコン */
 .platform-icons {
   position: absolute;
-  bottom: 12px;
+  bottom: 24px;
+  width: 100%;
+  justify-content: center;
   left: 50%;
   transform: translateX(-50%);
   display: grid;
   grid-template-columns: repeat(4, 32px);
   gap: 8px;
-  background: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.9);
   padding: 2px 4px;
-  border-radius: 12px;
 }
-
 .platform-icons img {
   width: 100%;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
-  transition: transform 0.2s ease;
 }
-
-.platform-icons img:hover {
-  transform: scale(1.1);
-}
-
 /* コンテンツ部分 */
 .card-content {
-  padding: 20px;
-  text-align: center;
-}
-.card-content h3 {
-  font-size: 20px;
-  margin-bottom: 8px;
-  line-height: 1.4;
+  padding: 20px 4px;
 }
 .card-content h5 {
-  font-size: 1.125rem;
+  font-size: 1.4rem;
   margin-bottom: 8px;
   font-weight: 600;
   color: #333;
+  border-bottom: 2px solid #ececec;
 }
 .card-content p {
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   color: #555;
   line-height: 1.6;
 }
@@ -905,7 +872,6 @@ button {
   font-size: 1.3rem;
   line-height: 3rem;
   letter-spacing: 2px;
-  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 .record-description-container h3 span {
   color: rgb(161, 40, 40);
@@ -1033,7 +999,7 @@ button {
   display: block;
 }
 .news-item:hover .news-image {
-  transform: scale(1.08);
+  transform: scale(1.02);
 }
 #news .news-list .news-item .news-date {
   font-size: 8px;
@@ -1106,7 +1072,6 @@ button {
   font-size: 10px;
   color: #666;
   margin-bottom: 10px;
-  font-family: "Zen Kaku Gothic New", sans-serif;;
   text-transform: uppercase;
 }
 .more-news-link .load-more-button {
@@ -1152,7 +1117,7 @@ button {
 .news-image {
   width: 100%;
   height: auto;
-  max-width: 840px;
+  max-width: 540px;
   display: block;
   margin: 2% auto;
   object-fit: contain;
@@ -1166,9 +1131,6 @@ button {
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-}
-#news-content * {
-  font-family:'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 #news-content p {
   font-size: 14px;
@@ -1524,6 +1486,9 @@ button {
   transform: scale(1, 1); /*ホバー後、x軸方向に1（相対値）伸長*/
 }
 
+
+/* AboutUs-section */
+
 #about-us-section {
   padding: 80px 0;
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
@@ -1550,32 +1515,37 @@ button {
   position: relative;
   z-index: 1;
 }
-
-
-.title h2 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  background: linear-gradient(135deg, #1e293b, #64748b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
-}
-
-.japanese-title h4 {
-  font-size: 1.2rem;
-  font-weight: 400;
-  margin-bottom: 32px;
-  letter-spacing: 0.1em;
-}
-
 #intro {
-  margin-bottom: 80px;
+  margin: 5% auto;
+  padding-bottom: 5%;
   text-align: center;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+}
+.intro-content {
+  position: relative;
+  padding: 2% 0;
+  border-bottom: none;
+}
+.intro-content::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    #e2bf35,
+    #f59e0b,
+    #953939,
+    #e2bf35
+  );
+  background-size: 300% 100%;
+  animation: gradientSlide 4s linear infinite;
+}
+@keyframes gradientSlide {
+  0%   { background-position: 0%   0%; }
+  50%  { background-position: 100% 0%; }
+  100% { background-position: 300% 0%; }
 }
 
 .intro-content h1 {
@@ -1585,23 +1555,24 @@ button {
   background: linear-gradient(135deg, #e2bf35, #f59e0b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-family: serif;
   background-clip: text;
   letter-spacing: -0.01em;
 }
 
 .intro-content p {
-  font-size: 1.1rem;
-  color: #475569;
-  margin-bottom: 24px;
+  font-size: 1.2rem;
+  color: #282828;
   line-height: 1.8;
-  font-weight: 400;
+  font-weight: 600;
+  margin-bottom: 2%;
 }
 .member-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 2% auto;
 }
 
 .member-container {
@@ -1616,31 +1587,6 @@ button {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   height: fit-content;
 }
-
-.member-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, #e2bf35, #8e0606, #e2bf35);
-  background-size: 200% 100%;
-  animation: gradientShift 3s ease-in-out infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.member-container:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-  border-color: rgba(226, 191, 53, 0.4);
-  background: rgba(255, 255, 255, 0.95);
-}
-
 .member-info {
   display: flex;
   align-items: center;
@@ -1654,40 +1600,15 @@ button {
   position: relative;
 }
 
-.member-image::after {
-  content: '';
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #e2bf35, #8e0606);
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.member-container:hover .member-image::after {
-  opacity: 0.3;
-}
-
 .member-image img {
-  width: 160px;
-  height: 160px;
+  width: 240px;
+  height: 240px;
   border-radius: 50%;
   object-fit: cover;
   border: 5px solid rgba(255, 255, 255, 0.9);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
-
-.member-container:hover .member-image img {
-  transform: scale(1.08);
-  border-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
 .member-details {
   flex: 1;
 }
@@ -1721,7 +1642,7 @@ button {
 .member-name h3 {
   font-size: 2rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #222323;
   letter-spacing: -0.02em;
   margin: 0;
 }
@@ -1744,7 +1665,7 @@ button {
   bottom: 0;
   border-radius: 20px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(226, 191, 53, 0.2), transparent, rgba(226, 191, 53, 0.1));
+  background: linear-gradient(135deg, rgba(226, 191, 53, 0.2), transparent, rgba(226, 53, 53, 0.1));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask-composite: xor;
@@ -1837,7 +1758,7 @@ button {
 }
 
 /*――――――――――――――――――――――――――――
-  管理チームセクション
+  マネージメントチームセクション
 ――――――――――――――――――――――――――――*/
 .management-team {
   padding: 4rem 1rem;
@@ -1848,18 +1769,18 @@ button {
   max-width: 1200px;
   margin: 0 auto;
 }
-.management-header {
+.second-header {
   text-align: center;
   margin-bottom: 2.5rem;
 }
-.management-header h2 {
+.second-header h2 {
   font-family: "Oswald", sans-serif;
   font-size: 2.5rem;
   color:#800000;
   margin-bottom: 0.5rem;
   letter-spacing: 0.05em;
 }
-.management-header h4 {
+.second-header h4 {
   font-size: 1rem;
   color: var(--text-dark);
   letter-spacing: 0.1em;
@@ -1883,7 +1804,7 @@ button {
   text-align: center;
   margin-top: 1rem;
   font-size: 1.2rem;
-  color: #953939;
+  color: #303030;
   font-weight: bold;
 }
 .team-card .card-role {
@@ -1935,7 +1856,7 @@ button {
 /* CTA ボタンコンテナ */
 .cta-container {
   text-align: center;
-  margin: 3rem 0 2rem;
+  margin: 2rem 0 4rem;
 }
 .cta-btn {
   display: inline-block;
@@ -1946,153 +1867,17 @@ button {
   background: linear-gradient(135deg, #e2bf35 0%, #953939 100%);
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
 }
 .cta-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 .cta-btn:active {
   transform: translateY(0);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
-
-
-@media (max-width: 768px) {
-  #about-us-section {
-      padding: 60px 0;
-  }
-
-  .about-us-container {
-      padding: 0 16px;
-  }
-
-  #intro {
-      margin-bottom: 60px;
-  }
-
-  .member-list {
-      grid-template-columns: 1fr;
-      gap: 40px;
-  }
-
-  .member-container {
-      padding: 24px;
-  }
-
-  .member-info {
-      flex-direction: column;
-      text-align: center;
-      gap: 16px;
-      margin-bottom: 28px;
-  }
-
-  .member-image img {
-      width: 140px;
-      height: 140px;
-  }
-
-  .member-description {
-      padding: 24px;
-  }
-
-  .member-name h3 {
-      font-size: 1.7rem;
-  }
-
-  .mobile-only {
-      display: inline;
-  }
-
-  br:not(.mobile-only) {
-      display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .member-container {
-      padding: 20px;
-  }
-
-  .member-description {
-      padding: 20px;
-  }
-
-  .member-name h3 {
-      font-size: 1.4rem;
-  }
-
-  .coment {
-      padding: 20px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .member-container {
-      transition: none;
-  }
-
-  .member-container:hover {
-      transform: none;
-  }
-
-  .member-image img {
-      transition: none;
-  }
-
-  .member-container:hover .member-image img {
-      transform: none;
-  }
-
-  .member-description time {
-      transition: none;
-  }
-
-  .member-description time:hover {
-      transform: none;
-  }
-
-  @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-  }
-}
-
-@media (max-width: 600px) {
-  .management-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
-  }
-  .team-card {
-    padding: 1rem 0.5rem;
-  }
-  .team-card .card-image {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    padding-top: 0;
-    margin: 0 auto 0.75rem;
-  }
-  .team-card .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .team-card .card-role {
-    bottom: 4px;
-    font-size: 0.5rem;
-    padding: 2px 6px;
-  }
-  .team-card .card-name {
-    font-size: 0.8rem;
-    margin-top: 0.1rem;
-  }
-}
-
-
-
-
-
-
 
 /* footer-section */
 #footer .footer02 {
@@ -2204,7 +1989,143 @@ iframe {
 #contact .title-container {
   padding: 20% 0 0 0;
 }
-/* ーーーーーーーーー以下はレスポンシブ対応 ーーーーーーーーーーー*/
+
+
+/* ──────────────────────────────────
+   以下はレスポンシブ対応
+────────────────────────────────── */
+
+
+@media (max-width: 480px) {
+
+  .title-container p {
+    font-size: .8rem;
+  }
+  .member-container {
+      padding: 20px;
+  }
+
+  .member-description {
+      padding: 20px;
+  }
+
+  .member-name h3 {
+      font-size: 1.4rem;
+  }
+
+  .coment {
+      padding: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .member-container {
+      transition: none;
+  }
+
+  .member-container:hover {
+      transform: none;
+  }
+
+  .member-image img {
+      transition: none;
+  }
+
+  .member-container:hover .member-image img {
+      transform: none;
+  }
+
+  .member-description time {
+      transition: none;
+  }
+
+  .member-description time:hover {
+      transform: none;
+  }
+
+  @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+  }
+}
+
+@media (max-width: 768px) {
+    #about-us-section {
+      padding: 60px 0;
+  }
+
+  .about-us-container {
+      padding: 0 16px;
+  }
+
+  #intro {
+      margin-bottom: 60px;
+  }
+  .intro-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .member-list {
+      grid-template-columns: 1fr;
+      gap: 40px;
+  }
+
+  .member-container {
+      padding: 24px;
+  }
+
+  .member-info {
+      flex-direction: column;
+      text-align: center;
+      gap: 16px;
+      margin-bottom: 28px;
+  }
+
+  .member-image img {
+      width: 180px;
+      height: 180px;
+  }
+
+  .member-description {
+      padding: 24px;
+  }
+
+  .member-name h3 {
+      font-size: 1.7rem;
+  }
+
+  .mobile-only {
+      display: inline;
+  }
+  .management-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+  .team-card {
+    padding: 1rem 0.5rem;
+  }
+  .team-card .card-image {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    padding-top: 0;
+    margin: 0 auto 0.75rem;
+  }
+  .team-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .team-card .card-role {
+    bottom: 4px;
+    font-size: 0.5rem;
+    padding: 2px 6px;
+  }
+  .team-card .card-name {
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+  }
+}
+
 @media screen and (min-width: 600px) {
   /* --------- header --------*/
   .header-container {
@@ -2227,12 +2148,9 @@ iframe {
   .title-container {
     height: 30%;
     width: 100%;
-    padding: 6% 0 2% 0;
+    padding: 4% 0 2% 0;
   }
   /* --------- service-section --------*/
-  .swiper-slide p {
-    font-size: 1rem;
-  }
   #service .title-container {
     padding-bottom: 0;
   }
