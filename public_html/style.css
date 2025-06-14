@@ -1395,13 +1395,13 @@ button {
   width: 100%;
   height: 5px;
   background: #e2bf35;
-  bottom: -5px; /*アンダーラインがaタグの下端から現れる*/
-  transform: scale(0, 1); /*アンダーラインの縮尺比率。ホバー前はx方向に0*/
-  transform-origin: left top; /*変形（アンダーラインの伸長）の原点がaタグ（各メニュー）の左端*/
-  transition: transform 0.2s; /*変形の時間*/
+  bottom: -5px;
+  transform: scale(0, 1);
+  transform-origin: left top;
+  transition: transform 0.2s;
 }
 .back-news-page a:hover::after {
-  transform: scale(1, 1); /*ホバー後、x軸方向に1（相対値）伸長*/
+  transform: scale(1, 1);
 }
 /*--------------------- company info section ------------------*/
 
