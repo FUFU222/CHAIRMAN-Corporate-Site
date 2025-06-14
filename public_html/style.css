@@ -1321,6 +1321,7 @@ button {
   padding: 1rem;
   border: 1px solid #bbbbbb;
   background: #f2f2f2;
+  align-self: center;
 }
 .related-articles-title,
 .new-articles-title {
