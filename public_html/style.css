@@ -1317,11 +1317,10 @@ button {
 /* related-articles-container */
 .related-articles-container,
 .new-articles-container {
-  margin: 2rem 2rem;
+  margin: 2rem auto;
   padding: 1rem;
   border: 1px solid #bbbbbb;
   background: #f2f2f2;
-  align-self: center;
 }
 .related-articles-title,
 .new-articles-title {
@@ -2339,7 +2338,7 @@ iframe {
   .related-articles-container,
   .new-articles-container {
     padding: 1rem;
-    margin: 1rem 6rem;
+    margin: 1rem auto;
     max-width: 1000px;
   }
   .related-article-date,
