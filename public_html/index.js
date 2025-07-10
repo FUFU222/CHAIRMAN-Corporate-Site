@@ -147,6 +147,9 @@ document.addEventListener("DOMContentLoaded", function () {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          // テキストコンテンツをdata-text属性に設定
+          entry.target.setAttribute('data-text', entry.target.textContent);
+          
           setTimeout(() => {
             entry.target.classList.add("is-visible");
             entry.target.style.opacity = 1;
