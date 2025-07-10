@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ".title h2, .japanese-title h4"
   );
   const fadeBgTarget = document.querySelector(
-    "#service, #service .title-container"
+    "#service"
   );
 
   fadeInTargets.forEach((target) => {
@@ -173,9 +173,19 @@ document.addEventListener("DOMContentLoaded", function () {
             entry.target.style.backgroundColor = "#953939";
             entry.target.style.color = "white";
           }
+          // title-descriptionのテキストも白に変更
+          const titleDescription = entry.target.querySelector('.title-description p');
+          if (titleDescription) {
+            titleDescription.style.color = "white";
+          }
         } else {
           entry.target.style.backgroundColor = "#e5e5e5";
           entry.target.style.color = "black";
+          // title-descriptionのテキストも元の色に戻す
+          const titleDescription = entry.target.querySelector('.title-description p');
+          if (titleDescription) {
+            titleDescription.style.color = "#444";
+          }
         }
       });
     },
