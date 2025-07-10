@@ -58,10 +58,10 @@
           
     <nav class="header-menu-container">
       <ul class="header-menu">
-        <li><a href="./index.html/#service">事業紹介</a></li>
-            <li><a href="./index.html/#track-record">運用実績</a></li>
-            <li><a href="about-us.html">私たちについて</a></li>
-            <li><a href="./news.html">ブログ</a></li>
+        <li><a href="./index.html#service">事業紹介</a></li>
+        <li><a href="./index.html#track-record">運用実績</a></li>
+        <li><a href="about-us.html">私たちについて</a></li>
+        <li><a href="./news.html">ブログ</a></li>
         <li><a href="./contact.html">お問い合わせ</a></li>
       </ul>
     </nav>
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const ctaButton = document.createElement('div');
       ctaButton.classList.add('cta-button-container');
       ctaButton.innerHTML = `
-        <a href="https://chairman-official.com/contact.html" class="cta-button" target="_blank" rel="noopener noreferrer">
+        <a href="https://service.chairman-official.com/?utm_source=blog&utm_medium=cta&utm_campaign=news_detail&utm_content=${encodeURIComponent(content.title)}&utm_term=${articleId}" class="cta-button" target="_blank" rel="noopener noreferrer">
           お問い合わせはこちら
         </a>
       `;
