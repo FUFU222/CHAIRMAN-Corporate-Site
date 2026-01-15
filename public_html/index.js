@@ -224,6 +224,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuContainer = document.querySelector(".header-menu-container");
   const menuItems     = document.querySelectorAll(".header-menu li a");
 
+  if (!openBtn || !overlay || !menuContainer) {
+    return;
+  }
+
   // ハンバーガーボタンで開閉
   openBtn.addEventListener("click", function (e) {
     e.stopPropagation();  // 下の document.click に飛ばさない
