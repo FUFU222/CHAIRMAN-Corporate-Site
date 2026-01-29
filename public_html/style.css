@@ -1043,12 +1043,13 @@ button {
 }
 
 .stat-number {
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   font-weight: 700;
   color: #2d3436;
   margin-bottom: 8px;
   font-family: "Oswald", sans-serif;
   letter-spacing: 1px;
+  white-space: nowrap;
 }
 
 .stat-label {
