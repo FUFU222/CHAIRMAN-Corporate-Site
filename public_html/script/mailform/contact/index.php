@@ -6,6 +6,21 @@
 //エラー出力
 //ini_set("display_errors", "On");
 
+//セッション開始（CSRF対策用）
+session_start();
+
+//CSRFトークン生成
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+//CSRFトークン検証（POSTリクエスト時）
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die('セキュリティエラー: 不正なリクエストです。ページを再読み込みしてやり直してください。');
+    }
+}
+
 //インクルード宣言
 require_once dirname(__FILE__) . '/admin/lib/CXmailform.php';
 require_once dirname(__FILE__) . '/admin/lib/CFormDesign.php';

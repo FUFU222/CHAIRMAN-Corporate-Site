@@ -1,9 +1,32 @@
 RewriteEngine On
-# HTTP��HTTPS�˥�����쥯��
+# HTTP→HTTPSにリダイレクト
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-# ����å�������
-# ����å����̵�����ʤ��٤ƤΥꥯ�����Ȥ��Ф���Ŭ�ѡ�
+
+# ============================================
+# セキュリティヘッダー設定
+# ============================================
+<IfModule mod_headers.c>
+    # XSS対策：ブラウザのXSSフィルタを有効化
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # MIMEタイプスニッフィング防止
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # クリックジャッキング対策：同一オリジンのみiframe許可
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # リファラーポリシー
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # パーミッションポリシー
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Content Security Policy
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://code.jquery.com https://www.googletagmanager.com https://cdnjs.cloudflare.com https://coco-factory.jp; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://coco-factory.jp; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://*.microcms.io https://www.google-analytics.com; frame-src 'self' https://chairman-official.com"
+</IfModule>
+
+# キャッシュ設定（コメントアウト中）
 # <FilesMatch "\.(html|htm|css|js|jpg|jpeg|png|gif|svg|ico)$">
 #     Header set Cache-Control "no-cache, no-store, must-revalidate"
 #     Header set Pragma "no-cache"
@@ -13,6 +36,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 #     Header unset ETag
 #     FileETag None
 # </IfModule>
+
 ### BEGIN XPageSpeed - Do not edit the contents of this block! ###
 XPagespeedDisableFilters xoptimize_javascript
 XPagespeedDisableFilters lazyload_javascript
@@ -21,10 +45,10 @@ XPagespeed on
     XPagespeed off
 </IfModule>
 ### END XPageSpeed - Do not edit the contents of this block! ###
-# BASICǧ�ڤ�����
-# ���ƥʥ󥹥⡼�ɡʴ����Ԥ�IP���ɥ쥹�������
+
+# BASIC認証の設定
+# メンテナンスモード（管理者のIPアドレスを除外）
 # RewriteCond %{REQUEST_URI} !/maintenance.html$
 # RewriteCond %{REMOTE_ADDR} !^192\.0\.0\.2$
 # RewriteRule ^(.*)$ /maintenance.html [R=302,L]
 # SetEnvIf Request_URI ".*" Ngx_Cache_NoCacheMode
-

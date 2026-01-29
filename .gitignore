@@ -1,1 +1,28 @@
+# macOS
 .DS_Store
+
+# 環境変数・機密情報
+.env
+.env.local
+.env.*.local
+*.env
+
+# 認証情報（password.phpは絶対にコミットしない）
+public_html/script/mailform/contact/admin/config/password.php
+
+# 依存パッケージ
+node_modules/
+public_html/node_modules/
+
+# ログファイル
+*.log
+npm-debug.log*
+
+# IDEの設定
+.idea/
+*.swp
+*.swo
+
+# ビルド成果物
+dist/
+build/
