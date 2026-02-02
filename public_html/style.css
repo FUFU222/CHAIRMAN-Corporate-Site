@@ -1807,6 +1807,359 @@ button {
   z-index: 1;
 }
 
+/* LIVAPON hero */
+.livapon-hero {
+  background: linear-gradient(180deg, #ffffff 0%, #f5f6f8 100%);
+  padding: 120px 0 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.livapon-hero::before {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(150, 150, 150, 0.16), rgba(150, 150, 150, 0));
+  top: -120px;
+  left: -120px;
+  z-index: 0;
+}
+
+.livapon-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.9fr);
+  gap: 36px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.livapon-hero-eyebrow {
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 0.4em;
+  font-size: 0.85rem;
+  color: #7b7b7b;
+  margin: 0 0 12px;
+}
+
+.livapon-hero-lead {
+  font-size: 0.98rem;
+  line-height: 1.9;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+.livapon-hero-roman {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  letter-spacing: 0.16em;
+  color: rgba(25, 25, 25, 0.85);
+  line-height: 1;
+  text-transform: uppercase;
+  background: linear-gradient(120deg, #e2bf35 0%, #d18a3a 12%, #953939 70%, #6f2626 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.livapon-hero-roman .livapon-hero-eyebrow {
+  align-self: flex-end;
+  margin: 10px 0 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.32em;
+  color: rgba(120, 120, 120, 0.9);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+.livapon-hero-eyebrow-inline {
+  position: absolute;
+  right: 168px;
+  top: 82%;
+  transform: translate(100%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  text-transform: uppercase;
+}
+
+.livapon-hero-jp h1 {
+  font-size: clamp(1.1rem, 2vw, 1.9rem);
+  line-height: 1.5;
+  margin: 0;
+  font-family: "Noto Serif JP", serif;
+  color: #1f2528;
+}
+
+.livapon-hero-jp {
+  text-align: right;
+}
+
+.livapon-hero-scroll-line {
+  width: 2px;
+  height: 22px;
+  background: #1f2528;
+  position: relative;
+}
+
+.livapon-hero-scroll-line::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1f2528;
+  animation: livapon-scroll-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes livapon-scroll-dot {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-50%, -10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .livapon-hero-scroll-line::after {
+    animation: none;
+  }
+}
+.livapon-hero-bg-text {
+  position: absolute;
+  right: -2%;
+  bottom: -10px;
+  font-size: clamp(3rem, 12vw, 11rem);
+  font-family: "Oswald", sans-serif;
+  letter-spacing: 0.12em;
+  color: rgba(150, 150, 150, 0.12);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+/* LIVAPON service */
+.livapon-service {
+  position: relative;
+  padding: 120px 0;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  --scroll-size: 120px;
+  --scroll-offset: -60px;
+  --scroll-right: 10%;
+  background-image: url('./images/livapon-hero.png');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+.livapon-service::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(12, 15, 18, 0.82), rgba(12, 15, 18, 0.55));
+  z-index: 0;
+}
+
+.livapon-service::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--scroll-offset) - 10px);
+  right: var(--scroll-right);
+  width: calc(var(--scroll-size) + 50px);
+  height: calc(var(--scroll-size) + 50px);
+  border-radius: 50%;
+  background: radial-gradient(circle, #f7f7f7 0%, #f7f7f7 62%, rgba(247, 247, 247, 0.8) 72%, rgba(247, 247, 247, 0) 100%);
+  box-shadow: 0 0 40px rgba(247, 247, 247, 0.7);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.livapon-service-scroll {
+  position: absolute;
+  top: calc(var(--scroll-offset) + 18px);
+  right: calc(var(--scroll-right) + 26px);
+  width: var(--scroll-size);
+  height: var(--scroll-size);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Oswald", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: #1f2528;
+  text-decoration: none;
+  z-index: 2;
+}
+
+.livapon-service-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+  align-items: start;
+}
+
+.livapon-service .title-container {
+  padding: 0;
+  height: auto;
+  margin: 0;
+}
+
+.livapon-service .title-container h2 {
+  margin-left: 0;
+  opacity: 1;
+  color: #ffffff;
+}
+
+.livapon-service .title-container h4 {
+  margin-left: 0;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.livapon-service .title-container p {
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.livapon-service-body {
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  padding-left: 24px;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.livapon-service-lead {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.8;
+  margin: 0 0 24px;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+}
+
+.livapon-service-body p {
+  margin: 0 0 18px;
+}
+
+.livapon-service-body p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .livapon-hero {
+    padding: 96px 0 72px;
+  }
+
+  .livapon-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .livapon-hero-scroll {
+    right: 6%;
+    width: 96px;
+    height: 96px;
+    bottom: -28px;
+  }
+
+  .livapon-service {
+    padding: 96px 0;
+    --scroll-size: 96px;
+    --scroll-offset: -48px;
+    --scroll-right: 6%;
+  }
+
+  .livapon-service-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .livapon-service-body {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .livapon-service::after {
+    width: calc(var(--scroll-size) + 40px);
+    height: calc(var(--scroll-size) + 40px);
+  }
+
+  .livapon-hero-eyebrow-inline {
+    position: static;
+    transform: none;
+    align-self: flex-start;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .livapon-hero {
+    padding: 88px 0 64px;
+  }
+
+  .livapon-hero-lead {
+    font-size: 0.92rem;
+  }
+
+  .livapon-hero-scroll {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: -24px;
+  }
+
+  .livapon-service {
+    padding: 80px 0;
+    --scroll-size: 92px;
+    --scroll-offset: -46px;
+    --scroll-right: 50%;
+  }
+
+  .livapon-service::after {
+    transform: translateX(50%);
+    width: calc(var(--scroll-size) + 36px);
+    height: calc(var(--scroll-size) + 36px);
+  }
+
+  .livapon-service-scroll {
+    transform: translateX(50%);
+  }
+}
+
 #intro {
   margin: 5% auto;
   padding-bottom: 5%;
