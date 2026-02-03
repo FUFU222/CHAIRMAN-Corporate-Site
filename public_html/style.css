@@ -1832,7 +1832,7 @@ button {
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
   gap: 36px;
   align-items: center;
   position: relative;
@@ -1870,28 +1870,6 @@ button {
   color: transparent;
   -webkit-text-fill-color: transparent;
   position: relative;
-}
-
-.livapon-hero-roman .livapon-hero-eyebrow {
-  align-self: flex-end;
-  margin: 10px 0 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.32em;
-  color: rgba(120, 120, 120, 0.9);
-  background: none;
-  -webkit-text-fill-color: currentColor;
-}
-
-.livapon-hero-eyebrow-inline {
-  position: absolute;
-  right: 168px;
-  top: 82%;
-  transform: translate(100%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-start;
-  text-transform: uppercase;
 }
 
 .livapon-hero-jp h1 {
@@ -1951,18 +1929,53 @@ button {
   .livapon-hero-scroll-line::after {
     animation: none;
   }
+
+  .livapon-marquee-track {
+    animation: none;
+  }
 }
 .livapon-hero-bg-text {
   position: absolute;
-  right: -2%;
-  bottom: -10px;
-  font-size: clamp(3rem, 12vw, 11rem);
+  right: -4%;
+  bottom: -6px;
+  --marquee-duration: 160s;
+  font-size: clamp(2rem, 6vw, 5.2rem);
   font-family: "Oswald", sans-serif;
-  letter-spacing: 0.12em;
-  color: rgba(150, 150, 150, 0.12);
+  letter-spacing: 0.08em;
+  color: rgba(150, 150, 150, 0.06);
+  font-weight: 300;
   pointer-events: none;
   z-index: 0;
   white-space: nowrap;
+  line-height: 1;
+  overflow: hidden;
+  width: 108%;
+}
+
+.livapon-hero-bg-track {
+  display: inline-flex;
+  gap: 32px;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.livapon-marquee-track {
+  animation: livapon-marquee var(--marquee-duration, 56s) linear infinite;
+}
+
+.livapon-marquee-track span {
+  display: inline-block;
+  min-width: max-content;
+  padding-right: 32px;
+}
+
+@keyframes livapon-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* LIVAPON service */
@@ -2089,6 +2102,7 @@ button {
   font-size: 1rem;
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.9);
+  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 
 .livapon-service-lead {
@@ -2098,6 +2112,7 @@ button {
   margin: 0 0 24px;
   color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.02em;
+  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 
 .livapon-service-note {
@@ -2106,6 +2121,7 @@ button {
   color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.02em;
   font-weight: 500;
+  font-family: "Zen Kaku Gothic New", sans-serif;
 }
 
 .livapon-service-body p {
@@ -2114,6 +2130,81 @@ button {
 
 .livapon-service-body p:last-child {
   margin-bottom: 0;
+}
+
+.livapon-belief-section {
+  padding: 120px 0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.livapon-belief-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 48px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+.livapon-belief-section .title-container {
+  padding: 0;
+  height: auto;
+  margin: 0;
+}
+
+.livapon-belief-section .title-container h2 {
+  margin-left: 0;
+  opacity: 1;
+}
+
+.livapon-belief-section .title-container h4 {
+  margin-left: 0;
+  opacity: 1;
+}
+
+.livapon-belief-copy {
+  border-left: 2px solid #953939;
+  padding-left: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.livapon-belief-copy p {
+  margin: 0 0 20px;
+  font-weight: 600;
+  font-size: 1.15rem;
+  line-height: 2.05;
+  color: #2a2a2a;
+  letter-spacing: 0.02em;
+}
+
+.livapon-belief-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.livapon-belief-bg-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: 12%;
+  --marquee-duration: 56s;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  letter-spacing: 0.18em;
+  color: rgba(226, 191, 53, 0.08);
+  text-transform: uppercase;
+  font-weight: 300;
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -2161,11 +2252,44 @@ button {
     font-size: clamp(2.6rem, 12vw, 6rem);
   }
 
-  .livapon-hero-eyebrow-inline {
-    position: static;
-    transform: none;
-    align-self: flex-start;
-    margin-top: 12px;
+  .livapon-belief-section {
+    padding: 96px 0;
+  }
+
+  .livapon-belief-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .livapon-belief-copy {
+    border-left: none;
+    padding-left: 0;
+    border-top: 2px solid #953939;
+    padding-top: 18px;
+  }
+
+  .livapon-belief-bg-text {
+    left: 0;
+    right: 0;
+    bottom: 10%;
+    font-size: clamp(2.2rem, 10vw, 4.6rem);
+  }
+
+}
+
+@media (min-width: 1280px) {
+  .livapon-hero-inner {
+    max-width: 1400px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  }
+
+  .livapon-hero-jp h1 {
+    white-space: nowrap;
+  }
+
+  .livapon-service-inner {
+    max-width: 1200px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   }
 }
 
@@ -2206,6 +2330,22 @@ button {
     left: 6%;
     font-size: clamp(2.2rem, 12vw, 4.2rem);
     letter-spacing: 0.16em;
+  }
+
+  .livapon-belief-section {
+    padding: 80px 0;
+  }
+
+  .livapon-belief-copy p {
+    font-size: 1.05rem;
+  }
+
+  .livapon-belief-bg-text {
+    left: 0;
+    right: 0;
+    bottom: 8%;
+    font-size: clamp(1.8rem, 12vw, 3.6rem);
+    letter-spacing: 0.14em;
   }
 }
 
@@ -2582,7 +2722,7 @@ button {
   font-size: 1.125rem;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #e2bf35 0%, #953939 100%);
+  background: linear-gradient(135deg, #BB3241 0%, #A22534 100%);
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;

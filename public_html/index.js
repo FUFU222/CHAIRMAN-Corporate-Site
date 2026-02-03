@@ -259,3 +259,33 @@ document.addEventListener("DOMContentLoaded", function () {
     overlay.classList.remove("show");
   }
 });
+
+// Livapon marquee (background text loop)
+document.addEventListener("DOMContentLoaded", function () {
+  const marquees = document.querySelectorAll("[data-marquee]");
+  if (!marquees.length) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    marquees.forEach((marquee) => {
+      if (marquee.dataset.marqueeReady === "true") {
+        return;
+      }
+      const track = marquee.querySelector(".livapon-marquee-track");
+      if (!track) {
+        return;
+      }
+
+      const base = track.innerHTML;
+      let guard = 0;
+      while (track.scrollWidth < marquee.offsetWidth * 2 && guard < 20) {
+        track.insertAdjacentHTML("beforeend", base);
+        guard += 1;
+      }
+
+      track.insertAdjacentHTML("beforeend", track.innerHTML);
+      marquee.dataset.marqueeReady = "true";
+    });
+  });
+});
