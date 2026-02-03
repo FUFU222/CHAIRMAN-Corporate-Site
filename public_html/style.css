@@ -2323,6 +2323,8 @@ button {
 
   .livapon-service-scroll {
     transform: translateX(50%);
+    right: calc(var(--scroll-right));
+    top: calc(var(--scroll-offset) + 8px);
   }
 
   .livapon-service-bg-text {
