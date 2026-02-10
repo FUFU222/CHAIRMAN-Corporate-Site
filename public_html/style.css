@@ -676,7 +676,6 @@ button {
   padding: 20rem 0em;
 }
 
-.following.bar,
 .hero-bg-area {
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
@@ -695,47 +694,6 @@ button {
   -o-perspective: 1000px;
   -ms-perspective: 1000px;
   perspective: 1000px;
-}
-
-.following.bar iframe.github {
-  margin-top: 0px;
-}
-
-.pushed .hero-bg-area,
-.pushed .following.bar {
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-}
-
-.colored.following.bar,
-.hero-bg-area.colored {
-  -webkit-animation-name: colors;
-  -moz-animation-name: colors;
-  -o-animation-name: colors;
-  animation-name: colors;
-  -webkit-animation-delay: 0s;
-  -moz-animation-delay: 0s;
-  -ms-animation-delay: 0s;
-  -o-animation-delay: 0s;
-  animation-delay: 0s;
-  -webkit-animation-duration: 120s;
-  -moz-animation-duration: 120s;
-  -ms-animation-duration: 120s;
-  -o-animation-duration: 120s;
-  animation-duration: 120s;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  -ms-animation-fill-mode: both;
-  -o-animation-fill-mode: both;
-  animation-fill-mode: both;
-  animation-timing-function: linear;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  -ms-animation-iteration-count: infinite;
-  -o-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
 }
 
 .hero-bg-area:after {
@@ -787,23 +745,6 @@ button {
   transform: rotateX(50deg) rotateZ(0deg) rotateY(0deg) translateY(-14%) translateX(-14%) translateZ(370px);
 }
 
-.fixed.following.bar {
-  background-image: none;
-}
-
-.fixed.following.bar {
-  position: fixed;
-  top: 0px;
-  padding: 1em 0em;
-  background-color: #ffffff;
-}
-
-.fixed.light.following.bar {
-  background-color: #ffffff;
-  border-bottom: 1px solid #dddddd;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.04);
-}
-
 @keyframes splash {
   0% {
     background-position: 0% 0%;
@@ -842,13 +783,6 @@ button {
   height: 100%;
   object-fit: cover;
   border-radius: 40px;
-}
-
-.video-container-b video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: none;
 }
 
 /* ---------------モックアップと動画の微調整------------- */
@@ -1637,13 +1571,6 @@ button {
   height: auto;
 }
 
-#player .ytp-cued-thumbnail-overlay {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  display: block;
-}
-
 #news-content blockquote {
   border-left: 4px solid #991d1d;
   padding: 1em;
@@ -1809,8 +1736,7 @@ button {
   margin-bottom: 4px;
 }
 
-.related-articles-list,
-.new-article-list {
+.related-articles-list {
   list-style: none;
   padding: 0;
   display: flex;
@@ -2100,21 +2026,6 @@ button {
   align-items: center;
   position: relative;
   z-index: 1;
-}
-
-.livapon-hero-eyebrow {
-  font-family: "Oswald", sans-serif;
-  letter-spacing: 0.4em;
-  font-size: 0.85rem;
-  color: #7b7b7b;
-  margin: 0 0 12px;
-}
-
-.livapon-hero-lead {
-  font-size: 0.98rem;
-  line-height: 1.9;
-  color: #4a4a4a;
-  margin: 0;
 }
 
 .livapon-hero-roman {
@@ -2616,13 +2527,6 @@ button {
     gap: 24px;
   }
 
-  .livapon-hero-scroll {
-    right: 6%;
-    width: 96px;
-    height: 96px;
-    bottom: -28px;
-  }
-
   .livapon-service {
     padding: 96px 0;
     --scroll-size: 96px;
@@ -2722,16 +2626,6 @@ button {
 @media (max-width: 480px) {
   .livapon-hero {
     padding: 88px 0 64px;
-  }
-
-  .livapon-hero-lead {
-    font-size: 0.92rem;
-  }
-
-  .livapon-hero-scroll {
-    right: 50%;
-    transform: translateX(50%);
-    bottom: -24px;
   }
 
   .livapon-hero-bg-text {
@@ -3092,10 +2986,6 @@ button {
   font-family: serif;
 }
 
-.mobile-only {
-  display: none;
-}
-
 .member-container:focus-within {
   outline: 3px solid #e2bf35;
   outline-offset: 4px;
@@ -3250,14 +3140,6 @@ button {
 
 .cta-btn-sub {
   background: linear-gradient(135deg, #1f2528 0%, #2d3539 100%);
-}
-
-.service-link-note {
-  margin: 14px auto 0;
-  max-width: 720px;
-  font-size: 0.92rem;
-  line-height: 1.7;
-  color: #454545;
 }
 
 /* Footer Section - Modern Design */
@@ -3814,10 +3696,6 @@ iframe {
     line-height: 1.35;
   }
 
-  .mobile-only {
-    display: inline;
-  }
-
   .management-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
@@ -3862,10 +3740,6 @@ iframe {
     font-size: 1rem;
   }
 
-  .service-link-note {
-    font-size: 0.88rem;
-    padding: 0 8px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -4085,16 +3959,6 @@ iframe {
     padding-top: 10%;
   }
 
-  #contact .form-container {
-    max-width: 800px;
-    padding: 5%;
-  }
-
-  #contact .form-group {
-    margin-bottom: 5%;
-    padding: 0 5%;
-  }
-
   /* --------- ALL News --------*/
   #news .news-list .news-item .news-title {
     font-size: 1.2rem;
@@ -4243,10 +4107,6 @@ iframe {
 @media screen and (min-width: 1000px) {
   .iphone-mockup-container {
     margin: 8%;
-  }
-
-  #hero-section .company-name img {
-    width: 100%;
   }
 
   #hero-section .company-description {
