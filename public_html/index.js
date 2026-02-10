@@ -399,9 +399,19 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!isMenuOpen) {
       return;
     }
-    if (openBtn.contains(e.target) || menuContainer.contains(e.target)) {
+
+    const clickedElement = e.target instanceof Element ? e.target : null;
+    const clickedMenuLink = clickedElement?.closest(".header-menu li a");
+
+    // Keep menu open while activating a menu link (link handler will close it).
+    if (clickedMenuLink) {
       return;
     }
+
+    if (e.target instanceof Node && openBtn.contains(e.target)) {
+      return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
     closeMenu();

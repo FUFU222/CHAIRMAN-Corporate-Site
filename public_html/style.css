@@ -446,14 +446,8 @@ body.menu-open {
       rgba(243, 249, 255, 0.86) 100%
     );
     border-bottom-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter:
-      blur(var(--header-glass-blur-strong))
-      saturate(158%)
-      brightness(1.05);
-    -webkit-backdrop-filter:
-      blur(var(--header-glass-blur-strong))
-      saturate(158%)
-      brightness(1.05);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     box-shadow:
       0 18px 42px rgba(11, 22, 39, 0.18),
       inset 0 1px 0 rgba(255, 255, 255, 0.88),
@@ -596,8 +590,6 @@ body.menu-open {
       rgba(245, 249, 255, 0.95) 52%,
       rgba(238, 244, 252, 0.93) 100%
     );
-  backdrop-filter: blur(12px) saturate(120%) brightness(0.94);
-  -webkit-backdrop-filter: blur(12px) saturate(120%) brightness(0.94);
   transition: opacity 0.24s ease;
 }
 
@@ -654,20 +646,16 @@ body.menu-open {
   padding: 0.55rem 1.3rem;
   border-radius: 999px;
   background-color: var(--theme-menu-link-bg);
-  border: 1px solid var(--theme-menu-link-border);
-  box-shadow: 0 6px 16px rgba(11, 22, 39, 0.08);
   font-size: 1.5rem;
   color: var(--theme-link-color);
   font-weight: bold;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
   position: relative;
 }
 
 .header-menu li a:hover {
   background-color: var(--theme-menu-hover-bg);
-  border-color: rgba(var(--primary-rgb), 0.28);
-  box-shadow: 0 8px 20px rgba(11, 22, 39, 0.12);
   color: var(--theme-link-hover-color);
 }
 
@@ -1148,7 +1136,11 @@ body.menu-open {
 .team-images-container button {
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.28s ease,
+    box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1);
   margin: 0 auto;
   margin-bottom: 40px;
   padding: 2% 4%;
@@ -1165,12 +1157,6 @@ body.menu-open {
   position: relative;
   overflow: hidden;
   z-index: 10;
-}
-
-.team-images-container a:hover button {
-  background: rgba(149, 57, 57, 0.9);
-  color: #f2f2f2;
-  border-color: transparent;
 }
 
 .team-images-container button:active {
@@ -1280,7 +1266,11 @@ body.menu-open {
   cursor: pointer;
   font-weight: bold;
   font-family: Helvetica, sans-serif;
-  transition: all 0.3s ease;
+  transition:
+    background-color 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.28s ease,
+    box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1);
   margin: 0 auto;
   padding: 2% 4%;
   border-radius: 100px;
@@ -1304,11 +1294,13 @@ body.menu-open {
   content: "";
   position: absolute;
   inset: 0;
+  opacity: 0.92;
   background: radial-gradient(circle at top left,
       rgba(255, 255, 255, 0.2),
       transparent 70%);
   border-radius: inherit;
   pointer-events: none;
+  transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .more-news-link button span {
@@ -1317,10 +1309,16 @@ body.menu-open {
   z-index: 1;
 }
 
+.team-images-container a:hover button,
 .more-news-link a:hover button {
-  background: rgba(149, 57, 57, 0.7);
-  color: #f2f2f2;
-  border-color: transparent;
+  background-color: rgba(122, 31, 31, 0.95);
+  color: #f8f8f8;
+  border-color: rgba(122, 31, 31, 0.95);
+  box-shadow: 0 6px 18px rgba(69, 15, 15, 0.22);
+}
+
+.more-news-link a:hover button::before {
+  opacity: 0.24;
 }
 
 .more-news-link button:active {
@@ -1370,7 +1368,7 @@ body.menu-open {
 }
 
 #news .news-list .news-item:hover .news-image {
-  transform: scale(1.08);
+  transform: scale(1.04);
 }
 
 #news .news-list .news-item .news-date {
@@ -1423,6 +1421,11 @@ body.menu-open {
 }
 
 /* カテゴリメニュー */
+#news .news-container > nav {
+  padding-left: 3%;
+  box-sizing: border-box;
+}
+
 .category-menu {
   list-style: none;
   padding: 0;
@@ -1496,6 +1499,13 @@ body.menu-open {
 
 .category-toggle-button:hover {
   color: #6f1414;
+}
+
+@media screen and (min-width: 600px) {
+  #news .news-container > nav {
+    padding-left: 28px;
+    padding-right: 20px;
+  }
 }
 
 .news-category {
@@ -2455,6 +2465,7 @@ body.menu-open {
 
 .livapon-panel {
   max-width: 760px;
+  margin: 0 auto;
   padding: 28px 30px 30px;
   border-radius: 22px;
   border: 1px solid rgba(var(--primary-rgb), 0.12);
@@ -2496,12 +2507,12 @@ body.menu-open {
   font-size: clamp(1rem, 1.3vw, 1.32rem);
   line-height: 1.72;
   letter-spacing: 0.01em;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .livapon-panel-text strong {
   color: #1f2528;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .livapon-panel-link {
@@ -2511,7 +2522,7 @@ body.menu-open {
   margin-top: 16px;
   color: var(--theme-link-color);
   font-size: clamp(1rem, 1.35vw, 1.2rem);
-  font-weight: 700;
+  font-weight: 500;
   text-decoration: none;
   border-bottom: 1px solid var(--theme-link-underline-color);
   padding-bottom: 2px;
@@ -2522,10 +2533,10 @@ body.menu-open {
 }
 
 .livapon-panel-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin: 20px auto 0;
   min-width: min(100%, 420px);
   padding: 16px 30px;
   border-radius: 14px;
@@ -2628,6 +2639,13 @@ body.menu-open {
 
 }
 
+@media (min-width: 481px) and (max-width: 900px) {
+  .livapon-service-scroll {
+    top: calc(var(--scroll-offset) + 10px);
+    right: calc(var(--scroll-right) + 20px);
+  }
+}
+
 @media (min-width: 1280px) {
   .livapon-hero-inner {
     max-width: 1400px;
@@ -2660,6 +2678,12 @@ body.menu-open {
 
   .livapon-belief-section .title-container {
     margin-left: 88px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 900px) {
+  .livapon-belief-copy {
+    padding-left: 88px;
   }
 }
 
@@ -3208,6 +3232,20 @@ body.menu-open {
   margin: 0;
 }
 
+#service .service-link-cluster .cta-btn:not(.cta-btn-sub) {
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+#service .service-link-cluster .cta-btn:not(.cta-btn-sub):hover {
+  background: linear-gradient(135deg, #8b2b2b 0%, #6c2020 100%);
+  border-color: #ffffff;
+}
+
 .cta-btn-sub {
   background: var(--theme-cta-sub-gradient);
 }
@@ -3675,6 +3713,39 @@ iframe {
     100% {
       background-position: 0% 50%;
     }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .member-list {
+    grid-template-columns: 1fr;
+    max-width: 860px;
+    gap: 28px;
+  }
+
+  .member-container {
+    padding: 32px;
+  }
+
+  .member-info {
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .member-image {
+    --member-photo-size: 220px;
+  }
+
+  .member-position h3 {
+    font-size: 0.96rem;
+  }
+
+  .member-name h3 {
+    font-size: 1.78rem;
+  }
+
+  .member-description {
+    padding: 26px;
   }
 }
 
