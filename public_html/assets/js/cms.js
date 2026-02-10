@@ -85,12 +85,71 @@ function initIndexCMS(client) {
 function initNewsCMS(client) {
     const newsList = document.querySelector('#article-list');
     const loadMoreButton = document.getElementById('load-more');
-    if (!newsList || !loadMoreButton) return;
+    const categoryMenu = document.querySelector('.category-menu');
+    let categoryToggleButton = document.getElementById('toggle-categories');
+    let categoryToggleItem = categoryToggleButton ? categoryToggleButton.closest('li') : null;
+    if (!newsList || !loadMoreButton || !categoryMenu) return;
 
     let currentCategory = 'all';
     let allArticles = [];
     const limit = 5;
     let offset = 0;
+    const visibleCategoryCount = 5;
+    let isCategoryExpanded = false;
+
+    function ensureCategoryToggleButton() {
+        if (!categoryToggleButton) {
+            categoryToggleItem = document.createElement('li');
+            categoryToggleItem.className = 'category-toggle-item';
+
+            categoryToggleButton = document.createElement('button');
+            categoryToggleButton.id = 'toggle-categories';
+            categoryToggleButton.className = 'category-toggle-button';
+            categoryToggleButton.type = 'button';
+            categoryToggleButton.setAttribute('aria-expanded', 'false');
+            categoryToggleButton.innerHTML = '<span class="category-toggle-icon" aria-hidden="true">+</span><span class="category-toggle-text">さらに見る</span>';
+
+            categoryToggleItem.appendChild(categoryToggleButton);
+        }
+
+        if (!categoryToggleItem) {
+            categoryToggleItem = categoryToggleButton.closest('li');
+        }
+
+        if (categoryToggleItem && !categoryToggleItem.isConnected) {
+            categoryMenu.appendChild(categoryToggleItem);
+        }
+    }
+
+    function updateCategoryVisibility() {
+        if (!categoryToggleButton || !categoryToggleItem) return;
+
+        const categoryItems = Array.from(categoryMenu.querySelectorAll('li[data-tag-index]'));
+        const hasOverflow = categoryItems.length > visibleCategoryCount;
+        const icon = categoryToggleButton.querySelector('.category-toggle-icon');
+        const text = categoryToggleButton.querySelector('.category-toggle-text');
+
+        if (!hasOverflow) {
+            categoryItems.forEach((item) => item.classList.remove('is-hidden'));
+            categoryToggleItem.style.display = 'none';
+            categoryToggleButton.setAttribute('aria-expanded', 'false');
+            if (icon) icon.textContent = '+';
+            if (text) text.textContent = 'さらに見る';
+            return;
+        }
+
+        categoryItems.forEach((item, index) => {
+            const button = item.querySelector('button');
+            const isActive = button ? button.classList.contains('active') : false;
+            const shouldHide = !isCategoryExpanded && index >= visibleCategoryCount && !isActive;
+            item.classList.toggle('is-hidden', shouldHide);
+        });
+
+        categoryToggleItem.style.display = 'inline-flex';
+        categoryToggleButton.setAttribute('aria-expanded', isCategoryExpanded ? 'true' : 'false');
+        if (icon) icon.textContent = isCategoryExpanded ? '−' : '+';
+        if (text) text.textContent = isCategoryExpanded ? '閉じる' : 'さらに見る';
+    }
 
     function createArticleElement(content) {
         const li = document.createElement('li');
@@ -165,7 +224,6 @@ function initNewsCMS(client) {
     }
 
     function updateCategoryMenu(articles) {
-        const categoryMenu = document.querySelector('.category-menu');
         const categories = new Set();
         articles.forEach(article => {
             if (article.category && Array.isArray(article.category)) {
@@ -178,13 +236,17 @@ function initNewsCMS(client) {
         allButton.innerHTML = '<button data-category="all" class="active">すべて</button>';
         categoryMenu.appendChild(allButton);
 
-        [...categories].forEach(category => {
+        [...categories].forEach((category, index) => {
             const button = document.createElement('li');
+            button.dataset.tagIndex = String(index);
             button.innerHTML = `<button data-category="${category}">#${category}</button>`;
             categoryMenu.appendChild(button);
         });
 
-        document.querySelectorAll('.category-menu button').forEach(button => {
+        ensureCategoryToggleButton();
+        isCategoryExpanded = false;
+
+        document.querySelectorAll('.category-menu button[data-category]').forEach(button => {
             button.addEventListener('click', function () {
                 const category = this.dataset.category;
                 if (category !== currentCategory) {
@@ -195,8 +257,18 @@ function initNewsCMS(client) {
                     const articlesToShow = category === 'all' ? allArticles : allArticles.filter(article => article.category && article.category.some(cat => cat.name === category));
                     loadMoreButton.style.display = articlesToShow.length > limit ? 'block' : 'none';
                 }
+                updateCategoryVisibility();
             });
         });
+
+        if (categoryToggleButton) {
+            categoryToggleButton.onclick = function () {
+                isCategoryExpanded = !isCategoryExpanded;
+                updateCategoryVisibility();
+            };
+        }
+
+        updateCategoryVisibility();
     }
 
     fetchArticles();
