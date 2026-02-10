@@ -429,7 +429,7 @@ button {
 .header-logo img {
   width: 100%;
   max-width: 400px;
-  padding-left: 1rem;
+  padding-left: 0;
 }
 
 /*---------------------------------------
@@ -3572,6 +3572,26 @@ iframe {
 
 
 @media (max-width: 480px) {
+  #company .company-info-section {
+    padding: 24px 14px;
+  }
+
+  #company .info-item {
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  #company .info-label {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.45;
+  }
+
+  #company .info-value {
+    font-size: 14px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
 
   .title-container p {
     font-size: 0.92rem;
@@ -3685,6 +3705,30 @@ iframe {
 }
 
 @media (max-width: 768px) {
+  #company .company-info-section {
+    padding: 28px 18px;
+  }
+
+  #company .info-item {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  #company .info-label {
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    line-height: 1.45;
+  }
+
+  #company .info-value {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  #track-record .title-description p {
+    margin: 4% 0 0 3%;
+  }
+
   .title-container h2 {
     font-size: clamp(1.72rem, 8vw, 2rem);
     letter-spacing: 0.08em;
@@ -3992,11 +4036,15 @@ iframe {
   }
 
   .info-label {
-    font-size: 14px;
+    font-size: 17px;
   }
 
   .info-value {
-    font-size: 16px;
+    font-size: 19px;
+  }
+
+  #company .additional-info .info-label {
+    font-size: 14px;
   }
 
   /* --------- footer --------*/
@@ -4245,5 +4293,52 @@ iframe {
 
   .stat-label {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .track-record-container {
+    overflow-x: clip;
+  }
+
+  .record-stats-container {
+    padding: 0 14px;
+    box-sizing: border-box;
+  }
+
+  .stat-card {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 24px 18px;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .stat-content {
+    min-width: 0;
+  }
+
+  .stat-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+  }
+
+  .stat-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .stat-number {
+    font-size: clamp(1.6rem, 7vw, 1.95rem);
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .stat-label {
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 }

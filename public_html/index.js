@@ -107,12 +107,28 @@ document.addEventListener("DOMContentLoaded", function () {
   var header = document.getElementById("header");
   var lastScrollTop = 0;
   var scrollThreshold = 5;
+  var glassThreshold = 16;
+
+  if (!header) {
+    return;
+  }
+
+  function updateHeaderMaterial(scrollTop) {
+    header.classList.toggle("is-scrolled", scrollTop > glassThreshold);
+  }
 
   window.addEventListener(
     "scroll",
     function () {
       var currentScroll =
         window.pageYOffset || document.documentElement.scrollTop;
+
+      updateHeaderMaterial(currentScroll);
+
+      if (header.classList.contains("menu-open")) {
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        return;
+      }
 
       if (Math.abs(currentScroll - lastScrollTop) > scrollThreshold) {
         if (currentScroll > lastScrollTop) {
@@ -127,6 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     false
   );
+
+  updateHeaderMaterial(window.pageYOffset || document.documentElement.scrollTop);
 });
 //--------------------- fade-in,titleSlideなどのアニメーション設定-----------------------
 document.addEventListener("DOMContentLoaded", function () {
@@ -165,24 +183,29 @@ document.addEventListener("DOMContentLoaded", function () {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // テキストコンテンツをdata-text属性に設定
-          entry.target.setAttribute('data-text', entry.target.textContent);
-          
-          setTimeout(() => {
-            entry.target.classList.add("is-visible");
-            entry.target.style.opacity = 1;
-          }, 200);
+          const titleColor = window.getComputedStyle(entry.target).color;
+          entry.target.style.setProperty("--title-original-color", titleColor);
           entry.target.classList.add("bgextend", "bgLRextend");
           slideObserver.unobserve(entry.target);
         }
       });
     },
-    { threshold: 0.5 }
+    { threshold: 0.2 }
   );
 
   const fadeBgObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
+        const sectionTitles = entry.target.querySelectorAll(
+          ".title h2, .japanese-title h4"
+        );
+
+        sectionTitles.forEach((title) => {
+          if (!title.dataset.defaultTitleColor) {
+            title.dataset.defaultTitleColor = window.getComputedStyle(title).color;
+          }
+        });
+
         if (entry.isIntersecting) {
           if (entry.target.classList.contains("design-b")) {
             entry.target.style.backgroundColor = "#1a5710";
@@ -191,6 +214,11 @@ document.addEventListener("DOMContentLoaded", function () {
             entry.target.style.backgroundColor = "#953939";
             entry.target.style.color = "white";
           }
+
+          sectionTitles.forEach((title) => {
+            title.style.setProperty("--title-original-color", "#ffffff");
+          });
+
           // title-descriptionのテキストも白に変更
           const titleDescription = entry.target.querySelector('.title-description p');
           if (titleDescription) {
@@ -199,6 +227,12 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           entry.target.style.backgroundColor = "#e5e5e5";
           entry.target.style.color = "black";
+
+          sectionTitles.forEach((title) => {
+            const defaultTitleColor = title.dataset.defaultTitleColor || "#212121";
+            title.style.setProperty("--title-original-color", defaultTitleColor);
+          });
+
           // title-descriptionのテキストも元の色に戻す
           const titleDescription = entry.target.querySelector('.title-description p');
           if (titleDescription) {
@@ -223,6 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const overlay       = document.getElementById("menu-overlay");
   const menuContainer = document.querySelector(".header-menu-container");
   const menuItems     = document.querySelectorAll(".header-menu li a");
+  const header        = document.getElementById("header");
 
   if (!openBtn || !overlay || !menuContainer) {
     return;
@@ -231,9 +266,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // ハンバーガーボタンで開閉
   openBtn.addEventListener("click", function (e) {
     e.stopPropagation();  // 下の document.click に飛ばさない
-    this.classList.toggle("active");
-    menuContainer.classList.toggle("show-menu");
-    overlay.classList.toggle("show");
+    const isOpen = !menuContainer.classList.contains("show-menu");
+    this.classList.toggle("active", isOpen);
+    menuContainer.classList.toggle("show-menu", isOpen);
+    overlay.classList.toggle("show", isOpen);
+    if (header) {
+      header.classList.toggle("menu-open", isOpen);
+      if (isOpen) {
+        header.style.top = "0px";
+      }
+    }
   });
 
   // オーバーレイ押下で閉じる
@@ -242,21 +284,30 @@ document.addEventListener("DOMContentLoaded", function () {
   // メニュー項目押下で閉じる
   menuItems.forEach((item) => item.addEventListener("click", closeMenu));
 
-  // ボタン・メニュー外クリックで閉じる
+  // メニューリンク以外の領域タップ/クリックで閉じる
+  // captureで先に拾い、clickを止めて背面要素のタップスルーを防ぐ
   document.addEventListener("click", function (e) {
-    if (
-      menuContainer.classList.contains("show-menu") &&
-      !openBtn.contains(e.target) &&
-      !menuContainer.contains(e.target)
-    ) {
-      closeMenu();
+    if (!menuContainer.classList.contains("show-menu")) {
+      return;
     }
-  });
+    if (openBtn.contains(e.target)) {
+      return;
+    }
+    if (e.target.closest(".header-menu li")) {
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    closeMenu();
+  }, true);
 
   function closeMenu() {
     openBtn.classList.remove("active");
     menuContainer.classList.remove("show-menu");
     overlay.classList.remove("show");
+    if (header) {
+      header.classList.remove("menu-open");
+    }
   }
 });
 
