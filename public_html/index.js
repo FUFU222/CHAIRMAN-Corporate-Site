@@ -1,50 +1,91 @@
-//テキストのカウントアップ+バーの設定
-var bar = new ProgressBar.Line(splash_text, {
-  //id名を指定
-  easing: "easeInOut",
-  duration: 1000,
-  strokeWidth: 0.4,
-  color: "#555",
-  trailWidth: 0.9,
-  trailColor: "#bbb",
-  text: {
-    //テキストの形状を直接指定
-    style: {
-      //天地中央に配置
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-      padding: "0",
-      margin: "-30px 0 0 0", //バーより上に配置
-      transform: "translate(-50%,-50%)",
-      "font-size": "1rem",
-      color: "#fff",
-    },
-    autoStyleContainer: false, //自動付与のスタイルを切る
-  },
-  step: function (state, bar) {
-    bar.setText(Math.round(bar.value() * 100) + " %"); //テキストの数値
-  },
-});
-// ページスクロールを無効にする関数
-function disablePageScroll() {
-  document.body.style.overflow = "hidden";
+// テキストのカウントアップ+バーの設定
+const splashRoot = document.getElementById("splash");
+const splashText = document.getElementById("splash_text");
+const splashSeenKey = "chairman_splash_seen";
+
+function isInternalReferrer() {
+  if (!document.referrer) {
+    return false;
+  }
+  try {
+    return new URL(document.referrer).origin === window.location.origin;
+  } catch (_error) {
+    return false;
+  }
 }
 
-// ページスクロールを有効にする関数
-function enablePageScroll() {
-  document.body.style.overflow = "visible";
-  document.body.style.overflowX = "hidden";
+function shouldPlaySplash() {
+  let seen = false;
+  try {
+    seen = sessionStorage.getItem(splashSeenKey) === "1";
+  } catch (_error) {
+    seen = false;
+  }
+  if (seen) {
+    return false;
+  }
+  return !isInternalReferrer();
 }
-//アニメーションスタート
-bar.animate(1.0, function () {
-  //1.0=100%描画
-  $("#splash_text").fadeOut(10); //フェイドアウトでローディングテキストを削除
-  $(".loader_cover-up").addClass("coveranime"); //カバーが上に上がるクラス追加
-  $(".loader_cover-down").addClass("coveranime"); //カバーが下に下がるクラス追加
-  $("#splash").fadeOut(); //#splashエリアをフェードアウト
-  // enablePageScroll();
-});
+
+function markSplashSeen() {
+  try {
+    sessionStorage.setItem(splashSeenKey, "1");
+  } catch (_error) {
+    // sessionStorage が使えない環境でも処理継続
+  }
+}
+
+if (
+  shouldPlaySplash() &&
+  splashText &&
+  typeof ProgressBar !== "undefined" &&
+  typeof ProgressBar.Line === "function"
+) {
+  if (splashRoot) {
+    splashRoot.classList.add("splash-active");
+  }
+  markSplashSeen();
+  var bar = new ProgressBar.Line(splashText, {
+    //id名を指定
+    easing: "easeInOut",
+    duration: 1000,
+    strokeWidth: 0.4,
+    color: "#555",
+    trailWidth: 0.9,
+    trailColor: "#bbb",
+    text: {
+      //テキストの形状を直接指定
+      style: {
+        //天地中央に配置
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        padding: "0",
+        margin: "-30px 0 0 0", //バーより上に配置
+        transform: "translate(-50%,-50%)",
+        "font-size": "1rem",
+        color: "#fff",
+      },
+      autoStyleContainer: false, //自動付与のスタイルを切る
+    },
+    step: function (state, bar) {
+      bar.setText(Math.round(bar.value() * 100) + " %"); //テキストの数値
+    },
+  });
+
+  //アニメーションスタート
+  bar.animate(1.0, function () {
+    //1.0=100%描画
+    $("#splash_text").fadeOut(10); //フェイドアウトでローディングテキストを削除
+    $(".loader_cover-up").addClass("coveranime"); //カバーが上に上がるクラス追加
+    $(".loader_cover-down").addClass("coveranime"); //カバーが下に下がるクラス追加
+    $("#splash").fadeOut(); //#splashエリアをフェードアウト
+  });
+} else if (splashRoot) {
+  splashRoot.classList.remove("splash-active");
+  markSplashSeen();
+  splashRoot.style.display = "none";
+}
 
 // ローディング待機
 document.addEventListener("DOMContentLoaded", function () {
@@ -258,6 +299,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuContainer = document.querySelector(".header-menu-container");
   const menuItems     = document.querySelectorAll(".header-menu li a");
   const header        = document.getElementById("header");
+  const supportsInert = "inert" in HTMLElement.prototype;
+  const inertTargets  = Array.from(document.body.children).filter((element) => {
+    if (element === header || element === overlay) {
+      return false;
+    }
+    return element.tagName !== "SCRIPT";
+  });
+  let isMenuOpen = false;
+  let lastFocusedElement = null;
 
   if (!openBtn || !overlay || !menuContainer) {
     return;
@@ -265,49 +315,149 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ハンバーガーボタンで開閉
   openBtn.addEventListener("click", function (e) {
-    e.stopPropagation();  // 下の document.click に飛ばさない
-    const isOpen = !menuContainer.classList.contains("show-menu");
-    this.classList.toggle("active", isOpen);
-    menuContainer.classList.toggle("show-menu", isOpen);
-    overlay.classList.toggle("show", isOpen);
-    if (header) {
-      header.classList.toggle("menu-open", isOpen);
-      if (isOpen) {
-        header.style.top = "0px";
-      }
+    e.stopPropagation();
+    if (isMenuOpen) {
+      closeMenu();
+      return;
     }
+    openMenu();
   });
 
   // オーバーレイ押下で閉じる
   overlay.addEventListener("click", closeMenu);
 
   // メニュー項目押下で閉じる
-  menuItems.forEach((item) => item.addEventListener("click", closeMenu));
+  menuItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      closeMenu({ restoreFocus: false });
+    });
+  });
 
-  // メニューリンク以外の領域タップ/クリックで閉じる
-  // captureで先に拾い、clickを止めて背面要素のタップスルーを防ぐ
-  document.addEventListener("click", function (e) {
-    if (!menuContainer.classList.contains("show-menu")) {
+  function openMenu() {
+    lastFocusedElement = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : openBtn;
+
+    isMenuOpen = true;
+    setMenuState(true);
+    document.addEventListener("click", handleDocumentClick, true);
+    document.addEventListener("keydown", handleDocumentKeydown);
+
+    const focusable = getMenuFocusableElements();
+    if (focusable.length > 0) {
+      focusable[0].focus();
+    } else {
+      openBtn.focus();
+    }
+  }
+
+  function closeMenu(options = {}) {
+    const restoreFocus = options.restoreFocus !== false;
+
+    if (!isMenuOpen) {
       return;
     }
-    if (openBtn.contains(e.target)) {
+
+    isMenuOpen = false;
+    document.removeEventListener("click", handleDocumentClick, true);
+    document.removeEventListener("keydown", handleDocumentKeydown);
+
+    setMenuState(false);
+
+    if (restoreFocus && lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+      lastFocusedElement.focus();
+    }
+  }
+
+  function setMenuState(isOpen) {
+    openBtn.classList.toggle("active", isOpen);
+    openBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    openBtn.setAttribute("aria-label", isOpen ? "メニューを閉じる" : "メニューを開く");
+
+    menuContainer.classList.toggle("show-menu", isOpen);
+    menuContainer.setAttribute("aria-hidden", isOpen ? "false" : "true");
+
+    overlay.classList.toggle("show", isOpen);
+
+    if (header) {
+      header.classList.toggle("menu-open", isOpen);
+      if (isOpen) {
+        header.style.top = "0px";
+      }
+    }
+
+    document.body.classList.toggle("menu-open", isOpen);
+
+    if (supportsInert) {
+      inertTargets.forEach((element) => {
+        element.inert = isOpen;
+      });
+    }
+  }
+
+  function handleDocumentClick(e) {
+    if (!isMenuOpen) {
       return;
     }
-    if (e.target.closest(".header-menu li")) {
+    if (openBtn.contains(e.target) || menuContainer.contains(e.target)) {
       return;
     }
     e.preventDefault();
     e.stopPropagation();
     closeMenu();
-  }, true);
+  }
 
-  function closeMenu() {
-    openBtn.classList.remove("active");
-    menuContainer.classList.remove("show-menu");
-    overlay.classList.remove("show");
-    if (header) {
-      header.classList.remove("menu-open");
+  function handleDocumentKeydown(e) {
+    if (!isMenuOpen) {
+      return;
     }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeMenu();
+      return;
+    }
+    if (e.key === "Tab") {
+      trapFocusWithinMenu(e);
+    }
+  }
+
+  function trapFocusWithinMenu(e) {
+    const focusable = getMenuFocusableElements();
+    if (focusable.length === 0) {
+      e.preventDefault();
+      openBtn.focus();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const activeElement = document.activeElement;
+
+    if (e.shiftKey) {
+      if (activeElement === first || activeElement === menuContainer) {
+        e.preventDefault();
+        last.focus();
+      }
+      return;
+    }
+
+    if (activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  function getMenuFocusableElements() {
+    return Array.from(
+      menuContainer.querySelectorAll(
+        "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])"
+      )
+    ).filter((element) => {
+      if (!(element instanceof HTMLElement)) {
+        return false;
+      }
+      return element.offsetParent !== null;
+    });
   }
 });
 

@@ -49,17 +49,23 @@
     <div class="header-logo"><a href="index.html">
       <img src="./images/CompanyLogo.png" alt="Company Logo" loading="lazy" decoding="async"></a>
     </div>
-    <div class="openbtn7">
+    <button
+      type="button"
+      class="openbtn7"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      aria-label="メニューを開く">
       <div class="openbtn-area">
         <span></span><span></span><span></span>
       </div>
-    </div>
+    </button>
   </div>
         
-  <nav class="header-menu-container">
+  <nav id="site-menu" class="header-menu-container" aria-label="サイトメニュー" aria-hidden="true">
     <ul class="header-menu">
       <li><a href="./index.html#service">事業紹介</a></li>
       <li><a href="./index.html#track-record">運用実績</a></li>
+      <li><a href="./livapon.html">LIVAPONについて</a></li>
       <li><a href="about-us.html">私たちについて</a></li>
       <li><a href="./news.html">ブログ</a></li>
       <li><a href="./contact.html">お問い合わせ</a></li>
@@ -70,12 +76,11 @@
     <main>
       <section class="livapon-hero" id="livapon-hero">
         <div class="livapon-hero-inner">
-          <div class="livapon-hero-roman">
-            <span>ABOUT</span>
-            <span>LIVAPON</span>
-          </div>
-          <div class="livapon-hero-jp">
-            <h1>日本のものづくりを、<br>LIVE で世界へ。</h1>
+          <div class="livapon-hero-copy">
+            <h1>日本のものづくりを、<br>LIVEで世界へ。</h1>
+            <div class="livapon-hero-logo">
+              <img src="./images/LIVAPON_logo_horizontal_350x.png" alt="LIVAPONロゴ" loading="lazy" decoding="async">
+            </div>
           </div>
         </div>
         <div class="livapon-hero-bg-text" aria-hidden="true" data-marquee>
@@ -134,7 +139,7 @@
           </div>
 
           <div class="livapon-belief-copy">
-            <p>私たちは、作り手の想いが正しく届く世界をつくる。</p>
+            <p>作り手の想いが正しく届く世界をつくる。</p>
             <p>ただ売るのではなく、背景と熱をまるごと届ける。</p>
             <p>LIVAPON は、その信念を形にするための挑戦です。</p>
           </div>
@@ -148,63 +153,39 @@
       </section>
 
       <section class="livapon-credibility" id="livapon-credibility">
-        <div class="livapon-credibility-bg-text" aria-hidden="true">OPERATOR</div>
         <div class="livapon-credibility-inner">
-          <div class="title-container">
-            <div class="title">
-              <h2>Operator</h2>
-            </div>
-            <div class="japanese-title">
-              <h4>運営主体</h4>
-            </div>
-          </div>
+          <article class="livapon-panel">
+            <h3 class="livapon-panel-heading">
+              <span class="livapon-panel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M4 20V4.5h10.5V20M7.1 8.2h.8M10.8 8.2h.8M7.1 11.8h.8M10.8 11.8h.8M7.1 15.4h.8M10.8 15.4h.8M14.5 20h5.5M17.3 20v-3.9"></path>
+                </svg>
+              </span>
+              <span>OPERATOR</span>
+            </h3>
+            <p class="livapon-panel-text">
+              LIVAPONは、<strong>株式会社CHAIRMAN</strong>が企画・運営しています。<br>
+              越境EC支援事業の推進および品質管理は、<br>
+              当社の責任のもと実施いたします。
+            </p>
+            <a class="livapon-panel-link" href="about-us.html">運営会社情報を見る <span aria-hidden="true">→</span></a>
+          </article>
 
-          <div class="livapon-credibility-content">
-            <div class="livapon-credibility-block">
-              <h3>運営会社の明示</h3>
-              <p>
-                LIVAPON は、株式会社CHAIRMANが企画・運営するライブコマースを活用した越境EC支援です。<br>
-                事業の推進および品質管理は、同社の責任のもとで実施しています。
-              </p>
-              <a class="livapon-inline-link" href="about-us.html">運営会社情報を見る</a>
-            </div>
-
-            <div class="livapon-credibility-block">
-              <h3>事業目的と公共性</h3>
-              <p>
-                本事業は、日本のプロダクトや文化的な取り組みを国内外に向けて発信・展開し、<br>
-                地域産業や作り手の価値を持続的に届けることを目的としています。
-              </p>
-            </div>
-
-            <div class="livapon-credibility-block">
-              <h3>契約・お問い合わせ窓口</h3>
-              <p>
-                LIVAPON 事業に関する契約、協業、導入相談、お問い合わせは、<br>
-                株式会社CHAIRMANが窓口として対応します。
-              </p>
-              <a class="livapon-inline-link" href="contact.html">法人・行政機関のお問い合わせ</a>
-            </div>
-
-            <dl class="livapon-info-grid">
-              <div class="livapon-info-item">
-                <dt>事業名</dt>
-                <dd>LIVAPON</dd>
-              </div>
-              <div class="livapon-info-item">
-                <dt>運営会社</dt>
-                <dd>株式会社CHAIRMAN</dd>
-              </div>
-              <div class="livapon-info-item">
-                <dt>事業内容</dt>
-                <dd>ライブコマースを活用した越境EC支援</dd>
-              </div>
-              <div class="livapon-info-item">
-                <dt>契約・問い合わせ窓口</dt>
-                <dd><a href="contact.html">お問い合わせフォーム</a></dd>
-              </div>
-            </dl>
-          </div>
+          <article class="livapon-panel">
+            <h3 class="livapon-panel-heading">
+              <span class="livapon-panel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <rect x="3.2" y="8.2" width="17.6" height="8.8" rx="1.8"></rect>
+                  <path d="M4.5 13.2h4.2l2.1 2.2 2.2-2.2h2.5l1.8 1.9 2.7-2.8M5.8 10.1c1.1 0 2 .8 2.8 1.5.8.8 1.7 1.5 2.8 1.5 1.1 0 2-.8 2.8-1.5.8-.8 1.7-1.5 2.8-1.5"></path>
+                </svg>
+              </span>
+              <span>CONTACT &amp; PARTNERSHIP</span>
+            </h3>
+            <p class="livapon-panel-text">
+              導入のご相談、協業、その他のお問い合わせは、株式会社CHAIRMANが窓口として承ります。
+            </p>
+            <a class="livapon-panel-btn" href="contact.html">お問い合わせフォームへ</a>
+          </article>
         </div>
       </section>
     </main>
@@ -245,9 +226,9 @@
         <div class="footer-section">
           <h4>関連サービス</h4>
           <ul>
-            <li><a href="livapon.html">LIVAPON</a></li>
+            <li><a href="livapon.html" class="footer-service-logo-link"><img src="./images/livapon_logo_white.png" alt="LIVAPON" loading="lazy" decoding="async"></a></li>
             <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener">KOSOLIFE</a></li>
-            <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">SNSサービス詳細</a></li>
+            <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">サービス詳細</a></li>
           </ul>
         </div>
       </div>

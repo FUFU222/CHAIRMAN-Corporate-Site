@@ -6,6 +6,7 @@
 :root {
   --primary-color: #792828;
   --primary-hover: #953939;
+  --primary-rgb: 121, 40, 40;
   --accent-color: #e2bf35;
   --text-main: #2c2c2c;
   --text-sub: #666;
@@ -35,6 +36,31 @@
   --header-glass-shadow-strong: 0 14px 36px rgba(11, 22, 39, 0.14);
   --header-glass-blur: 18px;
   --header-glass-blur-strong: 22px;
+  --theme-link-color: var(--primary-color);
+  --theme-link-hover-color: var(--primary-hover);
+  --theme-link-underline-color: rgba(var(--primary-rgb), 0.46);
+  --theme-menu-hover-bg: rgba(255, 255, 255, 0.5);
+  --theme-menu-overlay-bg: rgba(0, 0, 0, 0);
+  --theme-menu-panel-bg: rgba(247, 250, 255, 0.9);
+  --theme-menu-link-bg: rgba(255, 255, 255, 0.36);
+  --theme-menu-link-border: rgba(255, 255, 255, 0.58);
+  --theme-burger-gradient: linear-gradient(
+    180deg,
+    rgba(138, 28, 28, 0.92) 0%,
+    rgba(110, 19, 19, 0.78) 100%
+  );
+  --theme-burger-active-gradient: linear-gradient(
+    180deg,
+    rgba(95, 31, 31, 0.96) 0%,
+    rgba(72, 22, 22, 0.9) 100%
+  );
+  --theme-cta-gradient: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-hover) 100%
+  );
+  --theme-cta-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.22);
+  --theme-cta-sub-gradient: linear-gradient(135deg, #1f2528 0%, #2d3539 100%);
 }
 
 /*========= LoadingのCSS ===============*/
@@ -90,6 +116,7 @@
 
 /* Loading背景画面設定　*/
 #splash {
+  display: none;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -98,6 +125,10 @@
   z-index: 100;
   text-align: center;
   color: #f2f2f2;
+}
+
+#splash.splash-active {
+  display: block;
 }
 
 #splash_text {
@@ -309,12 +340,18 @@ button {
   z-index: 49;
   opacity: 0;
   pointer-events: none;
-  background: transparent;
+  background: var(--theme-menu-overlay-bg);
+  transition: opacity 0.24s ease;
 }
 
 #menu-overlay.show {
   opacity: 1;
   pointer-events: auto;
+}
+
+body.menu-open {
+  overflow: hidden;
+  touch-action: none;
 }
 
 /*---------------------------------------
@@ -351,9 +388,8 @@ button {
   transition:
     background 0.28s ease,
     border-color 0.28s ease,
-    box-shadow 0.28s ease,
-    backdrop-filter 0.28s ease,
-    -webkit-backdrop-filter 0.28s ease;
+    box-shadow 0.28s ease;
+  will-change: background, border-color, box-shadow;
 }
 
 .header-container::before {
@@ -410,8 +446,14 @@ button {
       rgba(243, 249, 255, 0.86) 100%
     );
     border-bottom-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(26px) saturate(168%) brightness(1.03);
-    -webkit-backdrop-filter: blur(26px) saturate(168%) brightness(1.03);
+    backdrop-filter:
+      blur(var(--header-glass-blur-strong))
+      saturate(158%)
+      brightness(1.05);
+    -webkit-backdrop-filter:
+      blur(var(--header-glass-blur-strong))
+      saturate(158%)
+      brightness(1.05);
     box-shadow:
       0 18px 42px rgba(11, 22, 39, 0.18),
       inset 0 1px 0 rgba(255, 255, 255, 0.88),
@@ -444,7 +486,16 @@ button {
   transform: translateY(-50%);
   z-index: 99;
   background: transparent;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
+}
+
+.openbtn7:focus-visible {
+  outline: 2px solid rgba(16, 56, 125, 0.86);
+  outline-offset: 4px;
 }
 
 .openbtn7 .openbtn-area {
@@ -463,14 +514,10 @@ button {
   width: 2em;
   height: 0.2em;
   border-radius: 0.2em;
-  background: linear-gradient(
-    180deg,
-    rgba(138, 28, 28, 0.92) 0%,
-    rgba(110, 19, 19, 0.78) 100%
-  );
+  background: var(--theme-burger-gradient);
   box-shadow:
-    0 0.5px 0 rgba(255, 255, 255, 0.48),
-    0 2px 6px rgba(69, 15, 15, 0.2);
+    0 0.5px 0 rgba(255, 255, 255, 0.34),
+    0 1px 3px rgba(69, 15, 15, 0.1);
 }
 
 .openbtn7 span:nth-of-type(1) {
@@ -505,32 +552,33 @@ button {
 }
 
 #header.menu-open .openbtn7.active span {
-  background: linear-gradient(
-    180deg,
-    rgba(79, 14, 14, 0.98) 0%,
-    rgba(52, 9, 9, 0.9) 100%
-  );
+  background: var(--theme-burger-active-gradient);
   box-shadow:
-    0 0.5px 0 rgba(255, 255, 255, 0.42),
-    0 1px 2px rgba(33, 7, 7, 0.08);
+    0 0.5px 0 rgba(255, 255, 255, 0.3),
+    0 1px 2px rgba(33, 7, 7, 0.05);
 }
 
 /* 全画面フェードインガラスメニュー */
 .header-menu-container {
   position: fixed;
   inset: 0;
+  background: var(--theme-menu-panel-bg);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transform: translateY(-8px) scale(0.992);
   transition:
-    opacity 0.3s ease,
-    visibility 0s linear 0.3s;
+    opacity 0.24s ease,
+    transform 0.24s ease,
+    visibility 0s linear 0.24s;
   z-index: 50;
+  will-change: opacity, transform;
 }
 
 .header-menu-container.show-menu {
   opacity: 1;
   visibility: visible;
+  transform: translateY(0) scale(1);
   transition-delay: 0s;
 }
 
@@ -540,31 +588,21 @@ button {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  opacity: 0;
   background:
-    radial-gradient(
-      120% 70% at 50% 0%,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0.08) 52%,
-      rgba(248, 252, 255, 0.05) 100%
+    linear-gradient(
+      150deg,
+      rgba(251, 253, 255, 0.97) 0%,
+      rgba(245, 249, 255, 0.95) 52%,
+      rgba(238, 244, 252, 0.93) 100%
     );
-  backdrop-filter: blur(0px) saturate(135%) brightness(1.02);
-  -webkit-backdrop-filter: blur(0px) saturate(135%) brightness(1.02);
-  transition:
-    background .3s ease-in-out,
-    backdrop-filter .3s ease-in-out,
-    -webkit-backdrop-filter .3s ease-in-out;
+  backdrop-filter: blur(12px) saturate(120%) brightness(0.94);
+  -webkit-backdrop-filter: blur(12px) saturate(120%) brightness(0.94);
+  transition: opacity 0.24s ease;
 }
 
 .header-menu-container.show-menu::before {
-  background:
-    radial-gradient(
-      150% 90% at 50% -10%,
-      rgba(255, 255, 255, 0.7) 0%,
-      rgba(245, 249, 255, 0.56) 42%,
-      rgba(238, 244, 252, 0.46) 100%
-    );
-  backdrop-filter: blur(24px) saturate(170%) brightness(1.02);
-  -webkit-backdrop-filter: blur(24px) saturate(170%) brightness(1.02);
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -575,6 +613,7 @@ button {
   .header-container,
   .header-menu-container,
   .header-menu-container::before,
+  .header-menu,
   .openbtn7 span {
     transition-duration: 0.01ms !important;
   }
@@ -595,10 +634,15 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.24s ease, transform 0.24s ease;
 }
 
 .header-menu-container.show-menu .header-menu {
   pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .header-menu li {
@@ -609,22 +653,38 @@ button {
   display: block;
   padding: 0.55rem 1.3rem;
   border-radius: 999px;
-  text-shadow: 0 2px 4px rgba(250, 250, 250, 0.6);
+  background-color: var(--theme-menu-link-bg);
+  border: 1px solid var(--theme-menu-link-border);
+  box-shadow: 0 6px 16px rgba(11, 22, 39, 0.08);
   font-size: 1.5rem;
-  color: #801515;
+  color: var(--theme-link-color);
   font-weight: bold;
   text-decoration: none;
-  transition: opacity .4s, background-color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
 }
 
 .header-menu li a:hover {
-  opacity: .9;
-  background-color: rgba(255, 255, 255, 0.35);
+  background-color: var(--theme-menu-hover-bg);
+  border-color: rgba(var(--primary-rgb), 0.28);
+  box-shadow: 0 8px 20px rgba(11, 22, 39, 0.12);
+  color: var(--theme-link-hover-color);
 }
 
 .header-menu li a::after {
+  content: "";
+  position: absolute;
+  left: 1.3rem;
+  bottom: 0.35rem;
+  width: 0;
+  height: 2px;
+  background: var(--theme-link-underline-color);
+  transition: width 0.25s ease;
   z-index: 1;
+}
+
+.header-menu li a:hover::after {
+  width: calc(100% - 2.6rem);
 }
 
 
@@ -1156,7 +1216,7 @@ button {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #792828 0%, #a63535 100%);
+  background: var(--theme-cta-gradient);
   border-radius: 20px;
   color: white;
   flex-shrink: 0;
@@ -1213,7 +1273,7 @@ button {
 .more-news-link a {
   display: block;
   text-decoration: none;
-  color: #953939;
+  color: var(--theme-link-color);
 }
 
 .more-news-link button {
@@ -1467,7 +1527,7 @@ button {
 #news-title {
   font-size: 1.5rem;
   font-weight: bold;
-  border-bottom: 4px solid #792828;
+  border-bottom: 4px solid var(--theme-link-color);
   padding-bottom: 0.5em;
   padding-top: 56px;
   margin-bottom: 0.5em;
@@ -1681,7 +1741,7 @@ button {
 
 #news-date {
   font-size: 0.9rem;
-  color: #792828;
+  color: var(--theme-link-color);
   font-family: "Oswald", sans-serif;
 }
 
@@ -1939,7 +1999,7 @@ button {
 }
 
 .info-value a {
-  color: #953939;
+  color: var(--theme-link-color);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.25s ease, transform 0.25s ease;
@@ -1947,7 +2007,7 @@ button {
 }
 
 .info-value a:hover {
-  color: #7b2e2e;
+  color: var(--theme-link-hover-color);
   transform: translateY(-1px);
 }
 
@@ -1958,7 +2018,7 @@ button {
   height: 2px;
   bottom: -2px;
   left: 0;
-  background: linear-gradient(90deg, #bb3241, #953939);
+  background: var(--theme-cta-gradient);
   transition: width 0.25s ease;
 }
 
@@ -2000,68 +2060,59 @@ button {
 .livapon-hero {
   background: linear-gradient(180deg, #ffffff 0%, #f5f6f8 100%);
   padding: 120px 0 90px;
+  min-height: 85vh;
+  min-height: 85svh;
+  display: flex;
+  align-items: center;
   position: relative;
   overflow: hidden;
 }
 
 .livapon-hero::before {
-  content: "";
-  position: absolute;
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(150, 150, 150, 0.16), rgba(150, 150, 150, 0));
-  top: -120px;
-  left: -120px;
-  z-index: 0;
+  content: none;
 }
 
 .livapon-hero-inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
-  gap: 36px;
-  align-items: center;
   position: relative;
   z-index: 1;
 }
 
-.livapon-hero-roman {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-family: "Noto Serif JP", serif;
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  letter-spacing: 0.16em;
-  color: rgba(25, 25, 25, 0.85);
-  line-height: 1;
-  text-transform: uppercase;
-  background: linear-gradient(120deg, #e2bf35 0%, #d18a3a 12%, #953939 70%, #6f2626 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  position: relative;
+.livapon-hero-copy {
+  max-width: 680px;
+  text-align: left;
 }
 
-.livapon-hero-jp h1 {
-  font-size: clamp(1.1rem, 2vw, 1.9rem);
+.livapon-hero-copy h1 {
+  font-size: clamp(1.5rem, 2.45vw, 2.25rem);
   line-height: 1.5;
   margin: 0;
+  margin-left: -1px;
   font-family: "Noto Serif JP", serif;
   color: #1f2528;
 }
 
 @media (min-width: 901px) {
-  .livapon-hero-jp br {
+  .livapon-hero-copy h1 br {
     display: none;
   }
 }
 
-.livapon-hero-jp {
-  text-align: right;
+.livapon-hero-logo {
+  margin-top: 18px;
+  width: min(100%, 300px);
+  aspect-ratio: 3.5 / 1;
+  overflow: hidden;
+}
+
+.livapon-hero-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .livapon-hero-scroll-line {
@@ -2207,7 +2258,7 @@ button {
   gap: 8px;
   font-family: "Oswald", sans-serif;
   font-size: 0.7rem;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.28em;
   color: #1f2528;
   text-decoration: none;
   z-index: 2;
@@ -2323,7 +2374,7 @@ button {
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 48px;
   align-items: start;
   position: relative;
@@ -2345,7 +2396,7 @@ button {
 }
 
 .livapon-belief-copy {
-  border-left: 2px solid #953939;
+  border-left: 2px solid var(--primary-hover);
   padding-left: 20px;
   position: relative;
   z-index: 1;
@@ -2386,135 +2437,109 @@ button {
 
 .livapon-credibility {
   position: relative;
-  padding: 120px 0;
-  background: linear-gradient(180deg, #111519 0%, #151b22 100%);
-  color: #f7f7f7;
-  overflow: hidden;
+  padding: 112px 0 120px;
+  background: linear-gradient(180deg, #f4f4f4 0%, #efefef 100%);
+  color: #2c2c2c;
 }
 
 .livapon-credibility-inner {
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 48px;
-  align-items: start;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
   position: relative;
   z-index: 1;
 }
 
-.livapon-credibility .title-container {
-  padding: 0;
-  height: auto;
+.livapon-panel {
+  max-width: 760px;
+  padding: 28px 30px 30px;
+  border-radius: 22px;
+  border: 1px solid rgba(var(--primary-rgb), 0.12);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 8px 24px rgba(20, 28, 40, 0.06);
+}
+
+.livapon-panel-heading {
   margin: 0;
-}
-
-.livapon-credibility .title-container h2,
-.livapon-credibility .title-container h4 {
-  margin-left: 0;
-  color: #ffffff;
-}
-
-.livapon-credibility .title-container h4 {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.livapon-credibility-content {
-  display: grid;
-  gap: 18px;
-}
-
-.livapon-credibility-block {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  padding: 24px 22px;
-}
-
-.livapon-credibility-block h3 {
-  margin: 0 0 10px;
-  font-family: "Noto Serif JP", serif;
-  font-size: 1.16rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-.livapon-credibility-block p {
-  margin: 0;
-  line-height: 1.95;
-  letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.9);
-  font-family: "Zen Kaku Gothic New", sans-serif;
-  font-size: 0.98rem;
-}
-
-.livapon-inline-link {
-  display: inline-block;
-  margin-top: 12px;
-  color: #f4cd47;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(244, 205, 71, 0.7);
-  font-size: 0.94rem;
-  letter-spacing: 0.03em;
-}
-
-.livapon-inline-link:hover {
-  opacity: 0.8;
-}
-
-.livapon-info-grid {
-  margin: 4px 0 0;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.livapon-info-item {
-  display: grid;
-  grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1.2fr);
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-}
-
-.livapon-info-item:first-child {
-  border-top: none;
-}
-
-.livapon-info-item dt,
-.livapon-info-item dd {
-  margin: 0;
-  padding: 14px 16px;
-  font-family: "Zen Kaku Gothic New", sans-serif;
-  line-height: 1.7;
-}
-
-.livapon-info-item dt {
-  background: rgba(255, 255, 255, 0.06);
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.livapon-info-item dd {
-  background: rgba(255, 255, 255, 0.02);
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.livapon-info-item a {
-  color: #f4cd47;
-}
-
-.livapon-credibility-bg-text {
-  position: absolute;
-  bottom: 10%;
-  left: 6%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: "Oswald", sans-serif;
-  font-size: clamp(2.8rem, 9vw, 8rem);
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.06);
-  text-transform: uppercase;
-  pointer-events: none;
-  z-index: 0;
+  font-size: clamp(1.35rem, 1.7vw, 1.8rem);
+  letter-spacing: 0.025em;
+  color: #1f2528;
+}
+
+.livapon-panel-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--theme-link-color);
+  flex-shrink: 0;
+}
+
+.livapon-panel-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.livapon-panel-text {
+  margin: 16px 0 0;
+  color: #4a4a4a;
+  font-size: clamp(1rem, 1.3vw, 1.32rem);
+  line-height: 1.72;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+}
+
+.livapon-panel-text strong {
+  color: #1f2528;
+  font-weight: 700;
+}
+
+.livapon-panel-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  color: var(--theme-link-color);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid var(--theme-link-underline-color);
+  padding-bottom: 2px;
+}
+
+.livapon-panel-link:hover {
+  opacity: 0.76;
+}
+
+.livapon-panel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  min-width: min(100%, 420px);
+  padding: 16px 30px;
+  border-radius: 14px;
+  background: var(--theme-cta-gradient);
+  color: #f8f8f8;
+  text-decoration: none;
+  font-size: clamp(1rem, 1.25vw, 1.22rem);
+  font-weight: 700;
   line-height: 1;
+  box-shadow: var(--theme-cta-shadow);
+}
+
+.livapon-panel-btn:hover {
+  opacity: 0.9;
 }
 
 @media (max-width: 900px) {
@@ -2522,9 +2547,8 @@ button {
     padding: 96px 0 72px;
   }
 
-  .livapon-hero-inner {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .livapon-hero-logo {
+    width: min(100%, 240px);
   }
 
   .livapon-service {
@@ -2567,7 +2591,7 @@ button {
   .livapon-belief-copy {
     border-left: none;
     padding-left: 0;
-    border-top: 2px solid #953939;
+    border-top: 2px solid var(--primary-hover);
     padding-top: 18px;
   }
 
@@ -2579,30 +2603,27 @@ button {
   }
 
   .livapon-credibility {
-    padding: 96px 0;
+    padding: 92px 0;
   }
 
   .livapon-credibility-inner {
-    grid-template-columns: 1fr;
-    gap: 28px;
+    max-width: 820px;
+    padding: 0 24px;
+    gap: 30px;
   }
 
-  .livapon-credibility-content {
-    gap: 14px;
+  .livapon-panel-text {
+    font-size: clamp(0.98rem, 2.1vw, 1.12rem);
   }
 
-  .livapon-info-item {
-    grid-template-columns: 1fr;
+  .livapon-panel-link {
+    font-size: clamp(0.98rem, 1.9vw, 1.1rem);
   }
 
-  .livapon-info-item dt {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  }
-
-  .livapon-credibility-bg-text {
-    bottom: 8%;
-    left: 4%;
-    font-size: clamp(2.2rem, 11vw, 5rem);
+  .livapon-panel-btn {
+    min-width: min(100%, 390px);
+    font-size: clamp(0.96rem, 1.9vw, 1.1rem);
+    padding: 14px 24px;
   }
 
 }
@@ -2610,10 +2631,9 @@ button {
 @media (min-width: 1280px) {
   .livapon-hero-inner {
     max-width: 1400px;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
   }
 
-  .livapon-hero-jp h1 {
+  .livapon-hero-copy h1 {
     white-space: nowrap;
   }
 
@@ -2621,11 +2641,43 @@ button {
     max-width: 1200px;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   }
+
+  .livapon-belief-inner {
+    max-width: 1200px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .livapon-hero-copy h1 {
+    margin-left: 15px;
+    font-size: calc(clamp(1.5rem, 2.45vw, 2.25rem) + 8px);
+  }
+
+  .livapon-hero-bg-text {
+    bottom: 26px;
+  }
+
+  .livapon-belief-section .title-container {
+    margin-left: 88px;
+  }
+}
+
+@media (max-width: 767px) {
+  .livapon-hero-copy h1 {
+    margin-left: 13px;
+    font-size: calc(clamp(1.5rem, 2.45vw, 2.25rem) + 4px);
+  }
 }
 
 @media (max-width: 480px) {
   .livapon-hero {
     padding: 88px 0 64px;
+  }
+
+  .livapon-hero-logo {
+    margin-top: 14px;
+    width: min(100%, 200px);
   }
 
   .livapon-hero-bg-text {
@@ -2669,7 +2721,7 @@ button {
   }
 
   .livapon-belief-copy p {
-    font-size: 1.05rem;
+    font-size: 0.8rem;
   }
 
   .livapon-belief-bg-text {
@@ -2681,29 +2733,47 @@ button {
   }
 
   .livapon-credibility {
-    padding: 80px 0;
+    padding: 76px 0;
   }
 
-  .livapon-credibility-block {
-    padding: 18px 16px;
+  .livapon-credibility-inner {
+    padding: 0 18px;
+    gap: 24px;
   }
 
-  .livapon-credibility-block p {
-    font-size: 0.94rem;
-    line-height: 1.86;
+  .livapon-panel-heading {
+    gap: 8px;
+    font-size: 1.04rem;
   }
 
-  .livapon-info-item dt,
-  .livapon-info-item dd {
-    padding: 12px 12px;
+  .livapon-panel-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .livapon-panel {
+    padding: 18px 16px 20px;
+    border-radius: 16px;
+  }
+
+  .livapon-panel-text {
+    margin-top: 12px;
     font-size: 0.9rem;
+    line-height: 1.66;
   }
 
-  .livapon-credibility-bg-text {
-    bottom: 6%;
-    left: 6%;
-    font-size: clamp(1.8rem, 12vw, 3.6rem);
-    letter-spacing: 0.14em;
+  .livapon-panel-link {
+    margin-top: 12px;
+    font-size: 0.95rem;
+  }
+
+  .livapon-panel-btn {
+    width: 100%;
+    min-width: 0;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.96rem;
   }
 }
 
@@ -2736,7 +2806,7 @@ button {
   background: linear-gradient(90deg,
       #e2bf35,
       #f59e0b,
-      #953939,
+      var(--primary-hover),
       #e2bf35);
   background-size: 300% 100%;
   animation: gradientSlide 4s linear infinite;
@@ -3053,7 +3123,7 @@ button {
   bottom: 16px;
   left: 30%;
   transform: translateX(-50%);
-  background: #953939;
+  background: var(--primary-hover);
   color: #fff;
   padding: 0.4em 1em;
   font-size: 0.9rem;
@@ -3110,9 +3180,9 @@ button {
   font-size: 1.125rem;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #BB3241 0%, #A22534 100%);
+  background: var(--theme-cta-gradient);
   border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--theme-cta-shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
 }
@@ -3139,7 +3209,7 @@ button {
 }
 
 .cta-btn-sub {
-  background: linear-gradient(135deg, #1f2528 0%, #2d3539 100%);
+  background: var(--theme-cta-sub-gradient);
 }
 
 /* Footer Section - Modern Design */
@@ -3243,6 +3313,28 @@ button {
   width: 100%;
 }
 
+.footer-section ul li a.footer-service-logo-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 0;
+}
+
+.footer-section ul li a.footer-service-logo-link img {
+  width: auto;
+  height: 1em;
+  margin-left: 1px;
+  display: block;
+}
+
+.footer-section ul li a.footer-service-logo-link::after {
+  display: none;
+}
+
+.footer-section ul li a.footer-service-logo-link:hover {
+  transform: none;
+  opacity: 0.86;
+}
+
 .footer-bottom {
   border-top: 1px solid #333;
   padding: 20px 0;
@@ -3306,7 +3398,7 @@ iframe {
   border-radius: 16px;
   padding: 40px;
   margin-bottom: 50px;
-  border-left: 4px solid #792828;
+  border-left: 4px solid var(--theme-link-color);
 }
 
 .privacy-intro p {
@@ -3333,12 +3425,12 @@ iframe {
 }
 
 .privacy-section h2 {
-  color: #792828;
+  color: var(--theme-link-color);
   font-size: 1.8rem;
   font-weight: 700;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #792828;
+  border-bottom: 2px solid var(--theme-link-color);
   font-family: "Noto Serif JP", serif;
 }
 
@@ -3359,7 +3451,7 @@ iframe {
   transform: translateY(-50%);
   width: 4px;
   height: 20px;
-  background: #792828;
+  background: var(--theme-link-color);
   border-radius: 2px;
 }
 
@@ -3396,7 +3488,7 @@ iframe {
   top: 8px;
   width: 20px;
   height: 20px;
-  background: #792828;
+  background: var(--theme-link-color);
   color: white;
   font-size: 12px;
   font-weight: 600;
@@ -3411,7 +3503,7 @@ iframe {
 }
 
 .privacy-section a {
-  color: #792828;
+  color: var(--theme-link-color);
   text-decoration: none;
   font-weight: 500;
   border-bottom: 1px solid transparent;
@@ -3419,8 +3511,8 @@ iframe {
 }
 
 .privacy-section a:hover {
-  border-bottom-color: #792828;
-  color: #a63535;
+  border-bottom-color: var(--theme-link-color);
+  color: var(--theme-link-hover-color);
 }
 
 .privacy-footer {
@@ -3774,12 +3866,8 @@ iframe {
     letter-spacing: 0.045em;
   }
 
-  /* top-page sections: align title blocks to a shared left edge */
-  #service .title-container,
-  #team .title-container,
-  #track-record .title-container,
-  #news .title-container,
-  #company .title-container {
+  /* shared section titles: align to a common left edge */
+  :is(#service, #team, #track-record, #news, #company, #contact) .title-container {
     max-width: 1240px;
     margin: 0 auto;
     padding-left: 28px;
@@ -3787,28 +3875,22 @@ iframe {
     box-sizing: border-box;
   }
 
-  #service .title-container h2,
-  #service .title-container h4,
-  #team .title-container h2,
-  #team .title-container h4,
-  #track-record .title-container h2,
-  #track-record .title-container h4,
-  #news .title-container h2,
-  #news .title-container h4,
-  #company .title-container h2,
-  #company .title-container h4 {
+  :is(#service, #team, #track-record, #news, #company, #contact) .title-container :is(h2, h4) {
     margin-left: 0;
   }
 
-  #service .title-description p,
-  #team .title-description p,
-  #track-record .title-description p {
+  :is(#service, #team, #track-record) .title-description p {
     margin: 20px 0 0;
   }
 
   /* --------- header --------*/
   .header-container {
     padding: 0;
+  }
+
+  .header-logo img {
+    margin-top: 1%;
+    margin-left: 1%;
   }
 
   /* --------- hero-section --------*/
@@ -3997,7 +4079,7 @@ iframe {
   #news-content h2 {
     font-size: 1.6rem;
     padding-left: 14px;
-    border-left: 6px solid #792828;
+    border-left: 6px solid var(--theme-link-color);
   }
 
   #news-content h3 {
