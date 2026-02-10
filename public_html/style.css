@@ -2274,20 +2274,6 @@ body.menu-open {
   z-index: 2;
 }
 
-.livapon-service-bg-text {
-  position: absolute;
-  bottom: 12%;
-  left: 6%;
-  font-family: "Oswald", sans-serif;
-  font-size: clamp(3rem, 10vw, 9rem);
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.08);
-  text-transform: uppercase;
-  pointer-events: none;
-  z-index: 1;
-  line-height: 1;
-}
-
 .livapon-service-inner {
   max-width: 1100px;
   margin: 0 auto;
@@ -2584,12 +2570,6 @@ body.menu-open {
     height: calc(var(--scroll-size) + 40px);
   }
 
-  .livapon-service-bg-text {
-    bottom: 8%;
-    left: 4%;
-    font-size: clamp(2.6rem, 12vw, 6rem);
-  }
-
   .livapon-belief-section {
     padding: 96px 0;
   }
@@ -2726,13 +2706,6 @@ body.menu-open {
     transform: translateX(50%);
     right: calc(var(--scroll-right));
     top: calc(var(--scroll-offset) + 8px);
-  }
-
-  .livapon-service-bg-text {
-    bottom: 6%;
-    left: 6%;
-    font-size: clamp(2.2rem, 12vw, 4.2rem);
-    letter-spacing: 0.16em;
   }
 
   .livapon-belief-section {
@@ -3584,27 +3557,6 @@ iframe {
 
 
 @media (max-width: 480px) {
-  #company .company-info-section {
-    padding: 24px 14px;
-  }
-
-  #company .info-item {
-    grid-template-columns: 68px minmax(0, 1fr);
-    gap: 10px;
-  }
-
-  #company .info-label {
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    line-height: 1.45;
-  }
-
-  #company .info-value {
-    font-size: 14px;
-    line-height: 1.65;
-    overflow-wrap: anywhere;
-  }
-
   .title-container p {
     font-size: 0.92rem;
     line-height: 1.62;
@@ -3663,18 +3615,6 @@ iframe {
     height: 16px;
     font-size: 10px;
     top: 6px;
-  }
-
-  .member-container {
-    padding: 20px;
-  }
-
-  .member-description {
-    padding: 20px;
-  }
-
-  .member-name h3 {
-    font-size: 1.4rem;
   }
 
   .coment {

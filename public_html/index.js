@@ -76,15 +76,32 @@ if (
   //アニメーションスタート
   bar.animate(1.0, function () {
     //1.0=100%描画
-    $("#splash_text").fadeOut(10); //フェイドアウトでローディングテキストを削除
-    $(".loader_cover-up").addClass("coveranime"); //カバーが上に上がるクラス追加
-    $(".loader_cover-down").addClass("coveranime"); //カバーが下に下がるクラス追加
-    $("#splash").fadeOut(); //#splashエリアをフェードアウト
+    fadeOutElement(splashText, 120); //フェイドアウトでローディングテキストを削除
+    addClassToAll(".loader_cover-up", "coveranime"); //カバーが上に上がるクラス追加
+    addClassToAll(".loader_cover-down", "coveranime"); //カバーが下に下がるクラス追加
+    fadeOutElement(splashRoot, 320); //#splashエリアをフェードアウト
   });
 } else if (splashRoot) {
   splashRoot.classList.remove("splash-active");
   markSplashSeen();
   splashRoot.style.display = "none";
+}
+
+function addClassToAll(selector, className) {
+  document.querySelectorAll(selector).forEach((element) => {
+    element.classList.add(className);
+  });
+}
+
+function fadeOutElement(element, duration) {
+  if (!element) {
+    return;
+  }
+  element.style.transition = `opacity ${duration}ms ease`;
+  element.style.opacity = "0";
+  window.setTimeout(() => {
+    element.style.display = "none";
+  }, duration);
 }
 
 // ローディング待機
