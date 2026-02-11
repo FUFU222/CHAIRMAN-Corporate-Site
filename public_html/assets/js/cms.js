@@ -297,12 +297,23 @@ function initDetailCMS(client) {
                 ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a', 'img', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span', 'blockquote', 'table', 'thead', 'tbody', 'tr', 'th', 'td'], 
                 ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel'] 
             });
-            
-            const metaDescription = document.querySelector('meta[name="description"]');
-            if (metaDescription) {
-                const fallbackText = content.content.replace(/<[^>]+>/g, '').slice(0, 100);
-                metaDescription.setAttribute('content', content.description || fallbackText);
-            }
+
+            const fallbackText = content.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
+            const articleDescription = content.description || fallbackText;
+            const articleImage = content.eyecatch?.url || 'https://chairman-official.com/images/CompanyLogo2.png';
+            const articleUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(articleId)}`;
+            const articleTitle = `${content.title} | 株式会社CHAIRMAN`;
+
+            upsertMetaTag('name', 'description', articleDescription);
+            upsertMetaTag('property', 'og:title', articleTitle);
+            upsertMetaTag('property', 'og:description', articleDescription);
+            upsertMetaTag('property', 'og:url', articleUrl);
+            upsertMetaTag('property', 'og:image', articleImage);
+            upsertMetaTag('name', 'twitter:title', articleTitle);
+            upsertMetaTag('name', 'twitter:description', articleDescription);
+            upsertMetaTag('name', 'twitter:image', articleImage);
+            upsertCanonical(articleUrl);
+            document.title = articleTitle;
 
             const ctaButton = document.createElement('div');
             ctaButton.classList.add('cta-button-container');
@@ -329,8 +340,10 @@ function initDetailCMS(client) {
             const container = document.querySelector('.news-detail-container');
             container.insertBefore(img, metaWrapper.nextSibling);
 
-            const categoryId = content.category[0].id;
-            fetchRelatedArticles(client, categoryId, articleId);
+            const categoryId = Array.isArray(content.category) && content.category.length > 0 ? content.category[0].id : null;
+            if (categoryId) {
+                fetchRelatedArticles(client, categoryId, articleId);
+            }
             fetchNewArticles(client);
             setupShareButtons(content.title);
             
@@ -339,7 +352,10 @@ function initDetailCMS(client) {
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
                 "headline": content.title,
+                "description": articleDescription,
                 "datePublished": content.publishedAt,
+                "mainEntityOfPage": articleUrl,
+                "image": [articleImage],
                 "author": { "@type": "Person", "name": content.author?.["author-name"] || "CHAIRMAN編集部" }
             };
             const scriptTag = document.createElement('script');
@@ -348,9 +364,30 @@ function initDetailCMS(client) {
             document.head.appendChild(scriptTag);
 
             const pageTitle = document.getElementById('page-title');
-            if (pageTitle) pageTitle.textContent = `${content.title} | 株式会社CHAIRMAN`;
+            if (pageTitle) pageTitle.textContent = articleTitle;
         })
         .catch(err => console.error('Error fetching article:', err));
+}
+
+function upsertMetaTag(attrName, attrValue, content) {
+    if (!content) return;
+    let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+    if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(attrName, attrValue);
+        document.head.appendChild(element);
+    }
+    element.setAttribute('content', content);
+}
+
+function upsertCanonical(href) {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', href);
 }
 
 function fetchRelatedArticles(client, categoryId, currentArticleId) {

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /maintenance.html
+
+Sitemap: https://chairman-official.com/sitemap.xml
