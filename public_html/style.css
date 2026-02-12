@@ -4222,7 +4222,7 @@ iframe {
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1000px) {
   .record-stats-container {
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
