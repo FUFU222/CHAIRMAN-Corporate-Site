@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "sync:layout": "node ../tools/sync-layout.js",
+    "sync:layout:check": "node ../tools/sync-layout.js --check",
+    "sync:layout:verbose": "node ../tools/sync-layout.js --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

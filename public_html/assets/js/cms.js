@@ -85,12 +85,71 @@ function initIndexCMS(client) {
 function initNewsCMS(client) {
     const newsList = document.querySelector('#article-list');
     const loadMoreButton = document.getElementById('load-more');
-    if (!newsList || !loadMoreButton) return;
+    const categoryMenu = document.querySelector('.category-menu');
+    let categoryToggleButton = document.getElementById('toggle-categories');
+    let categoryToggleItem = categoryToggleButton ? categoryToggleButton.closest('li') : null;
+    if (!newsList || !loadMoreButton || !categoryMenu) return;
 
     let currentCategory = 'all';
     let allArticles = [];
     const limit = 5;
     let offset = 0;
+    const visibleCategoryCount = 5;
+    let isCategoryExpanded = false;
+
+    function ensureCategoryToggleButton() {
+        if (!categoryToggleButton) {
+            categoryToggleItem = document.createElement('li');
+            categoryToggleItem.className = 'category-toggle-item';
+
+            categoryToggleButton = document.createElement('button');
+            categoryToggleButton.id = 'toggle-categories';
+            categoryToggleButton.className = 'category-toggle-button';
+            categoryToggleButton.type = 'button';
+            categoryToggleButton.setAttribute('aria-expanded', 'false');
+            categoryToggleButton.innerHTML = '<span class="category-toggle-icon" aria-hidden="true">+</span><span class="category-toggle-text">さらに見る</span>';
+
+            categoryToggleItem.appendChild(categoryToggleButton);
+        }
+
+        if (!categoryToggleItem) {
+            categoryToggleItem = categoryToggleButton.closest('li');
+        }
+
+        if (categoryToggleItem && !categoryToggleItem.isConnected) {
+            categoryMenu.appendChild(categoryToggleItem);
+        }
+    }
+
+    function updateCategoryVisibility() {
+        if (!categoryToggleButton || !categoryToggleItem) return;
+
+        const categoryItems = Array.from(categoryMenu.querySelectorAll('li[data-tag-index]'));
+        const hasOverflow = categoryItems.length > visibleCategoryCount;
+        const icon = categoryToggleButton.querySelector('.category-toggle-icon');
+        const text = categoryToggleButton.querySelector('.category-toggle-text');
+
+        if (!hasOverflow) {
+            categoryItems.forEach((item) => item.classList.remove('is-hidden'));
+            categoryToggleItem.style.display = 'none';
+            categoryToggleButton.setAttribute('aria-expanded', 'false');
+            if (icon) icon.textContent = '+';
+            if (text) text.textContent = 'さらに見る';
+            return;
+        }
+
+        categoryItems.forEach((item, index) => {
+            const button = item.querySelector('button');
+            const isActive = button ? button.classList.contains('active') : false;
+            const shouldHide = !isCategoryExpanded && index >= visibleCategoryCount && !isActive;
+            item.classList.toggle('is-hidden', shouldHide);
+        });
+
+        categoryToggleItem.style.display = 'inline-flex';
+        categoryToggleButton.setAttribute('aria-expanded', isCategoryExpanded ? 'true' : 'false');
+        if (icon) icon.textContent = isCategoryExpanded ? '−' : '+';
+        if (text) text.textContent = isCategoryExpanded ? '閉じる' : 'さらに見る';
+    }
 
     function createArticleElement(content) {
         const li = document.createElement('li');
@@ -165,7 +224,6 @@ function initNewsCMS(client) {
     }
 
     function updateCategoryMenu(articles) {
-        const categoryMenu = document.querySelector('.category-menu');
         const categories = new Set();
         articles.forEach(article => {
             if (article.category && Array.isArray(article.category)) {
@@ -178,13 +236,17 @@ function initNewsCMS(client) {
         allButton.innerHTML = '<button data-category="all" class="active">すべて</button>';
         categoryMenu.appendChild(allButton);
 
-        [...categories].forEach(category => {
+        [...categories].forEach((category, index) => {
             const button = document.createElement('li');
+            button.dataset.tagIndex = String(index);
             button.innerHTML = `<button data-category="${category}">#${category}</button>`;
             categoryMenu.appendChild(button);
         });
 
-        document.querySelectorAll('.category-menu button').forEach(button => {
+        ensureCategoryToggleButton();
+        isCategoryExpanded = false;
+
+        document.querySelectorAll('.category-menu button[data-category]').forEach(button => {
             button.addEventListener('click', function () {
                 const category = this.dataset.category;
                 if (category !== currentCategory) {
@@ -195,8 +257,18 @@ function initNewsCMS(client) {
                     const articlesToShow = category === 'all' ? allArticles : allArticles.filter(article => article.category && article.category.some(cat => cat.name === category));
                     loadMoreButton.style.display = articlesToShow.length > limit ? 'block' : 'none';
                 }
+                updateCategoryVisibility();
             });
         });
+
+        if (categoryToggleButton) {
+            categoryToggleButton.onclick = function () {
+                isCategoryExpanded = !isCategoryExpanded;
+                updateCategoryVisibility();
+            };
+        }
+
+        updateCategoryVisibility();
     }
 
     fetchArticles();
@@ -225,12 +297,23 @@ function initDetailCMS(client) {
                 ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'a', 'img', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'div', 'span', 'blockquote', 'table', 'thead', 'tbody', 'tr', 'th', 'td'], 
                 ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel'] 
             });
-            
-            const metaDescription = document.querySelector('meta[name="description"]');
-            if (metaDescription) {
-                const fallbackText = content.content.replace(/<[^>]+>/g, '').slice(0, 100);
-                metaDescription.setAttribute('content', content.description || fallbackText);
-            }
+
+            const fallbackText = content.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 120);
+            const articleDescription = content.description || fallbackText;
+            const articleImage = content.eyecatch?.url || 'https://chairman-official.com/images/CompanyLogo2.png';
+            const articleUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(articleId)}`;
+            const articleTitle = `${content.title} | 株式会社CHAIRMAN`;
+
+            upsertMetaTag('name', 'description', articleDescription);
+            upsertMetaTag('property', 'og:title', articleTitle);
+            upsertMetaTag('property', 'og:description', articleDescription);
+            upsertMetaTag('property', 'og:url', articleUrl);
+            upsertMetaTag('property', 'og:image', articleImage);
+            upsertMetaTag('name', 'twitter:title', articleTitle);
+            upsertMetaTag('name', 'twitter:description', articleDescription);
+            upsertMetaTag('name', 'twitter:image', articleImage);
+            upsertCanonical(articleUrl);
+            document.title = articleTitle;
 
             const ctaButton = document.createElement('div');
             ctaButton.classList.add('cta-button-container');
@@ -257,8 +340,10 @@ function initDetailCMS(client) {
             const container = document.querySelector('.news-detail-container');
             container.insertBefore(img, metaWrapper.nextSibling);
 
-            const categoryId = content.category[0].id;
-            fetchRelatedArticles(client, categoryId, articleId);
+            const categoryId = Array.isArray(content.category) && content.category.length > 0 ? content.category[0].id : null;
+            if (categoryId) {
+                fetchRelatedArticles(client, categoryId, articleId);
+            }
             fetchNewArticles(client);
             setupShareButtons(content.title);
             
@@ -267,7 +352,10 @@ function initDetailCMS(client) {
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
                 "headline": content.title,
+                "description": articleDescription,
                 "datePublished": content.publishedAt,
+                "mainEntityOfPage": articleUrl,
+                "image": [articleImage],
                 "author": { "@type": "Person", "name": content.author?.["author-name"] || "CHAIRMAN編集部" }
             };
             const scriptTag = document.createElement('script');
@@ -276,9 +364,30 @@ function initDetailCMS(client) {
             document.head.appendChild(scriptTag);
 
             const pageTitle = document.getElementById('page-title');
-            if (pageTitle) pageTitle.textContent = `${content.title} | 株式会社CHAIRMAN`;
+            if (pageTitle) pageTitle.textContent = articleTitle;
         })
         .catch(err => console.error('Error fetching article:', err));
+}
+
+function upsertMetaTag(attrName, attrValue, content) {
+    if (!content) return;
+    let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+    if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(attrName, attrValue);
+        document.head.appendChild(element);
+    }
+    element.setAttribute('content', content);
+}
+
+function upsertCanonical(href) {
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', href);
 }
 
 function fetchRelatedArticles(client, categoryId, currentArticleId) {

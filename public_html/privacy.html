@@ -12,9 +12,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="プライバシーポリシーページです。お客様の個人情報の取り扱いについて詳しく説明しています。">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This is an example of a web page with a favicon">
+    <link rel="llmo" href="/llms.txt" type="text/plain" />
+    <link rel="canonical" href="https://chairman-official.com/privacy.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="株式会社CHAIRMAN">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:title" content="株式会社CHAIRMAN | プライバシーポリシー">
+    <meta property="og:description" content="プライバシーポリシーページです。お客様の個人情報の取り扱いについて詳しく説明しています。">
+    <meta property="og:url" content="https://chairman-official.com/privacy.html">
+    <meta property="og:image" content="https://chairman-official.com/images/CompanyLogo2.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="株式会社CHAIRMAN | プライバシーポリシー">
+    <meta name="twitter:description" content="プライバシーポリシーページです。お客様の個人情報の取り扱いについて詳しく説明しています。">
+    <meta name="twitter:image" content="https://chairman-official.com/images/CompanyLogo2.png">
     <link rel="icon" href="/assets/favicon-16x16.ico" sizes="16x16" type="image/x-icon">
     <link rel="icon" href="/assets/favicon-24x24.ico" sizes="24x24" type="image/x-icon">
     <link rel="icon" href="/assets/favicon-32x32.ico" sizes="32x32" type="image/x-icon">
@@ -29,7 +39,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Oswald:wght@400;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
 <title>株式会社CHAIRMAN | プライバシーポリシー</title>
   </head>
 <body>
@@ -45,7 +54,6 @@
     <div class="loader_cover loader_cover-up"></div>
     <div class="loader_cover loader_cover-down"></div>
   </div>
-  </div>
 
 
 
@@ -57,17 +65,23 @@
     <div class="header-logo"><a href="index.html">
       <img src="./images/CompanyLogo.png" alt="Company Logo" loading="lazy" decoding="async"></a>
     </div>
-    <div class="openbtn7">
+    <button
+      type="button"
+      class="openbtn7"
+      aria-expanded="false"
+      aria-controls="site-menu"
+      aria-label="メニューを開く">
       <div class="openbtn-area">
         <span></span><span></span><span></span>
       </div>
-    </div>
+    </button>
   </div>
         
-  <nav class="header-menu-container">
+  <nav id="site-menu" class="header-menu-container" aria-label="サイトメニュー" aria-hidden="true">
     <ul class="header-menu">
       <li><a href="./index.html#service">事業紹介</a></li>
       <li><a href="./index.html#track-record">運用実績</a></li>
+      <li><a href="https://sell.livapon.com/">LIVAPONについて</a></li>
       <li><a href="about-us.html">私たちについて</a></li>
       <li><a href="./news.html">ブログ</a></li>
       <li><a href="./contact.html">お問い合わせ</a></li>
@@ -162,63 +176,58 @@
 <!-- footer section -->
 
   <footer id="footer">
-    <div class="footer-container">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <a href="index.html" class="footer-logo">
-            <img src="./images/CompanyLogo.png" alt="株式会社CHAIRMAN" loading="lazy" decoding="async">
-          </a>
-          <p class="footer-description">
-            SNSマーケティングを通じて<br>
-            ビジネスチャンスや新たな価値を創造します。
-          </p>
-        </div>
-        
-        <div class="footer-links">
-          <div class="footer-section">
-            <h4>サイト</h4>
-            <ul>
-              <li><a href="./index.html#service">事業紹介</a></li>
-              <li><a href="./index.html#track-record">運用実績</a></li>
-              <li><a href="about-us.html">私たちについて</a></li>
-              <li><a href="./news.html">ブログ</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-section">
-            <h4>サポート</h4>
-            <ul>
-              <li><a href="contact.html">お問い合わせ</a></li>
-              <li><a href="privacy.html">プライバシーポリシー</a></li>
-            </ul>
-          </div>
-          
-          <div class="footer-section">
-            <h4>関連サービス</h4>
-            <ul>
-              <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener">KOSOLIFE</a></li>
-              <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">サービス詳細</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p class="copyright">
-          &copy; 2026 CHAIRMAN. All rights reserved.
+  <div class="footer-container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <img src="./images/CompanyLogo.png" alt="株式会社CHAIRMAN" loading="lazy" decoding="async">
+        </a>
+        <p class="footer-description">
+          SNSマーケティングを通じて<br>
+          ビジネスチャンスや新たな価値を創造します。
         </p>
       </div>
+      
+      <div class="footer-links">
+        <div class="footer-section">
+          <h4>サイト</h4>
+          <ul>
+            <li><a href="./index.html#service">事業紹介</a></li>
+            <li><a href="./index.html#track-record">運用実績</a></li>
+            <li><a href="about-us.html">私たちについて</a></li>
+            <li><a href="./news.html">ブログ</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>サポート</h4>
+          <ul>
+            <li><a href="contact.html">お問い合わせ</a></li>
+            <li><a href="privacy.html">プライバシーポリシー</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>関連サービス</h4>
+          <ul>
+            <li><a href="https://sell.livapon.com/" class="footer-service-logo-link"><img src="./images/livapon_logo_white.png" alt="LIVAPON" loading="lazy" decoding="async"></a></li>
+            <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener">KOSOLIFE</a></li>
+            <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">サービス詳細</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </footer>
+    
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; 2026 CHAIRMAN. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
 
 
-  
-<div id="overlay"></div>
-
-<script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
-<script src="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/5-2-7/js/5-2-7.js"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
-<script src="index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js" defer></script>
+<script src="index.js" defer></script>
 </body>
 </html>
