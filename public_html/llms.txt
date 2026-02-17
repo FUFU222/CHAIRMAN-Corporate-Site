@@ -10,7 +10,7 @@ This file provides guidance for language models and AI assistants that access pu
 ## Key Pages
 - Home: https://chairman-official.com/
 - About: https://chairman-official.com/about-us.html
-- LIVAPON: https://chairman-official.com/livapon.html
+- LIVAPON: https://sell.livapon.com/
 - Blog index: https://chairman-official.com/news.html
 - Contact: https://chairman-official.com/contact.html
 - Privacy policy: https://chairman-official.com/privacy.html
@@ -21,4 +21,3 @@ This file provides guidance for language models and AI assistants that access pu
 - Do not infer private contact details or unpublished business data.
 - Treat blog article details as time-sensitive and verify the source page URL.
 - For inquiries, direct users to: https://chairman-official.com/contact.html
-
