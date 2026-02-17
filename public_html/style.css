@@ -3403,7 +3403,7 @@ iframe {
 
 #privacy {
   background: #f7f7f7;
-  padding: 80px 0 96px;
+  padding: 108px 0 96px;
 }
 
 .privacy-container {
@@ -3445,10 +3445,10 @@ iframe {
 .privacy-intro {
   background: none;
   border-radius: 0;
-  padding: 0 0 24px;
-  margin-bottom: 32px;
+  padding: 0;
+  margin-bottom: 26px;
   border-left: none;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: none;
 }
 
 .privacy-intro p {
@@ -3600,7 +3600,7 @@ iframe {
 
   /* Privacy Mobile Styles */
   #privacy {
-    padding: 56px 0 72px;
+    padding: 72px 0 72px;
   }
 
   #privacy .privacy-page-title {
@@ -3621,8 +3621,8 @@ iframe {
   }
 
   .privacy-intro {
-    padding: 0 0 18px;
-    margin-bottom: 24px;
+    padding: 0;
+    margin-bottom: 20px;
   }
 
   .privacy-intro p {
