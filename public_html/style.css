@@ -2066,6 +2066,40 @@ body.menu-open {
   z-index: 1;
 }
 
+@media screen and (min-width: 769px) {
+  #about-us-section {
+    padding-top: clamp(130px, 11vw, 170px);
+  }
+
+  #about-us-section .title-container {
+    height: auto;
+    padding: 0;
+    margin-bottom: 32px;
+  }
+
+  #about-us-section .title h2,
+  #about-us-section .japanese-title h4 {
+    margin-left: 0;
+  }
+
+  #about-us-section #intro {
+    min-height: auto;
+    display: block;
+    margin: 0 auto 80px;
+    padding: 0;
+    max-width: 1020px;
+  }
+
+  #about-us-section .intro-content {
+    width: 100%;
+    padding: 0 0 40px;
+  }
+
+  #about-us-section .intro-content p {
+    margin-bottom: 0;
+  }
+}
+
 /* LIVAPON hero */
 .livapon-hero {
   background: linear-gradient(180deg, #ffffff 0%, #f5f6f8 100%);
