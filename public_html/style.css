@@ -3699,6 +3699,23 @@ iframe {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  #about-us-section {
+    padding-top: clamp(148px, 14vw, 184px);
+  }
+
+  #about-us-section #intro {
+    min-height: clamp(340px, 56svh, 520px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 64px;
+    padding: clamp(20px, 4vw, 36px) 0;
+  }
+
+  #about-us-section .intro-content {
+    padding: 0 0 30px;
+  }
+
   .member-list {
     grid-template-columns: 1fr;
     max-width: 860px;
@@ -3767,7 +3784,7 @@ iframe {
   }
 
   #about-us-section {
-    padding: 0 0 56px;
+    padding: clamp(112px, 20vw, 136px) 0 56px;
   }
 
   .about-us-container {
@@ -3775,9 +3792,9 @@ iframe {
   }
 
   #intro {
-    min-height: 100svh;
-    padding: 92px 0 52px;
-    margin-bottom: 44px;
+    min-height: clamp(300px, 56svh, 460px);
+    padding: clamp(20px, 7vw, 36px) 0 clamp(24px, 8vw, 40px);
+    margin-bottom: 40px;
   }
 
   .intro-content {
