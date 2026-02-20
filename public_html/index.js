@@ -337,7 +337,8 @@ document.addEventListener("DOMContentLoaded", function () {
       closeMenu();
       return;
     }
-    openMenu();
+    const moveFocusToFirstItem = e.detail === 0;
+    openMenu({ moveFocusToFirstItem });
   });
 
   // オーバーレイ押下で閉じる
@@ -350,7 +351,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  function openMenu() {
+  function openMenu(options = {}) {
+    const moveFocusToFirstItem = options.moveFocusToFirstItem !== false;
+
     lastFocusedElement = document.activeElement instanceof HTMLElement
       ? document.activeElement
       : openBtn;
@@ -360,11 +363,13 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("click", handleDocumentClick, true);
     document.addEventListener("keydown", handleDocumentKeydown);
 
-    const focusable = getMenuFocusableElements();
-    if (focusable.length > 0) {
-      focusable[0].focus();
-    } else {
-      openBtn.focus();
+    if (moveFocusToFirstItem) {
+      const focusable = getMenuFocusableElements();
+      if (focusable.length > 0) {
+        focusable[0].focus();
+      } else {
+        openBtn.focus();
+      }
     }
   }
 

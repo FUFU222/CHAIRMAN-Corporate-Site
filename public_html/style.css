@@ -650,8 +650,18 @@ body.menu-open {
   color: var(--theme-link-color);
   font-weight: bold;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
   transition: background-color 0.2s ease, color 0.2s ease;
   position: relative;
+}
+
+.header-menu li a:focus {
+  outline: none;
+}
+
+.header-menu li a:focus-visible {
+  outline: 2px solid rgba(128, 0, 0, 0.45);
+  outline-offset: 4px;
 }
 
 .header-menu li a:hover {
@@ -2085,14 +2095,14 @@ body.menu-open {
   #about-us-section #intro {
     min-height: auto;
     display: block;
-    margin: 0 auto 80px;
-    padding: 0;
+    margin: 0 auto clamp(104px, 8vw, 136px);
+    padding: clamp(18px, 2.4vw, 36px) 0 clamp(24px, 3vw, 44px);
     max-width: 1020px;
   }
 
   #about-us-section .intro-content {
     width: 100%;
-    padding: 0 0 40px;
+    padding: 0 0 clamp(52px, 4.6vw, 76px);
   }
 
   #about-us-section .intro-content p {
