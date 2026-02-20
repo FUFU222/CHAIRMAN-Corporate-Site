@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //--------------------- fade-in,titleSlideなどのアニメーション設定-----------------------
 document.addEventListener("DOMContentLoaded", function () {
   const fadeInTargets = document.querySelectorAll(
-    ".title-description, .record-description-wrapper, .member-position, .member-name h3, .member-image img, .member-description dt, .member-description dd p"
+    ".title-description, .record-description-wrapper, .member-position, .member-name h3, .member-description dt, .member-description dd p"
   );
   const slideTargets = document.querySelectorAll(
     ".title h2, .japanese-title h4"
