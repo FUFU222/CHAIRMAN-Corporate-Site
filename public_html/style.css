@@ -2929,6 +2929,12 @@ body.menu-open {
   height: fit-content;
 }
 
+.member-container-centered {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, calc((1200px - 32px) / 2));
+}
+
 .member-info {
   display: flex;
   align-items: center;
@@ -3740,6 +3746,10 @@ iframe {
     padding: 32px;
   }
 
+  .member-container-centered {
+    width: 100%;
+  }
+
   .member-info {
     gap: 24px;
     margin-bottom: 28px;
@@ -3831,6 +3841,10 @@ iframe {
 
   .member-container {
     padding: 24px;
+  }
+
+  .member-container-centered {
+    width: 100%;
   }
 
   .member-info {
