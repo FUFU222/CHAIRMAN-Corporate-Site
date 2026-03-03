@@ -2926,7 +2926,8 @@ body.menu-open {
   position: relative;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 
 .member-container-centered {
@@ -3013,6 +3014,9 @@ body.menu-open {
   border: 1px solid rgba(226, 191, 53, 0.15);
   position: relative;
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .member-description::before {
@@ -3042,6 +3046,10 @@ body.menu-open {
   display: inline-block;
   letter-spacing: 0.05em;
   position: relative;
+}
+
+.member-description dt:last-of-type {
+  margin-top: auto;
 }
 
 .member-description dd {
