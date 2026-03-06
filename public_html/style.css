@@ -965,18 +965,23 @@ body.menu-open {
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(18, 18, 18, 0.08);
   transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 180ms ease,
     box-shadow 220ms ease;
 }
 
+#service .card-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+#service .card-link:visited {
+  color: inherit;
+}
+
 #service .card:hover,
-#service .card:focus-within {
-  transform: translateY(-2px);
-  border-color: rgba(226, 191, 53, 0.78);
-  box-shadow:
-    0 14px 28px rgba(17, 17, 17, 0.14),
-    0 0 0 1px rgba(226, 191, 53, 0.34),
-    0 0 0 4px rgba(226, 191, 53, 0.12);
+#service .card:focus-visible {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: 0 12px 26px rgba(17, 17, 17, 0.16);
 }
 
 #service .card h3 {
@@ -1031,6 +1036,7 @@ body.menu-open {
 #service .card-content {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 10px;
   padding: 14px 2px 4px;
 }
@@ -1051,6 +1057,31 @@ body.menu-open {
   overflow-wrap: anywhere;
 }
 
+#service .card-link-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 11px 2px 2px;
+  border-top: 1px solid rgba(122, 92, 0, 0.24);
+  color: #8e0606;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+#service .card-link-arrow {
+  display: inline-block;
+  font-size: 0.98rem;
+  transition: transform 180ms ease;
+}
+
+#service .card:hover .card-link-arrow,
+#service .card:focus-visible .card-link-arrow {
+  transform: translateX(4px);
+}
+
 #service .cta-container {
   margin: clamp(28px, 5vw, 44px) 0 4rem;
   padding: 0 20px;
@@ -1066,7 +1097,17 @@ body.menu-open {
   }
 
   #service .card:hover,
-  #service .card:focus-within {
+  #service .card:focus-visible {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(18, 18, 18, 0.08);
+  }
+
+  #service .card-link-arrow {
+    transition: none;
+  }
+
+  #service .card:hover .card-link-arrow,
+  #service .card:focus-visible .card-link-arrow {
     transform: none;
   }
 }
@@ -1100,6 +1141,10 @@ body.menu-open {
 
   #service .card-media {
     aspect-ratio: 4 / 3;
+  }
+
+  #service .card-link-indicator {
+    font-size: 0.8rem;
   }
 
   #service .platform-icons img {
