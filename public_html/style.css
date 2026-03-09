@@ -3013,33 +3013,13 @@ body.menu-open {
   margin-bottom: 0;
 }
 
-.officers-heading {
-  text-align: center;
-  margin: 0 auto 40px;
-}
-
-.officers-heading h2 {
-  margin: 0;
-  font-family: "Oswald", sans-serif;
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  letter-spacing: 0.12em;
-  color: #800000;
-  text-transform: uppercase;
-}
-
-.officers-heading h4 {
-  margin: 10px 0 0;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  letter-spacing: 0.14em;
-  color: #2f2f2f;
-}
-
 .member-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-  max-width: 1200px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 1240px;
   margin: 0 auto 2%;
+  align-items: stretch;
 }
 
 .member-container {
@@ -3047,31 +3027,34 @@ body.menu-open {
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 24px;
-  padding: 40px;
+  padding: 34px 28px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
 .member-container-centered {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: min(100%, calc((1200px - 32px) / 2));
+  grid-column: auto;
+  justify-self: stretch;
+  width: auto;
 }
 
 .member-info {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 36px;
-  gap: 32px;
+  text-align: center;
+  margin-bottom: 28px;
+  gap: 20px;
   position: relative;
 }
 
 .member-image {
-  --member-photo-size: 240px;
+  --member-photo-size: clamp(168px, 15vw, 208px);
   flex-shrink: 0;
   position: relative;
   width: var(--member-photo-size);
@@ -3096,16 +3079,30 @@ body.menu-open {
 }
 
 .member-details {
-  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 1025px) {
+  .member-info {
+    min-height: clamp(300px, 28vw, 336px);
+  }
+
+  .member-details {
+    min-height: 96px;
+    justify-content: center;
+  }
 }
 
 .member-position h3 {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #64748b;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   position: relative;
   display: inline-block;
 }
@@ -3114,10 +3111,11 @@ body.menu-open {
   content: '';
   position: absolute;
   bottom: -2px;
-  left: 0;
+  left: 50%;
   width: 0;
   height: 2px;
   background: #e2bf35;
+  transform: translateX(-50%);
   transition: width 0.3s ease;
 }
 
@@ -3126,17 +3124,19 @@ body.menu-open {
 }
 
 .member-name h3 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 1.85vw, 1.8rem);
   font-weight: 700;
   color: #222323;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   margin: 0;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .member-description {
   background: linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(255, 255, 255, 0.6));
   border-radius: 20px;
-  padding: 32px;
+  padding: 28px 24px;
   border: 1px solid rgba(226, 191, 53, 0.15);
   position: relative;
   backdrop-filter: blur(10px);
@@ -3162,10 +3162,10 @@ body.menu-open {
 }
 
 .member-description dt {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 3px solid transparent;
   background: linear-gradient(90deg, #e2bf35, #f59e0b) bottom/100% 3px no-repeat;
@@ -3174,15 +3174,15 @@ body.menu-open {
   position: relative;
 }
 
-.member-description dt:last-of-type {
+.member-description dt:last-of-type:not(:first-of-type) {
   margin-top: auto;
 }
 
 .member-description dd {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   color: #475569;
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 0.96rem;
+  line-height: 1.75;
   font-weight: 400;
 }
 
@@ -3246,111 +3246,361 @@ body.menu-open {
   outline-offset: 4px;
 }
 
+.team-minimal-item-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.team-minimal-item-link:visited {
+  color: inherit;
+}
+
+.team-minimal-item-link:focus-visible {
+  outline: 3px solid rgba(123, 30, 43, 0.22);
+  outline-offset: 6px;
+}
+
+.external-link-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  display: block;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  color: #7b1e2b;
+}
+
+.external-link-indicator-tab,
+.external-link-indicator-arrow {
+  position: absolute;
+}
+
+.external-link-indicator-tab {
+  left: 8px;
+  bottom: 8px;
+  width: 10px;
+  height: 10px;
+  border: 1.8px solid currentColor;
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.external-link-indicator-arrow {
+  top: 7px;
+  right: 7px;
+  width: 10px;
+  height: 10px;
+  transition: transform 0.24s ease;
+}
+
+.external-link-indicator-arrow::before {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 1.8px;
+  top: 5px;
+  left: -1px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+
+.external-link-indicator-arrow::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+}
+
+.team-minimal-item-link:hover .external-link-indicator-arrow,
+.team-minimal-item-link:focus-visible .external-link-indicator-arrow {
+  transform: translate(2px, -2px);
+}
+
 /*――――――――――――――――――――――――――――
-  マネージメントチームセクション
+  チーム紹介
 ――――――――――――――――――――――――――――*/
-.management-team {
-  padding: 4rem 1rem;
-  background: #f2f2f2;
+.team-minimal-preview {
+  max-width: 1240px;
+  margin: clamp(28px, 4vw, 44px) auto clamp(56px, 6vw, 84px);
+  padding: 0 clamp(8px, 2vw, 16px);
 }
 
-.management-container {
-  max-width: 1200px;
-  margin: 0 auto;
+.team-minimal-block + .team-minimal-block {
+  margin-top: clamp(52px, 6vw, 72px);
 }
 
-.second-header {
+.team-minimal-heading {
+  margin-bottom: 28px;
   text-align: center;
-  margin-bottom: 2.5rem;
 }
 
-.second-header h2 {
+.team-minimal-heading h4 {
+  margin: 0;
+  color: #111827;
   font-family: "Oswald", sans-serif;
-  font-size: 2.5rem;
-  color: #800000;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.05em;
+  font-size: clamp(1.9rem, 2.9vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
 }
 
-.second-header h4 {
-  font-size: 1rem;
-  color: var(--text-dark);
-  letter-spacing: 0.1em;
+.team-minimal-heading p {
+  margin: 8px 0 0;
+  color: #7b1e2b;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
 }
 
-.management-grid {
+.team-minimal-grid {
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 240px));
+  grid-template-columns: repeat(3, minmax(0, 240px));
+  gap: 32px 22px;
   justify-content: center;
 }
 
-.team-card {
-  position: relative;
+.team-minimal-grid-officers {
+  grid-template-columns: repeat(3, minmax(0, 272px));
+  gap: 36px 24px;
 }
 
-.team-card .card-image {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
+.team-minimal-grid-media {
+  max-width: 520px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 auto;
 }
 
-.team-card .card-name {
+.team-minimal-grid-media .team-minimal-item {
+  align-items: center;
+}
+
+.team-minimal-grid-media .team-minimal-name,
+.team-minimal-grid-media .team-minimal-role {
   text-align: center;
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #303030;
-  font-weight: bold;
 }
 
-.team-card .card-role {
-  position: absolute;
-  bottom: 16px;
-  left: 30%;
-  transform: translateX(-50%);
-  background: var(--primary-hover);
-  color: #fff;
-  padding: 0.4em 1em;
-  font-size: 0.9rem;
-  font-weight: bold;
-  border-radius: 4px;
-  white-space: nowrap;
+.team-minimal-item {
+  display: flex;
+  flex-direction: column;
 }
 
-.card-image {
+.team-minimal-button {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.team-minimal-button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 6px;
+}
+
+.team-minimal-image {
+  display: block;
   position: relative;
   width: 100%;
-  padding-top: 100%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  background: #dce3ec;
+  border-radius: 6px;
+  transition: border-radius 0.24s ease;
 }
 
-.card-image img {
-  position: absolute;
-  top: 0;
-  left: 0;
+.team-minimal-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.24s ease;
 }
 
-.card-role {
+.team-minimal-image img.team-minimal-photo-cso {
+  object-position: center 34%;
+}
+
+.team-minimal-button:hover .team-minimal-image,
+.team-minimal-button:focus-visible .team-minimal-image,
+.team-minimal-item-link:hover .team-minimal-image,
+.team-minimal-item-link:focus-visible .team-minimal-image {
+  border-radius: 22px;
+}
+
+.team-minimal-button:hover .team-minimal-image img,
+.team-minimal-button:focus-visible .team-minimal-image img,
+.team-minimal-item-link:hover .team-minimal-image img,
+.team-minimal-item-link:focus-visible .team-minimal-image img {
+  transform: scale(1.05);
+}
+
+.team-minimal-image-empty {
+  background:
+    linear-gradient(180deg, #edf2f7 0%, #e5ebf3 100%);
+}
+
+.team-minimal-name {
+  display: block;
+  margin-top: 16px;
+  color: #111827;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.45;
+  transition: color 0.24s ease;
+}
+
+.team-minimal-role {
+  display: block;
+  margin-top: 8px;
+  color: #6b7280;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  transition: color 0.24s ease;
+}
+
+.team-minimal-button:hover .team-minimal-name,
+.team-minimal-button:focus-visible .team-minimal-name {
+  color: #7b1e2b;
+}
+
+.team-minimal-button:hover .team-minimal-role,
+.team-minimal-button:focus-visible .team-minimal-role {
+  color: #475569;
+}
+
+.officer-detail-modal {
+  inset: 0;
+  width: min(720px, calc(100% - 32px));
+  max-width: 720px;
+  max-height: calc(100vh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.officer-detail-modal::backdrop {
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(5px);
+}
+
+.officer-detail-panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(220px, 248px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 34px);
+  align-items: start;
+  padding: clamp(28px, 4vw, 36px);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  border-radius: 30px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.2);
+}
+
+.officer-detail-media {
+  position: sticky;
+  top: 0;
+}
+
+.officer-detail-photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #dce3ec;
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
+}
+
+.officer-detail-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.officer-detail-photo img.team-minimal-photo-cso {
+  object-position: center 34%;
+}
+
+.officer-detail-content {
+  min-width: 0;
+}
+
+.officer-detail-close {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
-  background: var(--accent);
-  color: #fff;
-  padding: 4px 8px;
-  font-size: 0.7rem;
-  border-radius: 4px;
-  white-space: nowrap;
+  top: 18px;
+  right: 18px;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
-.card-name {
-  text-align: center;
-  margin: 1rem 0;
+.officer-detail-header {
+  padding-right: 72px;
+  margin-bottom: 22px;
+}
+
+.officer-detail-role {
+  margin: 0 0 10px;
+  color: #7b1e2b;
   font-size: 0.8rem;
-  font-weight: bold;
-  color: var(--text-dark);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.officer-detail-role-detail {
+  margin: -2px 0 14px;
+  color: #64748b;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.officer-detail-header h3 {
+  margin: 0;
+  color: #1f2937;
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
+  letter-spacing: 0.04em;
+}
+
+.officer-detail-body {
+  padding-top: 20px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.officer-detail-body p {
+  margin: 0 0 14px;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.officer-detail-body p:last-child {
+  margin-bottom: 0;
 }
 
 /* CTA ボタンコンテナ */
@@ -3904,6 +4154,7 @@ iframe {
   .member-description {
     padding: 26px;
   }
+
 }
 
 @media (max-width: 768px) {
@@ -3964,10 +4215,6 @@ iframe {
     line-height: 1.6;
   }
 
-  .officers-heading {
-    margin-bottom: 30px;
-  }
-
   .member-list {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -4006,6 +4253,86 @@ iframe {
     line-height: 1.75;
   }
 
+  .team-minimal-preview {
+    margin: 28px auto 68px;
+    padding: 0 10px;
+  }
+
+  .team-minimal-block + .team-minimal-block {
+    margin-top: 56px;
+  }
+
+  .team-minimal-heading {
+    margin-bottom: 28px;
+  }
+
+  .team-minimal-heading h4 {
+    font-size: 1.72rem;
+  }
+
+  .team-minimal-grid,
+  .team-minimal-grid-media,
+  .team-minimal-grid-officers {
+    max-width: min(100%, 420px);
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .team-minimal-name {
+    margin-top: 14px;
+    font-size: 1rem;
+  }
+
+  .team-minimal-role {
+    margin-top: 7px;
+    font-size: 0.84rem;
+  }
+
+  .officer-detail-modal {
+    width: min(100% - 20px, 680px);
+    max-height: calc(100vh - 20px);
+  }
+
+  .officer-detail-panel {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 24px 18px 20px;
+    max-height: calc(100vh - 20px);
+    border-radius: 24px;
+  }
+
+  .officer-detail-media {
+    position: relative;
+  }
+
+  .officer-detail-photo {
+    max-width: 240px;
+    margin: 0 auto;
+    border-radius: 22px;
+  }
+
+  .officer-detail-close {
+    top: 14px;
+    right: 14px;
+  }
+
+  .officer-detail-header {
+    padding-right: 56px;
+    margin-bottom: 18px;
+  }
+
+  .officer-detail-header h3 {
+    font-size: 1.7rem;
+    line-height: 1.35;
+  }
+
+  .officer-detail-body p {
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
+
   .coment {
     font-size: 0.92rem !important;
     line-height: 1.8 !important;
@@ -4018,40 +4345,6 @@ iframe {
   .member-name h3 {
     font-size: 1.38rem;
     line-height: 1.35;
-  }
-
-  .management-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
-  }
-
-  .team-card {
-    padding: 1rem 0.5rem;
-  }
-
-  .team-card .card-image {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    padding-top: 0;
-    margin: 0 auto 0.75rem;
-  }
-
-  .team-card .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .team-card .card-role {
-    bottom: 4px;
-    font-size: 0.5rem;
-    padding: 2px 6px;
-  }
-
-  .team-card .card-name {
-    font-size: 0.8rem;
-    margin-top: 0.1rem;
   }
 
   .service-link-cluster {
@@ -4086,6 +4379,22 @@ iframe {
 
   .member-name h3 {
     font-size: 1.22rem;
+  }
+
+  .team-minimal-preview {
+    margin: 24px auto 60px;
+    padding: 0 6px;
+  }
+
+  .team-minimal-block + .team-minimal-block {
+    margin-top: 48px;
+  }
+
+  .team-minimal-grid,
+  .team-minimal-grid-media,
+  .team-minimal-grid-officers {
+    max-width: 100%;
+    gap: 32px;
   }
 }
 

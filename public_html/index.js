@@ -522,3 +522,103 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const dialog = document.getElementById("officer-detail-modal");
+  const triggers = document.querySelectorAll("[data-officer-modal-trigger]");
+
+  if (
+    typeof HTMLDialogElement === "undefined" ||
+    !(dialog instanceof HTMLDialogElement) ||
+    triggers.length === 0
+  ) {
+    return;
+  }
+
+  const name = dialog.querySelector("[data-officer-modal-name]");
+  const role = dialog.querySelector("[data-officer-modal-role]");
+  const roleDetail = dialog.querySelector("[data-officer-modal-role-detail]");
+  const body = dialog.querySelector("[data-officer-modal-body]");
+  const image = dialog.querySelector("[data-officer-modal-image]");
+  const closeButton = dialog.querySelector("[data-officer-modal-close]");
+  let activeTrigger = null;
+
+  function applyOfficerContent(trigger) {
+    const card = trigger.closest(".team-minimal-item-officer");
+    const copy = card?.querySelector(".team-minimal-detail-copy");
+    const triggerImage = trigger.querySelector(".team-minimal-image img");
+
+    if (
+      !(card instanceof HTMLElement) ||
+      !(copy instanceof HTMLElement) ||
+      !(name instanceof HTMLElement) ||
+      !(role instanceof HTMLElement) ||
+      !(roleDetail instanceof HTMLElement) ||
+      !(body instanceof HTMLElement) ||
+      !(image instanceof HTMLImageElement) ||
+      !(triggerImage instanceof HTMLImageElement)
+    ) {
+      return false;
+    }
+
+    name.textContent = card.dataset.officerName || "";
+    role.textContent = card.dataset.officerRole || "";
+    roleDetail.textContent = card.dataset.officerRoleDetail || "";
+    roleDetail.hidden = !roleDetail.textContent;
+    body.innerHTML = copy.innerHTML;
+    image.src = triggerImage.currentSrc || triggerImage.src;
+    image.alt = triggerImage.alt || card.dataset.officerName || "";
+    image.className = triggerImage.className;
+    return true;
+  }
+
+  function openDialog(trigger) {
+    if (!applyOfficerContent(trigger)) {
+      return;
+    }
+    activeTrigger = trigger;
+    if (!dialog.open) {
+      dialog.showModal();
+    }
+    document.body.classList.add("modal-open");
+  }
+
+  function closeDialog() {
+    if (dialog.open) {
+      dialog.close();
+    }
+  }
+
+  triggers.forEach((trigger) => {
+    if (!(trigger instanceof HTMLElement)) {
+      return;
+    }
+    trigger.addEventListener("click", function () {
+      openDialog(trigger);
+    });
+  });
+
+  if (closeButton instanceof HTMLElement) {
+    closeButton.addEventListener("click", closeDialog);
+  }
+
+  dialog.addEventListener("close", function () {
+    document.body.classList.remove("modal-open");
+    if (activeTrigger instanceof HTMLElement) {
+      activeTrigger.focus();
+    }
+  });
+
+  dialog.addEventListener("click", function (event) {
+    const rect = dialog.getBoundingClientRect();
+    const isInDialog =
+      rect.top <= event.clientY &&
+      event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX &&
+      event.clientX <= rect.left + rect.width;
+
+    if (!isInDialog) {
+      closeDialog();
+    }
+  });
+});
