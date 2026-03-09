@@ -4273,7 +4273,7 @@ iframe {
   .team-minimal-grid,
   .team-minimal-grid-media,
   .team-minimal-grid-officers {
-    max-width: min(100%, 420px);
+    max-width: min(100%, 348px);
     grid-template-columns: 1fr;
     gap: 36px;
     margin: 0 auto;
@@ -4393,7 +4393,7 @@ iframe {
   .team-minimal-grid,
   .team-minimal-grid-media,
   .team-minimal-grid-officers {
-    max-width: 100%;
+    max-width: min(100%, 316px);
     gap: 32px;
   }
 }
