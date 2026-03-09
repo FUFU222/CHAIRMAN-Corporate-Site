@@ -315,69 +315,84 @@ async function initDetailCms() {
   if (!articleId) {
     return;
   }
+  setDetailLoadingState(true);
 
-  const payload = await fetchCmsJson("detail", { id: articleId });
-  const content = payload.content;
-  if (!content) {
-    return;
-  }
+  try {
+    const payload = await fetchCmsJson("detail", { id: articleId });
+    const content = payload.content;
+    if (!content) {
+      renderDetailLoadError();
+      return;
+    }
 
-  document.getElementById("news-title").innerText = content.title || "";
-  document.getElementById("news-date").innerText = formatDate(
-    content.publishedAt
-  );
-  renderArticleContent(document.getElementById("news-content"), content);
-
-  const fallbackText = buildExcerpt(content.content || "", 120);
-  const articleDescription = content.description || fallbackText;
-  const articleImage =
-    getSafeUrl(content.eyecatch?.url, getAbsoluteUrl(DEFAULT_NEWS_IMAGE)) ||
-    getAbsoluteUrl(DEFAULT_NEWS_IMAGE);
-  const articleUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(
-    articleId
-  )}`;
-  const articleTitle = `${content.title} | 株式会社CHAIRMAN`;
-
-  upsertMetaTag("name", "description", articleDescription);
-  upsertMetaTag("property", "og:title", articleTitle);
-  upsertMetaTag("property", "og:description", articleDescription);
-  upsertMetaTag("property", "og:url", articleUrl);
-  upsertMetaTag("property", "og:image", articleImage);
-  upsertMetaTag("name", "twitter:title", articleTitle);
-  upsertMetaTag("name", "twitter:description", articleDescription);
-  upsertMetaTag("name", "twitter:image", articleImage);
-  upsertCanonical(articleUrl);
-  document.title = articleTitle;
-
-  const author = content.author;
-  if (author) {
-    document.getElementById("author-title").textContent = author.title || "";
-    document.getElementById("author-name").textContent = author.name || "";
-    document.getElementById("author-bio").textContent = author.bio || "";
-    document.getElementById("author-image").src = getSafeUrl(
-      author.imageUrl,
-      DEFAULT_NEWS_IMAGE
+    document.getElementById("news-title").innerText = content.title || "";
+    document.getElementById("news-date").innerText = formatDate(
+      content.publishedAt
     );
-  }
+    renderArticleContent(document.getElementById("news-content"), content);
 
-  const img = document.createElement("img");
-  img.src = getSafeUrl(content.eyecatch?.url, DEFAULT_NEWS_IMAGE);
-  img.alt = content.title || "";
-  img.classList.add("news-image");
-  const metaWrapper = document.querySelector(".news-meta");
-  const container = document.querySelector(".news-detail-container");
-  if (container && metaWrapper) {
-    container.insertBefore(img, metaWrapper.nextSibling);
-  }
+    const fallbackText = buildExcerpt(content.content || "", 120);
+    const articleDescription = content.description || fallbackText;
+    const articleImage =
+      getSafeUrl(content.eyecatch?.url, getAbsoluteUrl(DEFAULT_NEWS_IMAGE)) ||
+      getAbsoluteUrl(DEFAULT_NEWS_IMAGE);
+    const articleUrl = `${window.location.origin}${window.location.pathname}?id=${encodeURIComponent(
+      articleId
+    )}`;
+    const articleTitle = `${content.title} | 株式会社CHAIRMAN`;
 
-  renderSidebarArticles("related-articles", payload.related || []);
-  renderSidebarArticles("new-articles", payload.latest || []);
-  setupShareButtons(content.title || "");
-  appendArticleStructuredData(articleTitle, articleDescription, articleUrl, articleImage, content);
+    upsertMetaTag("name", "description", articleDescription);
+    upsertMetaTag("property", "og:title", articleTitle);
+    upsertMetaTag("property", "og:description", articleDescription);
+    upsertMetaTag("property", "og:url", articleUrl);
+    upsertMetaTag("property", "og:image", articleImage);
+    upsertMetaTag("name", "twitter:title", articleTitle);
+    upsertMetaTag("name", "twitter:description", articleDescription);
+    upsertMetaTag("name", "twitter:image", articleImage);
+    upsertCanonical(articleUrl);
+    document.title = articleTitle;
 
-  const pageTitle = document.getElementById("page-title");
-  if (pageTitle) {
-    pageTitle.textContent = articleTitle;
+    const author = content.author;
+    if (author) {
+      document.getElementById("author-title").textContent = author.title || "";
+      document.getElementById("author-name").textContent = author.name || "";
+      document.getElementById("author-bio").textContent = author.bio || "";
+      document.getElementById("author-image").src = getSafeUrl(
+        author.imageUrl,
+        DEFAULT_NEWS_IMAGE
+      );
+    }
+
+    const img = document.createElement("img");
+    img.src = getSafeUrl(content.eyecatch?.url, DEFAULT_NEWS_IMAGE);
+    img.alt = content.title || "";
+    img.classList.add("news-image");
+    const metaWrapper = document.querySelector(".news-meta");
+    const container = document.querySelector(".news-detail-container");
+    if (container && metaWrapper) {
+      container.insertBefore(img, metaWrapper.nextSibling);
+    }
+
+    renderSidebarArticles("related-articles", payload.related || []);
+    renderSidebarArticles("new-articles", payload.latest || []);
+    setupShareButtons(content.title || "");
+    appendArticleStructuredData(
+      articleTitle,
+      articleDescription,
+      articleUrl,
+      articleImage,
+      content
+    );
+
+    const pageTitle = document.getElementById("page-title");
+    if (pageTitle) {
+      pageTitle.textContent = articleTitle;
+    }
+  } catch (error) {
+    renderDetailLoadError();
+    throw error;
+  } finally {
+    setDetailLoadingState(false);
   }
 }
 
@@ -497,6 +512,30 @@ function renderArticleContent(container, content) {
 
   ctaContainer.appendChild(ctaLink);
   container.appendChild(ctaContainer);
+}
+
+function setDetailLoadingState(isLoading) {
+  const newsContent = document.getElementById("news-content");
+  if (newsContent) {
+    newsContent.dataset.loading = isLoading ? "true" : "false";
+    newsContent.classList.toggle("is-ready", !isLoading);
+  }
+}
+
+function renderDetailLoadError() {
+  const newsContent = document.getElementById("news-content");
+  if (!newsContent) {
+    return;
+  }
+
+  newsContent.textContent = "";
+
+  const message = document.createElement("p");
+  message.className = "article-load-error";
+  message.textContent =
+    "記事の読み込みに失敗しました。少し時間をおいて再読み込みしてください。";
+
+  newsContent.appendChild(message);
 }
 
 function renderSidebarArticles(containerId, articles) {
