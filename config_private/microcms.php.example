@@ -1,0 +1,6 @@
+<?php
+
+return [
+    'service_domain' => 'your-microcms-service-domain',
+    'api_key' => 'your-microcms-api-key',
+];

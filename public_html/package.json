@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.4.5",
-    "microcms-js-sdk": "^3.1.0"
+    "dotenv": "^16.4.5"
   }
 }
