@@ -2393,9 +2393,9 @@ body.menu-open {
   --scroll-size: 120px;
   --scroll-offset: -60px;
   --scroll-right: 10%;
-  background-image: url('./images/livapon-hero.png');
-  background-size: cover;
-  background-position: center;
+  background:
+    radial-gradient(circle at top right, rgba(196, 148, 69, 0.2), transparent 36%),
+    linear-gradient(135deg, #12171d 0%, #1b2530 52%, #12171d 100%);
   color: #ffffff;
 }
 
