@@ -104,62 +104,6 @@ function fadeOutElement(element, duration) {
   }, duration);
 }
 
-// ローディング待機
-document.addEventListener("DOMContentLoaded", function () {
-  const loader = document.getElementById("loader");
-  const progressBar = document.querySelector(".progress-bar .progress");
-  const video = document.querySelector(".iphone-mockup-container video");
-
-  if (!loader || !video) {
-    return;
-  }
-
-  let loaderHidden = false;
-
-  function hideLoader() {
-    if (loaderHidden) return;
-    loaderHidden = true;
-    loader.classList.add("progress-fade-out");
-    setTimeout(() => {
-      loader.style.display = "none";
-    }, 1000);
-  }
-
-  function updateProgress() {
-    if (!progressBar) return;
-    if (video.buffered.length > 0) {
-      const bufferedEnd = video.buffered.end(video.buffered.length - 1);
-      const duration = video.duration;
-      if (duration > 0) {
-        progressBar.style.width = (bufferedEnd / duration) * 100 + "%";
-      }
-    }
-  }
-
-  video.addEventListener("progress", updateProgress);
-
-  const onReady = () => {
-    setTimeout(() => {
-      hideLoader();
-      // ビデオ再生を試みる
-      video.play().catch((error) => {
-        console.error("ビデオの再生に失敗しました:", error);
-      });
-    }, 500); // 0.5秒の遅延でフェードアウトを開始
-  };
-
-  video.addEventListener("loadeddata", onReady, { once: true });
-  video.addEventListener("canplay", onReady, { once: true });
-  video.addEventListener("canplaythrough", onReady, { once: true });
-
-  // 初期のプログレスバーの更新
-  updateProgress();
-
-  if (video.readyState >= 2) {
-    onReady();
-  }
-});
-
 //スクロールに応じたヘッダーの表示
 document.addEventListener("DOMContentLoaded", function () {
   var header = document.getElementById("header");
