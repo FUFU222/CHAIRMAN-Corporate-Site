@@ -212,9 +212,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const slideTargets = document.querySelectorAll(
     ".title h2, .japanese-title h4"
   );
-  const fadeBgTarget = document.querySelector(
-    "#service"
-  );
 
   fadeInTargets.forEach((target) => {
     target.classList.add("fade-in");
@@ -251,62 +248,8 @@ document.addEventListener("DOMContentLoaded", function () {
     { threshold: 0.2 }
   );
 
-  const fadeBgObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const sectionTitles = entry.target.querySelectorAll(
-          ".title h2, .japanese-title h4"
-        );
-
-        sectionTitles.forEach((title) => {
-          if (!title.dataset.defaultTitleColor) {
-            title.dataset.defaultTitleColor = window.getComputedStyle(title).color;
-          }
-        });
-
-        if (entry.isIntersecting) {
-          if (entry.target.classList.contains("design-b")) {
-            entry.target.style.backgroundColor = "#1a5710";
-            entry.target.style.color = "white";
-          } else {
-            entry.target.style.backgroundColor = "#953939";
-            entry.target.style.color = "white";
-          }
-
-          sectionTitles.forEach((title) => {
-            title.style.setProperty("--title-original-color", "#ffffff");
-          });
-
-          // title-descriptionのテキストも白に変更
-          const titleDescription = entry.target.querySelector('.title-description p');
-          if (titleDescription) {
-            titleDescription.style.color = "white";
-          }
-        } else {
-          entry.target.style.backgroundColor = "#e5e5e5";
-          entry.target.style.color = "black";
-
-          sectionTitles.forEach((title) => {
-            const defaultTitleColor = title.dataset.defaultTitleColor || "#212121";
-            title.style.setProperty("--title-original-color", defaultTitleColor);
-          });
-
-          // title-descriptionのテキストも元の色に戻す
-          const titleDescription = entry.target.querySelector('.title-description p');
-          if (titleDescription) {
-            titleDescription.style.color = "#444";
-          }
-        }
-      });
-    },
-    { threshold: 0.4 }
-  );
-
   fadeInTargets.forEach((target) => fadeObserver.observe(target));
   slideTargets.forEach((target) => slideObserver.observe(target));
-  if (fadeBgTarget) {
-    fadeBgObserver.observe(fadeBgTarget);
-  }
 });
 
 // メニューボタン
@@ -539,6 +482,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const role = dialog.querySelector("[data-officer-modal-role]");
   const roleDetail = dialog.querySelector("[data-officer-modal-role-detail]");
   const body = dialog.querySelector("[data-officer-modal-body]");
+  const actions = dialog.querySelector("[data-officer-modal-actions]");
+  const noteLink = dialog.querySelector("[data-officer-modal-note-link]");
+  const noteStatus = dialog.querySelector("[data-officer-modal-note-status]");
   const image = dialog.querySelector("[data-officer-modal-image]");
   const closeButton = dialog.querySelector("[data-officer-modal-close]");
   let activeTrigger = null;
@@ -555,6 +501,9 @@ document.addEventListener("DOMContentLoaded", function () {
       !(role instanceof HTMLElement) ||
       !(roleDetail instanceof HTMLElement) ||
       !(body instanceof HTMLElement) ||
+      !(actions instanceof HTMLElement) ||
+      !(noteLink instanceof HTMLAnchorElement) ||
+      !(noteStatus instanceof HTMLElement) ||
       !(image instanceof HTMLImageElement) ||
       !(triggerImage instanceof HTMLImageElement)
     ) {
@@ -569,6 +518,26 @@ document.addEventListener("DOMContentLoaded", function () {
     image.src = triggerImage.currentSrc || triggerImage.src;
     image.alt = triggerImage.alt || card.dataset.officerName || "";
     image.className = triggerImage.className;
+
+    const officerNoteUrl = card.dataset.officerNoteUrl || "";
+    const officerNoteLabel = card.dataset.officerNoteLabel || "noteを読む";
+    const officerNoteStatus = card.dataset.officerNoteStatus || "";
+
+    actions.hidden = !officerNoteUrl && !officerNoteStatus;
+
+    if (officerNoteUrl) {
+      noteLink.href = officerNoteUrl;
+      noteLink.textContent = officerNoteLabel;
+      noteLink.hidden = false;
+      noteStatus.hidden = true;
+      noteStatus.textContent = "";
+    } else {
+      noteLink.hidden = true;
+      noteLink.removeAttribute("href");
+      noteStatus.hidden = !officerNoteStatus;
+      noteStatus.textContent = officerNoteStatus;
+    }
+
     return true;
   }
 
