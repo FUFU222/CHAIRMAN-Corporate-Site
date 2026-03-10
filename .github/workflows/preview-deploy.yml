@@ -1,0 +1,43 @@
+name: Preview Deploy to Xserver
+
+on:
+  push:
+    branches:
+      - codex/site-refresh-preview
+    paths:
+      - "public_html/**"
+      - ".github/workflows/preview-deploy.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare preview bundle
+        run: |
+          rm -rf .preview-dist
+          mkdir -p .preview-dist
+          cp -R public_html/. .preview-dist/
+          cat <<'EOF' >> .preview-dist/.htaccess
+
+          <IfModule mod_headers.c>
+              Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+          </IfModule>
+          EOF
+
+      - name: Deploy preview folder via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.XSERVER_HOST }}
+          username: ${{ secrets.XSERVER_USERNAME }}
+          password: ${{ secrets.XSERVER_PASSWORD }}
+          protocol: ftps
+          local-dir: .preview-dist/
+          server-dir: public_html/preview/
+          exclude: |
+            videos/**/*.mp4
+            videos/**/*.webm
