@@ -1,6 +1,6 @@
 ---
 import logo from "../assets/images/CompanyLogo.webp";
-import livaponLogo from "../assets/images/LIVAPON_logo_horizontal_350x.png";
+import livaponLogo from "../assets/images/livapon_logo_white.png";
 import { site } from "../data/site";
 import { withBase } from "../lib/links";
 
@@ -11,7 +11,7 @@ const base = import.meta.env.BASE_URL;
   <div class="site-shell site-footer__inner">
     <div class="site-footer__brand">
       <a href={withBase("/", base)} class="site-footer__logo">
-        <img src={logo.src} alt={site.name} width="220" height={logo.height} loading="lazy" />
+        <img src={logo.src} alt={site.name} width={logo.width} height={logo.height} loading="lazy" />
       </a>
       <p>
         日本の文化・技・商品価値を、
@@ -35,7 +35,7 @@ const base = import.meta.env.BASE_URL;
         <ul>
           <li>
             <a href={withBase("/livapon/", base)}>
-              <img src={livaponLogo.src} alt="LIVAPON" width="158" height={Math.round((livaponLogo.height / livaponLogo.width) * 158)} loading="lazy" />
+              <img src={livaponLogo.src} alt="LIVAPON" width={livaponLogo.width} height={livaponLogo.height} loading="lazy" class="site-footer__service-logo" />
             </a>
           </li>
           <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">SNS運用・映像制作</a></li>

@@ -10,7 +10,7 @@ const base = import.meta.env.BASE_URL;
 <header class="site-header" data-header>
   <div class="site-shell site-header__inner">
     <a class="site-header__brand" href={withBase("/", base)} aria-label={`${site.name} のホームへ`}>
-      <img src={logo.src} alt={site.name} width="240" height={logo.height} loading="eager" />
+      <img src={logo.src} alt={site.name} width={logo.width} height={logo.height} loading="eager" />
     </a>
 
     <button

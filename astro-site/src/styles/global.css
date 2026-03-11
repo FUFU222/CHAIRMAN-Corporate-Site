@@ -133,6 +133,12 @@ main {
   width: min(100%, 240px);
 }
 
+.site-header__brand img,
+.site-footer__logo img {
+  width: 100%;
+  height: auto;
+}
+
 .site-header__nav {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -1182,6 +1188,15 @@ p {
   color: rgba(255, 255, 255, 0.62);
 }
 
+.site-footer__logo {
+  width: min(100%, 220px);
+}
+
+.site-footer__service-logo {
+  width: min(100%, 158px);
+  height: auto;
+}
+
 .site-footer__nav {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1335,7 +1350,8 @@ body.page-home .hero__figure {
 
 body.page-home .hero__figure img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: auto;
+  height: auto;
   object-fit: cover;
 }
 
@@ -1480,7 +1496,8 @@ body.page-home .business-row__media {
 
 body.page-home .business-row__media img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: auto;
+  height: auto;
   object-fit: cover;
 }
 
@@ -1555,7 +1572,8 @@ body.page-home .founder-note .button--secondary {
 
   body.page-home .hero__figure img,
   body.page-home .business-row__media img {
-    aspect-ratio: 5 / 4;
+    aspect-ratio: auto;
+    height: auto;
   }
 
   body.page-home .business-row {
