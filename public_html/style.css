@@ -5454,3 +5454,915 @@ iframe {
     padding: 28px 24px;
   }
 }
+
+/* ============================================
+   Halmek-inspired Home Refresh
+   ============================================ */
+body.home {
+  background: #f6f1e8;
+  color: #1d1b17;
+}
+
+body.home .header-container {
+  padding: 18px 24px;
+  background: rgba(248, 245, 238, 0.9);
+  border-bottom: 1px solid rgba(80, 67, 49, 0.08);
+  box-shadow: 0 12px 32px rgba(34, 28, 20, 0.05);
+}
+
+body.home .header-container::before {
+  opacity: 0.38;
+}
+
+body.home #header.is-scrolled .header-container {
+  background: rgba(252, 249, 244, 0.96);
+  box-shadow: 0 16px 32px rgba(34, 28, 20, 0.08);
+}
+
+body.home .header-menu li a {
+  color: #2d261d;
+  letter-spacing: 0.12em;
+}
+
+body.home .header-menu li a::after {
+  background: #bb8d3b;
+}
+
+body.home .openbtn7 span {
+  background-color: #2d261d;
+}
+
+body.home #hero-section {
+  min-height: 0;
+  padding: 118px 20px 72px;
+  align-items: stretch;
+  justify-content: stretch;
+  background: transparent;
+}
+
+body.home #hero-section .hero-layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(420px, 0.96fr);
+  gap: clamp(32px, 4vw, 56px);
+  align-items: end;
+}
+
+body.home #hero-section .hero-copy {
+  position: static;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  display: block;
+}
+
+body.home .hero-kicker {
+  margin: 0 0 18px;
+  color: #bb8d3b;
+  font-family: "Oswald", sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+body.home #hero-section h1 {
+  margin: 0;
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(2.65rem, 5.2vw, 5.1rem);
+  font-weight: 700;
+  line-height: 1.34;
+  letter-spacing: 0.06em;
+}
+
+body.home .hero-lead {
+  margin: 28px 0 0;
+  max-width: 34em;
+  color: #5e5547;
+  font-size: 1.02rem;
+  line-height: 2;
+}
+
+body.home .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  margin-top: 34px;
+}
+
+body.home .hero-action-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid rgba(48, 40, 29, 0.16);
+  background: #fffdf8;
+  color: #1d1b17;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+body.home .hero-action-link.is-secondary {
+  background: transparent;
+}
+
+body.home .hero-action-link:hover,
+body.home .hero-action-link:focus-visible {
+  background: #1d1b17;
+  border-color: #1d1b17;
+  color: #fffdf8;
+}
+
+body.home .hero-stats {
+  margin: 34px 0 0;
+  padding-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  border-top: 1px solid rgba(79, 66, 48, 0.16);
+}
+
+body.home .hero-stat {
+  display: grid;
+  gap: 6px;
+}
+
+body.home .hero-stat dt {
+  color: #bb8d3b;
+  font-family: "Oswald", sans-serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+body.home .hero-stat dd {
+  margin: 0;
+  color: #1d1b17;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+body.home .hero-visual {
+  position: relative;
+  min-height: 680px;
+}
+
+body.home #hero-section .hero-bg-area {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 32px;
+}
+
+body.home #hero-section .hero-image-shell {
+  position: absolute;
+  inset: 0;
+}
+
+body.home #hero-section .hero-image {
+  filter: saturate(0.86) sepia(0.15) brightness(0.8) contrast(1.03);
+}
+
+body.home #hero-section .hero-bg-area:after {
+  background:
+    linear-gradient(180deg, rgba(24, 22, 18, 0.16) 0%, rgba(24, 22, 18, 0.56) 100%),
+    linear-gradient(120deg, rgba(194, 154, 73, 0.4) 0%, rgba(27, 24, 20, 0.22) 72%);
+}
+
+body.home .hero-brand-panel {
+  position: relative;
+  z-index: 2;
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(28px, 5vw, 44px);
+}
+
+body.home #hero-section .Company-name {
+  width: min(100%, 520px);
+}
+
+body.home #hero-section .company-description {
+  margin: 18px 0 0;
+  max-width: 22em;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.8;
+}
+
+body.home :is(#service, #team, #capabilities, #news, #company) .title-container {
+  height: auto;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px 42px;
+}
+
+body.home :is(#service, #team, #capabilities, #news, #company) .title-container :is(h2, h4, p) {
+  margin-left: 0;
+}
+
+body.home :is(#service, #team, #capabilities, #news, #company) .title-container h2 {
+  opacity: 1;
+  margin: 0 0 14px;
+  color: #bb8d3b;
+  font-family: "Oswald", sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+body.home :is(#service, #team, #capabilities, #news, #company) .title-container h4 {
+  opacity: 1;
+  margin: 0;
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+}
+
+body.home :is(#service, #team, #capabilities, #news, #company) .title-container p {
+  margin: 18px 0 0;
+  max-width: 44em;
+  color: #5e5547;
+  font-size: 1rem;
+  line-height: 1.95;
+}
+
+body.home .bridge-section {
+  padding: 92px 0 104px;
+  background: #f6f1e8;
+}
+
+body.home .bridge-shell {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+  gap: 52px;
+  align-items: start;
+}
+
+body.home .bridge-copy {
+  max-width: none;
+}
+
+body.home .bridge-kicker {
+  margin: 0 0 14px;
+  color: #bb8d3b;
+  font-size: 0.8rem;
+  letter-spacing: 0.26em;
+}
+
+body.home .bridge-copy h2 {
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(2rem, 3.6vw, 3.15rem);
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+}
+
+body.home .bridge-description {
+  margin-top: 22px;
+  max-width: 38em;
+  color: #5e5547;
+  font-size: 1rem;
+  line-height: 2;
+}
+
+body.home .bridge-trust-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(79, 66, 48, 0.16);
+}
+
+body.home .bridge-trust-card {
+  padding: 24px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(79, 66, 48, 0.16);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.home .bridge-trust-label,
+body.home .capability-index,
+body.home .latest-news-title h3,
+body.home .founder-note-kicker {
+  color: #bb8d3b;
+}
+
+body.home .bridge-trust-value {
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: 1.34rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+body.home .bridge-trust-text {
+  color: #6c6459;
+  font-size: 0.96rem;
+  line-height: 1.9;
+}
+
+body.home #service {
+  padding: 112px 0;
+  background: #fffdf8;
+}
+
+body.home #service .card-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 0 20px;
+}
+
+body.home #service .card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 44%);
+  grid-template-areas:
+    "meta media"
+    "content media"
+    "link media";
+  gap: 24px 48px;
+  padding: 38px 0;
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: rgba(79, 66, 48, 0.14);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.home #service .card + .card {
+  border-top-width: 0;
+}
+
+body.home #service .card:nth-child(even) {
+  grid-template-columns: minmax(360px, 44%) minmax(0, 1fr);
+  grid-template-areas:
+    "media meta"
+    "media content"
+    "media link";
+}
+
+body.home #service .card:hover,
+body.home #service .card:focus-visible {
+  transform: none;
+  box-shadow: none;
+}
+
+body.home #service .card h3 {
+  grid-area: meta;
+  margin: 0;
+  align-self: end;
+  color: #bb8d3b;
+  font-size: 0.8rem;
+  letter-spacing: 0.26em;
+}
+
+body.home #service .card-media {
+  grid-area: media;
+  min-height: 320px;
+  aspect-ratio: auto;
+  border-radius: 24px;
+  background: #efe8dc;
+}
+
+body.home #service .card-content {
+  grid-area: content;
+  align-self: start;
+  padding: 0;
+  gap: 14px;
+}
+
+body.home #service .card-content h5 {
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(1.55rem, 2.6vw, 2.28rem);
+  line-height: 1.58;
+}
+
+body.home #service .card-content p {
+  color: #5e5547;
+  font-size: 1rem;
+  line-height: 1.95;
+  max-width: 30em;
+}
+
+body.home #service .platform-icons {
+  left: 16px;
+  bottom: 16px;
+  padding: 8px 10px;
+  border: 1px solid rgba(79, 66, 48, 0.14);
+  background: rgba(255, 253, 248, 0.92);
+  box-shadow: none;
+}
+
+body.home #service .card-link-indicator {
+  grid-area: link;
+  width: fit-content;
+  margin-top: 4px;
+  padding: 0 0 6px;
+  border-top: 0;
+  border-bottom: 1px solid rgba(187, 141, 59, 0.6);
+  color: #1d1b17;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+body.home #service .card-link-arrow {
+  font-size: 1rem;
+}
+
+body.home #team {
+  padding: 0 0 112px;
+  background: #f6f1e8;
+}
+
+body.home .team-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 54px 24px;
+  min-height: 420px;
+  border-top: 1px solid rgba(79, 66, 48, 0.14);
+  border-bottom: 1px solid rgba(79, 66, 48, 0.14);
+  background-image:
+    linear-gradient(90deg, rgba(255, 252, 246, 0.96) 0%, rgba(255, 252, 246, 0.92) 48%, rgba(255, 252, 246, 0.28) 72%),
+    url("./images/team-image.jpg");
+  background-size: cover;
+  background-position: center right;
+  display: grid;
+  align-content: center;
+}
+
+body.home .team-container::before {
+  display: none;
+}
+
+body.home .team-container .title-container {
+  margin: 0 0 28px;
+  padding: 0;
+  max-width: 560px;
+}
+
+body.home .team-container .text-background {
+  display: inline;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.home .team-images-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+body.home .team-images-container button,
+body.home .more-news-link button {
+  margin: 0;
+  padding: 0 0 6px;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(187, 141, 59, 0.6);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.home .team-images-container button span,
+body.home .more-news-link button span,
+body.home .more-news-link .load-more-button {
+  color: #1d1b17;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body.home .team-images-container a:hover button,
+body.home .more-news-link a:hover button,
+body.home .more-news-link .load-more-button:hover {
+  background: transparent;
+  border-color: #1d1b17;
+  color: #1d1b17;
+  box-shadow: none;
+}
+
+body.home .capabilities-section {
+  padding: 112px 0;
+  background: #fffdf8;
+}
+
+body.home .capability-grid {
+  padding: 0 20px;
+  gap: 0 44px;
+}
+
+body.home .capability-card {
+  padding: 28px 0 30px;
+  border: 0;
+  border-top: 1px solid rgba(79, 66, 48, 0.14);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.home .capability-card h3 {
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: 1.32rem;
+  line-height: 1.65;
+}
+
+body.home .capability-card p:last-child,
+body.home .capability-footer p {
+  color: #5e5547;
+  line-height: 1.92;
+}
+
+body.home .capability-footer {
+  margin-top: 28px;
+}
+
+body.home #news {
+  padding: 112px 0;
+  background: #f6f1e8;
+}
+
+body.home .news-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+body.home .latest-news-title {
+  display: none;
+}
+
+body.home .latest-news-list {
+  margin-top: 0;
+}
+
+body.home #news .news-list .news-item {
+  max-width: none;
+  border: 0;
+  border-top: 1px solid rgba(79, 66, 48, 0.14);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+body.home #news .news-list .news-item:last-child {
+  border-bottom: 1px solid rgba(79, 66, 48, 0.14);
+}
+
+body.home #news .news-list .news-item a {
+  display: grid;
+  grid-template-columns: 220px 150px minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  padding: 28px 0;
+}
+
+body.home #news .news-list .news-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+body.home #news .news-list .news-title {
+  margin: 0;
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: 1.2rem;
+  line-height: 1.65;
+}
+
+body.home #news .news-list .news-title a {
+  color: inherit;
+}
+
+body.home #news .news-list .news-item .news-date {
+  color: #bb8d3b;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+}
+
+body.home #news .news-list .news-item .news-summary {
+  grid-column: 2 / 4;
+  margin-top: -6px;
+  color: #5e5547;
+  font-size: 0.95rem;
+  line-height: 1.88;
+  max-width: 42em;
+}
+
+body.home #company {
+  padding: 112px 0;
+  background: #fffdf8;
+}
+
+body.home .company-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+body.home .company-header .title-container {
+  padding: 0 0 40px;
+}
+
+body.home .company-content {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.88fr) minmax(0, 1.12fr);
+  gap: 40px;
+  align-items: start;
+  padding-top: 28px;
+  border-top: 1px solid rgba(79, 66, 48, 0.14);
+}
+
+body.home .company-logo-section {
+  padding: 34px;
+  border-radius: 30px;
+  background: #f2ebdf;
+}
+
+body.home .company-logo-container {
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+body.home .company-info-grid,
+body.home .additional-info {
+  display: grid;
+  gap: 0;
+}
+
+body.home .info-item {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 18px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(79, 66, 48, 0.14);
+}
+
+body.home .company-info-grid .info-item:first-child {
+  border-top: 0;
+}
+
+body.home .additional-info {
+  margin-top: 18px;
+}
+
+body.home .info-label {
+  color: #bb8d3b;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+body.home .info-value {
+  color: #1d1b17;
+  line-height: 1.88;
+}
+
+body.home .founder-note-section {
+  padding: 0 20px 112px;
+  background: #fffdf8;
+}
+
+body.home .founder-note-shell {
+  padding: 34px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(79, 66, 48, 0.14);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.home .founder-note-copy h2 {
+  color: #1d1b17;
+  font-family: "Noto Serif JP", serif;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 1.55;
+}
+
+body.home .founder-note-copy p:last-child {
+  color: #5e5547;
+}
+
+body.home .founder-note-status {
+  min-height: 0;
+  padding: 0 0 6px;
+  border: 0;
+  border-bottom: 1px solid rgba(187, 141, 59, 0.6);
+  border-radius: 0;
+  color: #1d1b17;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+body.home .footer-container {
+  background: #1d1b17;
+}
+
+@media (max-width: 1100px) {
+  body.home #hero-section .hero-layout,
+  body.home .bridge-shell,
+  body.home .company-content {
+    grid-template-columns: 1fr;
+  }
+
+  body.home .hero-visual,
+  body.home .hero-brand-panel {
+    min-height: 560px;
+  }
+
+  body.home #service .card,
+  body.home #service .card:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 42%);
+  }
+
+  body.home #news .news-list .news-item a {
+    grid-template-columns: 180px 120px minmax(0, 1fr);
+  }
+
+  body.home .team-container {
+    background-image:
+      linear-gradient(180deg, rgba(255, 252, 246, 0.94) 0%, rgba(255, 252, 246, 0.82) 56%, rgba(255, 252, 246, 0.4) 100%),
+      url("./images/team-image.jpg");
+    background-position: center;
+  }
+}
+
+@media (max-width: 768px) {
+  body.home .header-container {
+    padding: 14px 16px;
+  }
+
+  body.home #hero-section {
+    padding: 102px 16px 56px;
+  }
+
+  body.home #hero-section .hero-layout {
+    gap: 26px;
+  }
+
+  body.home #hero-section h1 {
+    font-size: clamp(2.1rem, 9vw, 3rem);
+    line-height: 1.45;
+  }
+
+  body.home .hero-lead {
+    font-size: 0.96rem;
+  }
+
+  body.home .hero-actions {
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  body.home .hero-action-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  body.home .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  body.home .hero-visual,
+  body.home .hero-brand-panel {
+    min-height: 420px;
+  }
+
+  body.home #hero-section .hero-bg-area {
+    border-radius: 22px;
+  }
+
+  body.home :is(#service, #team, #capabilities, #news, #company) .title-container {
+    padding: 0 16px 34px;
+  }
+
+  body.home :is(#service, #team, #capabilities, #news, #company) .title-container h4 {
+    font-size: clamp(1.7rem, 8vw, 2.3rem);
+  }
+
+  body.home .bridge-section,
+  body.home #service,
+  body.home #team,
+  body.home .capabilities-section,
+  body.home #news,
+  body.home #company,
+  body.home .founder-note-section {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  body.home .bridge-section {
+    padding-top: 72px;
+    padding-bottom: 80px;
+  }
+
+  body.home .bridge-shell {
+    padding: 0 16px;
+    gap: 34px;
+  }
+
+  body.home #service .card-grid,
+  body.home .capability-grid,
+  body.home .news-container,
+  body.home .company-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  body.home #service .card,
+  body.home #service .card:nth-child(even) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "meta"
+      "content"
+      "link"
+      "media";
+    gap: 18px;
+    padding: 28px 0;
+  }
+
+  body.home #service .card-media {
+    min-height: 240px;
+  }
+
+  body.home .team-container {
+    padding: 40px 16px;
+    min-height: 380px;
+  }
+
+  body.home .capability-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  body.home #news .news-list .news-item a {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 22px 0;
+  }
+
+  body.home #news .news-list .news-image-wrapper {
+    max-width: 180px;
+  }
+
+  body.home #news .news-list .news-item .news-summary {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  body.home .company-content {
+    gap: 28px;
+  }
+
+  body.home .company-logo-section {
+    padding: 24px;
+  }
+
+  body.home .info-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  body.home .founder-note-section {
+    padding: 0 16px 88px;
+  }
+
+  body.home .founder-note-shell {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  body.home .founder-note-actions {
+    justify-content: flex-start;
+  }
+}
