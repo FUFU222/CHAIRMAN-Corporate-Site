@@ -5532,7 +5532,7 @@ body.home .about-chairman-role h3,
 body.home .service-row-head h3,
 body.home .founder-note-copy h2 {
   color: var(--home-text);
-  font-family: "Noto Serif JP", serif;
+  font-family: "Zen Kaku Gothic New", sans-serif;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
@@ -5782,7 +5782,7 @@ body.home #news .news-list .news-title {
   grid-area: title;
   margin: 0;
   color: var(--home-text);
-  font-family: "Noto Serif JP", serif;
+  font-family: "Zen Kaku Gothic New", sans-serif;
   font-size: 1.18rem;
   line-height: 1.6;
 }

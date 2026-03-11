@@ -12,7 +12,7 @@
 - Hero is text only: mission statement, short lead, two restrained actions
 - Avoid dark startup-style fullscreen hero copy or aggressive CTA treatment
 - English section labels stay small and quiet
-- Japanese headings use `Noto Serif JP`
+- Japanese headings use `Zen Kaku Gothic New`
 - Body copy stays in `Zen Kaku Gothic New`
 - Sections must not repeat the same message:
   - Hero = 主語
