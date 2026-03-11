@@ -27,6 +27,7 @@
 ## Visual Tokens
 
 - Background base: white
+- Surface whites should stay very close to `#ffffff`
 - Accent: wine red `#8d0820`
 - Secondary accent: muted gold `#b68a3a`
 - Primary text: dark gray-brown

@@ -5461,9 +5461,8 @@ iframe {
 body.home {
   --home-accent: #8d0820;
   --home-accent-strong: #680616;
-  --home-accent-soft: #f5e3e8;
+  --home-accent-soft: #fffafb;
   --home-gold: #b68a3a;
-  --home-gold-soft: #f5ecdd;
   --home-text: #201a1b;
   --home-muted: #6f6164;
   --home-line: rgba(141, 8, 32, 0.16);
@@ -5474,7 +5473,7 @@ body.home {
 
 body.home .header-container {
   padding: 18px 24px;
-  background: rgba(255, 255, 255, 0.94);
+  background: #ffffff;
   border-bottom: 1px solid var(--home-line);
   box-shadow: 0 8px 24px rgba(50, 30, 35, 0.04);
 }
@@ -5484,7 +5483,7 @@ body.home .header-container::before {
 }
 
 body.home #header.is-scrolled .header-container {
-  background: rgba(255, 255, 255, 0.98);
+  background: #ffffff;
   box-shadow: 0 12px 28px rgba(50, 30, 35, 0.08);
 }
 
