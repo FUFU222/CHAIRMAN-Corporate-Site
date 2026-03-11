@@ -269,7 +269,6 @@ p {
 }
 
 .section-heading__eyebrow,
-.hero__eyebrow,
 .article__meta span:last-child,
 .officer-card__role,
 .news-archive__meta span,
@@ -1348,12 +1347,6 @@ body.page-home .hero__copy {
   gap: 26px;
   align-content: center;
   max-width: 36rem;
-}
-
-body.page-home .hero__eyebrow {
-  color: #8b8184;
-  font-size: 0.68rem;
-  letter-spacing: 0.28em;
 }
 
 body.page-home .hero__copy h1 {
