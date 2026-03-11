@@ -67,10 +67,13 @@ const revealItems = document.querySelectorAll("[data-reveal]");
 if (prefersReducedMotion) {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 } else if ("IntersectionObserver" in window) {
+  revealItems.forEach((item) => item.classList.add("is-awaiting-reveal"));
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          entry.target.classList.remove("is-awaiting-reveal");
           entry.target.classList.add("is-visible");
           observer.unobserve(entry.target);
         }

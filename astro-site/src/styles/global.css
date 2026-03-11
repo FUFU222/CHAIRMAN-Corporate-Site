@@ -284,6 +284,11 @@ p {
 }
 
 [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal].is-awaiting-reveal {
   opacity: 0;
   transform: translate3d(0, 22px, 0);
   transition: opacity 520ms ease, transform 520ms ease;
@@ -1425,6 +1430,11 @@ p {
   }
 
   [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-reveal].is-awaiting-reveal {
     opacity: 1;
     transform: none;
   }
