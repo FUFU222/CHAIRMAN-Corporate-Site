@@ -90,8 +90,8 @@ const schema = [
         intro="LIVAPONを軸に、発信、販売、運営の各機能を一体で実装しています。"
       />
       <div class="business-stack">
-        {businesses.map((business) => (
-          <article class="business-row" data-reveal>
+        {businesses.map((business, index) => (
+          <article class={`business-row ${index % 2 ? "business-row--reverse" : ""}`} data-reveal>
             <div class="business-row__media">
               <img
                 src={business.image.src}
