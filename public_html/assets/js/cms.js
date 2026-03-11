@@ -403,17 +403,6 @@ function createHomeArticleItem(content) {
   const link = document.createElement("a");
   link.href = buildNewsDetailUrl(content.id);
 
-  const imgWrapper = document.createElement("div");
-  imgWrapper.classList.add("news-image-wrapper");
-
-  const img = document.createElement("img");
-  img.classList.add("news-image");
-  img.src = getSafeUrl(content.eyecatch?.url, DEFAULT_NEWS_IMAGE);
-  img.alt = content.title || "";
-
-  imgWrapper.appendChild(img);
-  link.appendChild(imgWrapper);
-
   const date = document.createElement("div");
   date.classList.add("news-date");
   date.textContent = formatDate(content.publishedAt);
