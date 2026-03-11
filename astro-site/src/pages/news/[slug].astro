@@ -115,16 +115,22 @@ const schema = {
     </div>
   </article>
 
-  <section class="page-section">
-    <div class="site-shell related-section">
-      <div data-reveal>
-        <SectionHeading eyebrow="RELATED" title="関連記事" />
-        <NewsList articles={relatedArticles} variant="stack" />
+  {(relatedArticles.length > 0 || latestArticles.length > 0) && (
+    <section class="page-section">
+      <div class="site-shell related-section">
+        {relatedArticles.length > 0 && (
+          <div data-reveal>
+            <SectionHeading eyebrow="RELATED" title="関連記事" />
+            <NewsList articles={relatedArticles} variant="stack" />
+          </div>
+        )}
+        {latestArticles.length > 0 && (
+          <div data-reveal>
+            <SectionHeading eyebrow="LATEST" title="新着記事" />
+            <NewsList articles={latestArticles} variant="stack" />
+          </div>
+        )}
       </div>
-      <div data-reveal>
-        <SectionHeading eyebrow="LATEST" title="新着記事" />
-        <NewsList articles={latestArticles} variant="stack" />
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 </BaseLayout>
