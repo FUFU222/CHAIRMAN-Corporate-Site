@@ -312,6 +312,41 @@ p {
   padding: clamp(88px, 12vw, 148px) 0;
 }
 
+.page-section--outline {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.page-section--outline > .site-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.page-section--outline::before {
+  content: attr(data-outline-word);
+  position: absolute;
+  top: clamp(16px, 2.4vw, 28px);
+  left: clamp(-72px, -4vw, -24px);
+  z-index: 0;
+  color: transparent;
+  font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size: clamp(6rem, 22vw, 18rem);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.08em;
+  white-space: nowrap;
+  opacity: 0.8;
+  pointer-events: none;
+  user-select: none;
+  -webkit-text-stroke: 1px rgba(141, 8, 32, 0.12);
+}
+
+.page-section--outline-right::before {
+  left: auto;
+  right: clamp(-48px, -2vw, 0px);
+}
+
 .page-section--tone {
   background: linear-gradient(180deg, rgba(248, 238, 241, 0.35), rgba(255, 255, 255, 0));
 }
@@ -1418,6 +1453,23 @@ body.page-home .page-section--tone {
   background: #faf9f9;
 }
 
+body.page-home .page-section--outline::before {
+  top: clamp(22px, 3vw, 44px);
+  font-size: clamp(6.8rem, 24vw, 19rem);
+  -webkit-text-stroke: 1px rgba(141, 8, 32, 0.11);
+}
+
+body.page-home .page-section--about.page-section--outline::before {
+  left: clamp(-94px, -5vw, -28px);
+}
+
+body.page-home .page-section--tone.page-section--outline::before {
+  top: clamp(28px, 3vw, 46px);
+  right: clamp(-62px, -3vw, -8px);
+  font-size: clamp(5.8rem, 20vw, 15rem);
+  -webkit-text-stroke: 1px rgba(141, 8, 32, 0.09);
+}
+
 body.page-home .page-section--company {
   border-top: 0;
   border-bottom: 0;
@@ -1667,6 +1719,15 @@ body.page-home .founder-note .button--secondary {
     padding: clamp(26px, 4.6vw, 38px) 0;
   }
 
+  body.page-home .page-section--outline::before {
+    top: 22px;
+    font-size: clamp(5.6rem, 22vw, 11rem);
+  }
+
+  body.page-home .page-section--tone.page-section--outline::before {
+    font-size: clamp(5rem, 18vw, 9rem);
+  }
+
   body.page-home .home-about {
     grid-template-columns: 1fr;
     gap: 38px;
@@ -1847,6 +1908,19 @@ body.page-home .founder-note .button--secondary {
     padding: 24px 0;
   }
 
+  body.page-home .page-section--outline::before {
+    top: 18px;
+    left: -18px;
+    font-size: clamp(4.8rem, 24vw, 8rem);
+    -webkit-text-stroke: 1px rgba(141, 8, 32, 0.1);
+  }
+
+  body.page-home .page-section--tone.page-section--outline::before {
+    left: auto;
+    right: -16px;
+    font-size: clamp(4.2rem, 20vw, 7rem);
+  }
+
   body.page-home .hero__inner {
     grid-template-columns: 1fr;
     gap: 26px;
@@ -1933,6 +2007,11 @@ body.page-home .founder-note .button--secondary {
   body.page-home .page-section--about {
     min-height: var(--home-viewport-section-height);
     padding: 20px 0 28px;
+  }
+
+  body.page-home .page-section--outline::before {
+    top: 12px;
+    font-size: clamp(3.8rem, 22vw, 6rem);
   }
 
   body.page-home .hero__figure {
