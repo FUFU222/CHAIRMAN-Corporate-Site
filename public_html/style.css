@@ -5459,13 +5459,15 @@ iframe {
    Home White Editorial Refresh
    ============================================ */
 body.home {
-  --home-accent: #7b2736;
-  --home-accent-strong: #5e1d29;
-  --home-accent-soft: #efe3e6;
+  --home-accent: #8d0820;
+  --home-accent-strong: #680616;
+  --home-accent-soft: #f5e3e8;
+  --home-gold: #b68a3a;
+  --home-gold-soft: #f5ecdd;
   --home-text: #201a1b;
   --home-muted: #6f6164;
-  --home-line: rgba(123, 39, 54, 0.16);
-  --home-line-strong: rgba(123, 39, 54, 0.26);
+  --home-line: rgba(141, 8, 32, 0.16);
+  --home-line-strong: rgba(141, 8, 32, 0.3);
   background: #ffffff;
   color: var(--home-text);
 }
@@ -5592,9 +5594,9 @@ body.home .hero-action-link {
   justify-content: center;
   min-height: 48px;
   padding: 0 22px;
-  border: 1px solid var(--home-line-strong);
-  color: var(--home-text);
-  background: #ffffff;
+  border: 1px solid var(--home-accent);
+  color: #ffffff;
+  background: var(--home-accent);
   font-size: 0.84rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -5606,13 +5608,14 @@ body.home .hero-action-link {
 }
 
 body.home .hero-action-link.is-secondary {
+  color: var(--home-accent);
   background: var(--home-accent-soft);
 }
 
 body.home .hero-action-link:hover,
 body.home .hero-action-link:focus-visible {
-  background: var(--home-accent);
-  border-color: var(--home-accent);
+  background: var(--home-accent-strong);
+  border-color: var(--home-accent-strong);
   color: #ffffff;
 }
 
@@ -5645,8 +5648,8 @@ body.home .about-chairman-lead {
 body.home .about-chairman-footnote {
   margin: 26px 0 0;
   padding-top: 20px;
-  border-top: 1px solid var(--home-line);
-  color: var(--home-accent);
+  border-top: 1px solid rgba(182, 138, 58, 0.28);
+  color: var(--home-gold);
   font-size: 0.9rem;
   line-height: 1.85;
 }
@@ -5710,7 +5713,7 @@ body.home .more-news-link a {
   width: fit-content;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--home-accent);
-  color: var(--home-text);
+  color: var(--home-accent);
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -5866,6 +5869,10 @@ body.home .founder-note-copy {
   border-top: 1px solid var(--home-line);
 }
 
+body.home .founder-note-kicker {
+  color: var(--home-gold);
+}
+
 body.home .founder-note-copy h2 {
   margin: 12px 0 0;
   font-size: clamp(1.7rem, 3vw, 2.45rem);
@@ -5896,7 +5903,7 @@ body.home .footer-bottom .copyright {
 }
 
 body.home .footer-section ul li a::after {
-  background: #c75c74;
+  background: var(--home-gold);
 }
 
 @media (max-width: 900px) {

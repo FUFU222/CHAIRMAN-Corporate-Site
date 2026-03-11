@@ -27,7 +27,8 @@
 ## Visual Tokens
 
 - Background base: white
-- Accent: burgundy / wine red
+- Accent: wine red `#8d0820`
+- Secondary accent: muted gold `#b68a3a`
 - Primary text: dark gray-brown
 - Borders: thin warm burgundy-gray lines
 - Shadows: minimal
