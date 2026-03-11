@@ -14,7 +14,7 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <section class="hero">
-  <div class="site-shell hero__inner">
+  <div class="site-shell site-shell--wide hero__inner">
     <div class="hero__copy" data-reveal>
       <p class="hero__eyebrow">CORPORATE SITE</p>
       <h1 set:html={title}></h1>
@@ -36,7 +36,7 @@ const base = import.meta.env.BASE_URL;
           alt={imageAlt}
           width={image.width}
           height={image.height}
-          sizes="(max-width: 960px) 100vw, 40vw"
+          sizes="(max-width: 820px) 100vw, 56vw"
           loading="eager"
           fetchpriority="high"
         />
