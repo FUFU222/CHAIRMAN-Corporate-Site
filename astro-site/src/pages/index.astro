@@ -138,20 +138,28 @@ const schema = [
     </div>
   </section>
 
-  <section class="page-section">
+  <section class="page-section" id="representative-note">
     <div class="site-shell founder-note">
       <div data-reveal>
-        <p class="section-heading__eyebrow">CSO'S NOTE</p>
-        <h2>三倉信人の視点</h2>
-        <p>
-          日本の価値をどう市場へ接続し、どう事業として前へ進めるか。
-          三倉信人の note から、CHAIRMANの視点を継続的に発信しています。
-        </p>
+        <p class="section-heading__eyebrow">REPRESENTATIVE'S NOTE</p>
+        <h2>{site.representativeNote.title}</h2>
+        <p>{site.representativeNote.description}</p>
       </div>
       <div class="founder-note__actions" data-reveal>
-        <a class="button button--secondary" href={site.noteUrl} target="_blank" rel="noopener">
-          noteを読む
-        </a>
+        {site.representativeNote.href ? (
+          <a
+            class="button button--secondary"
+            href={site.representativeNote.href}
+            target="_blank"
+            rel="noopener"
+          >
+            noteを読む
+          </a>
+        ) : (
+          <span class="status-chip" aria-label="代表の備忘録は公開準備中です">
+            {site.representativeNote.statusLabel}
+          </span>
+        )}
       </div>
     </div>
   </section>

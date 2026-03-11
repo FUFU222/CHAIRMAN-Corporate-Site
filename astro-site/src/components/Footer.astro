@@ -45,7 +45,15 @@ const base = import.meta.env.BASE_URL;
       <section>
         <h2>知る</h2>
         <ul>
-          <li><a href={site.noteUrl} target="_blank" rel="noopener">三倉信人のnote</a></li>
+          <li>
+            <a
+              href={site.representativeNote.href || withBase("/#representative-note", base)}
+              target={site.representativeNote.href ? "_blank" : undefined}
+              rel={site.representativeNote.href ? "noopener" : undefined}
+            >
+              代表の備忘録
+            </a>
+          </li>
           <li><a href="https://sell.livapon.com/" target="_blank" rel="noopener">LIVAPON サービスサイト</a></li>
         </ul>
       </section>

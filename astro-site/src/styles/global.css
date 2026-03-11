@@ -590,6 +590,17 @@ p {
   align-items: center;
 }
 
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 11px 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  background: #fff;
+}
+
 .page-hero {
   padding: clamp(58px, 9vw, 110px) 0 clamp(54px, 8vw, 76px);
 }

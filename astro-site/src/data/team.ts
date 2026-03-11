@@ -42,8 +42,7 @@ export const officers: Officer[] = [
     details: [
       "ソフトバンクグループで営業、社長室、新規事業開発を経験後に独立。",
       "大企業から地方企業、官公庁まで横断して、事業戦略と組織づくりを支援しています。"
-    ],
-    noteUrl: "https://note.com/n_mikura"
+    ]
   }
 ];
 
