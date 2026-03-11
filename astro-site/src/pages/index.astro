@@ -44,16 +44,18 @@ const schema = [
     imageAlt="日本の価値を市場へつなぐ事業イメージ"
   />
 
-  <section class="page-section">
-    <div class="site-shell">
-      <SectionHeading
-        eyebrow="ABOUT CHAIRMAN"
-        title="価値の発見から、需要への接続まで。"
-        intro="地域や日本の価値を見つけ、伝わるかたちに整え、国内外の市場へつなぐ。その一連の設計を、事業として担います。"
-      />
-      <p class="section-note" data-reveal>
-        Japan Festival CANADA 2026 公式スポンサーとして参画予定。地域性と国際性の両方に接続する実装を進めています。
-      </p>
+  <section class="page-section page-section--about">
+    <div class="site-shell home-about">
+      <div class="home-about__intro">
+        <SectionHeading
+          eyebrow="ABOUT CHAIRMAN"
+          title="価値の発見から、需要への接続まで。"
+          intro="地域や日本の価値を見つけ、伝わるかたちに整え、国内外の市場へつなぐ。その一連の設計を、事業として担います。"
+        />
+        <p class="section-note" data-reveal>
+          Japan Festival CANADA 2026 公式スポンサーとして参画予定。地域性と国際性の両方に接続する実装を進めています。
+        </p>
+      </div>
       <div class="role-grid">
         {homeRoles.map((role) => (
           <article class="role-card" data-reveal>
