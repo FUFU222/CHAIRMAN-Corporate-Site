@@ -3,7 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import NewsList from "../components/NewsList.astro";
-import heroImage from "../assets/images/service_livapon_card.webp";
+import heroLivaponImage from "../assets/images/service_livapon_card.webp";
+import heroSnsImage from "../assets/images/service_sns_card.webp";
+import heroKosolifeImage from "../assets/images/service_kosolife.webp";
 import { businesses, companyFacts, homeRoles, site } from "../data/site";
 import { withBase } from "../lib/links";
 import { getLatestNews, getNewsArticles } from "../lib/microcms";
@@ -42,8 +44,11 @@ const schema = [
       "<span class='hero__title-line'>日本の価値を、</span><span class='hero__title-line hero__title-line--nowrap'>地域から市場へ。</span>"
     }
     lead="CHAIRMANは、自治体、地域事業者、ブランドとともに、日本の文化・技・商品価値を国内外の市場へ接続する事業会社です。"
-    image={heroImage}
-    imageAlt="日本の価値を市場へつなぐ事業イメージ"
+    slides={[
+      { image: heroLivaponImage, alt: "日本の価値を市場へつなぐ事業イメージ" },
+      { image: heroSnsImage },
+      { image: heroKosolifeImage }
+    ]}
   />
 
   <section
