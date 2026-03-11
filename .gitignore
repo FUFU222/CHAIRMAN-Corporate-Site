@@ -29,3 +29,5 @@ npm-debug.log*
 # ビルド成果物
 dist/
 build/
+.astro/
+astro-site/.astro/

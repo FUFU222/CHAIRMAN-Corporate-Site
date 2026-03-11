@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getNewsArticles } from "../lib/microcms";
 
 export const GET: APIRoute = async () => {
+  const siteUrl = import.meta.env.SITE_URL || "https://chairman-official.com";
   const staticPages = [
     "",
     "about-us/",
@@ -13,8 +14,8 @@ export const GET: APIRoute = async () => {
 
   const articles = await getNewsArticles();
   const urls = [
-    ...staticPages.map((path) => `https://chairman-official.com/${path}`),
-    ...articles.map((article) => `https://chairman-official.com/news/${article.slug}/`)
+    ...staticPages.map((path) => `${siteUrl}/${path}`),
+    ...articles.map((article) => `${siteUrl}/news/${article.slug}/`)
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

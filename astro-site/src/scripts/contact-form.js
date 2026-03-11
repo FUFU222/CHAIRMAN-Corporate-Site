@@ -1,15 +1,15 @@
 const form = document.querySelector("[data-contact-form]");
-const status = document.querySelector("[data-contact-status]");
+const statusMessage = document.querySelector("[data-contact-status]");
 const submit = document.querySelector("[data-contact-submit]");
 const target = document.querySelector("[data-contact-target]");
 
-if (form && status && submit) {
+if (form && statusMessage && submit) {
   let hasSubmitted = false;
   const endpoint = form.dataset.endpoint || "";
 
   const setStatus = (message, state) => {
-    status.textContent = message;
-    status.dataset.state = state;
+    statusMessage.textContent = message;
+    statusMessage.dataset.state = state;
   };
 
   form.addEventListener("submit", (event) => {

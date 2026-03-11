@@ -11,53 +11,60 @@ interface Props {
 const { articles, variant = "home" } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
-function isLocalImage(value: NewsArticle["eyecatch"]) {
+function isLocalImage(
+  value: NewsArticle["eyecatch"]
+): value is Exclude<NewsArticle["eyecatch"], string | null> {
   return Boolean(value && typeof value !== "string");
 }
 ---
 
 <ul class={`news-list news-list--${variant}`}>
-  {articles.map((article) => (
-    <li class="news-list__item">
-      {variant === "home" ? (
-        <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link news-list__link--home">
-          <span class="news-list__date">
-            <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
-          </span>
-          <span class="news-list__body">
-            {article.categories[0] && <span class="news-list__meta news-list__meta--home">{article.categories[0].name}</span>}
-            <strong>{article.title}</strong>
-            <span>{article.excerpt}</span>
-          </span>
-        </a>
-      ) : (
-        <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link">
-          {article.eyecatch && (
-            <span class="news-list__media">
-              {isLocalImage(article.eyecatch) ? (
-                <img
-                  src={article.eyecatch.src}
-                  alt=""
-                  width={article.eyecatch.width}
-                  height={article.eyecatch.height}
-                  sizes="(max-width: 960px) 100vw, 24vw"
-                  loading="lazy"
-                />
-              ) : (
-                <img src={article.eyecatch ?? ""} alt="" loading="lazy" width="720" height="480" />
-              )}
-            </span>
-          )}
-          <span class="news-list__body">
-            <span class="news-list__meta">
+  {articles.map((article) => {
+    const localEyecatch = isLocalImage(article.eyecatch) ? article.eyecatch : null;
+    const remoteEyecatch = typeof article.eyecatch === "string" ? article.eyecatch : "";
+
+    return (
+      <li class="news-list__item">
+        {variant === "home" ? (
+          <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link news-list__link--home">
+            <span class="news-list__date">
               <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
-              {article.categories[0] && <span>{article.categories[0].name}</span>}
             </span>
-            <strong>{article.title}</strong>
-            <span>{article.excerpt}</span>
-          </span>
-        </a>
-      )}
-    </li>
-  ))}
+            <span class="news-list__body">
+              {article.categories[0] && <span class="news-list__meta news-list__meta--home">{article.categories[0].name}</span>}
+              <strong>{article.title}</strong>
+              <span>{article.excerpt}</span>
+            </span>
+          </a>
+        ) : (
+          <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link">
+            {article.eyecatch && (
+              <span class="news-list__media">
+                {localEyecatch ? (
+                  <img
+                    src={localEyecatch.src}
+                    alt=""
+                    width={localEyecatch.width}
+                    height={localEyecatch.height}
+                    sizes="(max-width: 960px) 100vw, 24vw"
+                    loading="lazy"
+                  />
+                ) : (
+                  <img src={remoteEyecatch} alt="" loading="lazy" width="720" height="480" />
+                )}
+              </span>
+            )}
+            <span class="news-list__body">
+              <span class="news-list__meta">
+                <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+                {article.categories[0] && <span>{article.categories[0].name}</span>}
+              </span>
+              <strong>{article.title}</strong>
+              <span>{article.excerpt}</span>
+            </span>
+          </a>
+        )}
+      </li>
+    );
+  })}
 </ul>
