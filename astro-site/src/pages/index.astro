@@ -69,13 +69,29 @@ const schema = [
   <section class="page-section page-section--tone">
     <div class="site-shell">
       <SectionHeading
+        eyebrow="NEWS"
+        title="新着情報"
+        intro="事業のお知らせ、取り組み、公開情報を整理してお届けします。"
+      />
+      <NewsList articles={latestNews} />
+      <div class="section-actions" data-reveal>
+        <a class="text-link" href={withBase("/news/", base)}>
+          バックナンバーを見る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
         eyebrow="BUSINESS"
         title="主役は、地域価値を市場へ届ける事業設計です。"
         intro="LIVAPONを軸に、発信、販売、運営の各機能を一体で実装しています。"
       />
       <div class="business-stack">
-        {businesses.map((business, index) => (
-          <article class={`business-row ${index % 2 ? "business-row--reverse" : ""}`} data-reveal>
+        {businesses.map((business) => (
+          <article class="business-row" data-reveal>
             <div class="business-row__media">
               <img
                 src={business.image.src}
@@ -96,22 +112,6 @@ const schema = [
             </div>
           </article>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="page-section">
-    <div class="site-shell">
-      <SectionHeading
-        eyebrow="NEWS"
-        title="新着情報"
-        intro="事業のお知らせ、取り組み、公開情報を整理してお届けします。"
-      />
-      <NewsList articles={latestNews} />
-      <div class="section-actions" data-reveal>
-        <a class="text-link" href={withBase("/news/", base)}>
-          バックナンバーを見る
-        </a>
       </div>
     </div>
   </section>

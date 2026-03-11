@@ -1,16 +1,5 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const splash = document.querySelector("[data-splash]");
-if (splash && !window.localStorage.getItem("chairman-splash-seen") && !prefersReducedMotion) {
-  splash.classList.add("is-active");
-  window.localStorage.setItem("chairman-splash-seen", "true");
-  window.setTimeout(() => {
-    splash.classList.add("is-hidden");
-  }, 520);
-} else if (splash) {
-  splash.classList.add("is-hidden");
-}
-
 const header = document.querySelector("[data-header]");
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const menuPanel = document.querySelector("[data-menu-panel]");
@@ -51,6 +40,11 @@ if (header) {
   window.addEventListener(
     "scroll",
     () => {
+      if (window.innerWidth > 820) {
+        header.classList.remove("is-hidden");
+        return;
+      }
+
       const currentY = window.scrollY;
       if (currentY < 32 || currentY < lastY) {
         header.classList.remove("is-hidden");

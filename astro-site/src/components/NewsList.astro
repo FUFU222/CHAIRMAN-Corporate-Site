@@ -19,32 +19,45 @@ function isLocalImage(value: NewsArticle["eyecatch"]) {
 <ul class={`news-list news-list--${variant}`}>
   {articles.map((article) => (
     <li class="news-list__item">
-      <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link">
-        {article.eyecatch && (
-          <span class="news-list__media">
-            {isLocalImage(article.eyecatch) ? (
-              <img
-                src={article.eyecatch.src}
-                alt=""
-                width={article.eyecatch.width}
-                height={article.eyecatch.height}
-                sizes={variant === "home" ? "(max-width: 960px) 100vw, 18vw" : "(max-width: 960px) 100vw, 24vw"}
-                loading="lazy"
-              />
-            ) : (
-              <img src={article.eyecatch ?? ""} alt="" loading="lazy" width="720" height="480" />
-            )}
-          </span>
-        )}
-        <span class="news-list__body">
-          <span class="news-list__meta">
+      {variant === "home" ? (
+        <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link news-list__link--home">
+          <span class="news-list__date">
             <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
-            {article.categories[0] && <span>{article.categories[0].name}</span>}
           </span>
-          <strong>{article.title}</strong>
-          <span>{article.excerpt}</span>
-        </span>
-      </a>
+          <span class="news-list__body">
+            {article.categories[0] && <span class="news-list__meta news-list__meta--home">{article.categories[0].name}</span>}
+            <strong>{article.title}</strong>
+            <span>{article.excerpt}</span>
+          </span>
+        </a>
+      ) : (
+        <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link">
+          {article.eyecatch && (
+            <span class="news-list__media">
+              {isLocalImage(article.eyecatch) ? (
+                <img
+                  src={article.eyecatch.src}
+                  alt=""
+                  width={article.eyecatch.width}
+                  height={article.eyecatch.height}
+                  sizes="(max-width: 960px) 100vw, 24vw"
+                  loading="lazy"
+                />
+              ) : (
+                <img src={article.eyecatch ?? ""} alt="" loading="lazy" width="720" height="480" />
+              )}
+            </span>
+          )}
+          <span class="news-list__body">
+            <span class="news-list__meta">
+              <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+              {article.categories[0] && <span>{article.categories[0].name}</span>}
+            </span>
+            <strong>{article.title}</strong>
+            <span>{article.excerpt}</span>
+          </span>
+        </a>
+      )}
     </li>
   ))}
 </ul>
