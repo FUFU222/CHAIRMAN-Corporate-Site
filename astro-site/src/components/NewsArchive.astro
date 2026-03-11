@@ -1,0 +1,63 @@
+---
+import type { NewsArticle } from "../lib/types";
+import { formatDateJP } from "../lib/format";
+import { withBase } from "../lib/links";
+import archiveScript from "../scripts/news-archive.js?url";
+
+interface Props {
+  articles: NewsArticle[];
+}
+
+const { articles } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const categories = Array.from(
+  new Map(
+    articles.flatMap((article) => article.categories).map((category) => [category.id, category])
+  ).values()
+);
+---
+
+<section class="news-archive" data-news-archive>
+  <div class="news-archive__toolbar" data-reveal>
+    <div class="news-archive__filters" role="toolbar" aria-label="カテゴリ絞り込み">
+      <button class="is-active" type="button" data-filter="all">
+        すべて
+      </button>
+      {categories.map((category) => (
+        <button type="button" data-filter={category.id}>
+          {category.name}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="news-archive__list">
+    {articles.map((article, index) => (
+      <article
+        class="news-archive__item"
+        data-archive-item
+        data-categories={article.categories.map((category) => category.id).join(",")}
+        data-index={index}
+      >
+        <a href={withBase(`/news/${article.slug}/`, base)}>
+          <div>
+            <p class="news-archive__meta">
+              <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+              <span>{article.categories.map((category) => category.name).join(" / ")}</span>
+            </p>
+            <h2>{article.title}</h2>
+          </div>
+          <p>{article.excerpt}</p>
+        </a>
+      </article>
+    ))}
+  </div>
+
+  <div class="news-archive__actions">
+    <button class="button button--secondary" type="button" data-load-more>
+      さらに表示
+    </button>
+  </div>
+</section>
+
+<script type="module" src={archiveScript}></script>

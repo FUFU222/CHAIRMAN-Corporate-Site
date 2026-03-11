@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { privacySections } from "../data/privacy";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "プライバシーポリシー",
+  url: "https://chairman-official.com/privacy/"
+};
+---
+
+<BaseLayout
+  title="プライバシーポリシー"
+  description="株式会社CHAIRMANのプライバシーポリシーページです。個人情報の取得、利用目的、安全管理等についてご案内しています。"
+  pathname="/privacy/"
+  schema={schema}
+  bodyClass="page-privacy"
+>
+  <section class="page-hero page-hero--narrow">
+    <div class="site-shell page-hero__inner page-hero__inner--single">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">PRIVACY POLICY</p>
+        <h1>プライバシーポリシー</h1>
+        <p>当社は、取得した個人情報を適切に管理し、法令に基づいて利用します。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell legal-layout">
+      <SectionHeading
+        eyebrow="POLICY"
+        title="個人情報の取り扱いについて"
+        intro="お問い合わせや事業運営に関する情報は、以下の方針に基づいて取り扱います。"
+      />
+      <div class="legal-sections">
+        {privacySections.map((section) => (
+          <section class="legal-section" data-reveal>
+            <h2>{section.title}</h2>
+            {section.body.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </section>
+        ))}
+      </div>
+      <p class="legal-note" data-reveal>附則 2022年10月1日 制定・施行</p>
+    </div>
+  </section>
+</BaseLayout>

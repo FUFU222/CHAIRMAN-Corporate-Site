@@ -1,0 +1,164 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import OfficerModal from "../components/OfficerModal.astro";
+import { mediaProfiles, officers, projectTeam } from "../data/team";
+import heroImage from "../assets/images/service_livapon_card.webp";
+import { withBase } from "../lib/links";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "私たちについて",
+  url: "https://chairman-official.com/about-us/",
+  description:
+    "株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、推進チーム、メディアネットワークをご覧いただけます。"
+};
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="私たちについて"
+  description="株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、推進チーム、メディアネットワークをご覧いただけます。"
+  pathname="/about-us/"
+  schema={schema}
+  bodyClass="page-about"
+>
+  <section class="page-hero">
+    <div class="site-shell page-hero__inner">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">ABOUT US</p>
+        <h1>地域の価値を、<br />次の市場へ。</h1>
+        <p>
+          CHAIRMANは、日本の文化・技・商品価値を、国内外の需要へ接続する事業をつくり続けます。
+          Public / Regional、Demand Design、Global Connection の3つの視点から、
+          地域と市場のあいだにある情報の非対称をほどいていきます。
+        </p>
+      </div>
+      <div class="page-hero__visual" data-reveal>
+        <img
+          src={heroImage.src}
+          alt="地域価値と市場をつなぐ事業イメージ"
+          width={heroImage.width}
+          height={heroImage.height}
+          sizes="(max-width: 960px) 100vw, 36vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="OUR ROLE"
+        title="CHAIRMANが担う3つの役割"
+        intro="事業会社として、公共性のある連携と市場性のある実装を両立させます。"
+      />
+      <div class="role-grid role-grid--about">
+        <article class="role-card" data-reveal>
+          <p>Public / Regional</p>
+          <h3>地域と民間のあいだをつなぐ</h3>
+          <p>自治体、地域事業者、民間企業と連携しながら、価値の整理と導線設計を進めます。</p>
+        </article>
+        <article class="role-card" data-reveal>
+          <p>Demand Design</p>
+          <h3>需要が生まれるかたちに整える</h3>
+          <p>内需と外需のどちらにも対応し、届ける相手に合わせた発信と販売の設計を行います。</p>
+        </article>
+        <article class="role-card" data-reveal>
+          <p>Global Connection</p>
+          <h3>国内外の市場へ接続する</h3>
+          <p>文化や技の商品価値を、イベント、越境EC、発信の仕組みを通じて継続的な接点に変えます。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-section--tone">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="OFFICERS"
+        title="役員紹介"
+        intro="地域連携、海外接続、事業戦略を前に進める役員陣です。"
+      />
+      <OfficerModal officers={officers} />
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell split-section">
+      <div>
+        <SectionHeading
+          eyebrow="MEDIA"
+          title="メディアネットワーク"
+          intro="国内の共感形成と海外への認知拡張の両面で、ブランドの発信を支えるネットワークです。"
+        />
+      </div>
+      <div class="profile-grid">
+        {mediaProfiles.map((profile) => (
+          <a class="profile-card" href={profile.href} target="_blank" rel="noopener" data-reveal>
+            <img
+              src={profile.image.src}
+              alt={profile.name}
+              width={profile.image.width}
+              height={profile.image.height}
+              sizes="(max-width: 960px) 100vw, 24vw"
+              loading="lazy"
+            />
+            <div>
+              <strong>{profile.name}</strong>
+              <span>{profile.role}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell split-section">
+      <div>
+        <SectionHeading
+          eyebrow="PROJECT TEAM"
+          title="推進チーム"
+          intro="SNS戦略、映像制作、運用実務まで並走し、価値が届き続ける運営を支えます。"
+        />
+      </div>
+      <div class="project-grid">
+        {projectTeam.map((member) => (
+          <article class="project-card" data-reveal>
+            <img
+              src={member.image.src}
+              alt={member.name}
+              width={member.image.width}
+              height={member.image.height}
+              sizes="(max-width: 960px) 48vw, 16vw"
+              loading="lazy"
+            />
+            <div>
+              <strong>{member.name}</strong>
+              <span>{member.role}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-section--cta">
+    <div class="site-shell consultation-cta" data-reveal>
+      <div>
+        <p class="section-heading__eyebrow">CONSULTATION</p>
+        <h2>地域の価値を、事業として前に進めたい方へ。</h2>
+        <p>
+          自治体連携、越境EC、発信設計、映像制作まで、文脈に合わせて相談内容を整理しながらご案内します。
+        </p>
+      </div>
+      <a class="button button--primary" href={withBase("/contact/", base)}>
+        相談する
+      </a>
+    </div>
+  </section>
+</BaseLayout>

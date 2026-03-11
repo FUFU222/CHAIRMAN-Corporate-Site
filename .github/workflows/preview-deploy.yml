@@ -5,7 +5,7 @@ on:
     branches:
       - codex/site-refresh-preview
     paths:
-      - "public_html/**"
+      - "astro-site/**"
       - ".github/workflows/preview-deploy.yml"
   workflow_dispatch:
 
@@ -17,11 +17,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: astro-site
+        run: npm install --no-audit --no-fund
+
+      - name: Build Astro preview
+        working-directory: astro-site
+        env:
+          SITE_BASE: /preview/
+        run: npm run build
+
       - name: Prepare preview bundle
         run: |
           rm -rf .preview-dist
           mkdir -p .preview-dist
-          cp -R public_html/. .preview-dist/
+          cp -R astro-site/dist/. .preview-dist/
           cat <<'EOF' >> .preview-dist/.htaccess
 
           <IfModule mod_headers.c>

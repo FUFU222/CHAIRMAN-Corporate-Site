@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactForm from "../components/ContactForm.astro";
+
+const endpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || "";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "お問い合わせ",
+  url: "https://chairman-official.com/contact/",
+  description:
+    "株式会社CHAIRMANへのお問い合わせページです。自治体連携、SNS運用、映像制作、LIVAPON、健康食品事業に関するご相談を受け付けています。"
+};
+---
+
+<BaseLayout
+  title="お問い合わせ"
+  description="株式会社CHAIRMANへのお問い合わせページです。自治体連携、SNS運用、映像制作、LIVAPON、健康食品事業に関するご相談を受け付けています。"
+  pathname="/contact/"
+  schema={schema}
+  bodyClass="page-contact"
+>
+  <section class="page-hero page-hero--narrow">
+    <div class="site-shell page-hero__inner page-hero__inner--single">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">CONTACT</p>
+        <h1>お問い合わせ</h1>
+        <p>
+          価値の整理から販路設計、発信支援まで、事業文脈に応じて整理しながらご案内します。
+          Astro の静的ページとして構築し、送信先は Apps Script や既存フォームへ差し替え可能な構成です。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <ContactForm endpoint={endpoint} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import type { ImageMetadata } from "astro";
+import { withBase } from "../lib/links";
+
+interface Props {
+  title: string;
+  lead: string;
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+const { title, lead, image, imageAlt } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="hero">
+  <div class="site-shell hero__inner">
+    <div class="hero__copy" data-reveal>
+      <p class="hero__eyebrow">CORPORATE SITE</p>
+      <h1 set:html={title}></h1>
+      <p class="hero__lead">{lead}</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href={withBase("/about-us/", base)}>
+          私たちについて
+        </a>
+        <a class="button button--secondary" href={withBase("/contact/", base)}>
+          ご相談・お問い合わせ
+        </a>
+      </div>
+      <p class="hero__footnote">
+        Japan Festival CANADA 2026 公式スポンサー参画予定
+      </p>
+    </div>
+
+    <div class="hero__visual" data-reveal>
+      <figure class="hero__figure">
+        <img
+          src={image.src}
+          alt={imageAlt}
+          width={image.width}
+          height={image.height}
+          sizes="(max-width: 960px) 100vw, 40vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+      <div class="hero__context">
+        <span>228の国と地域へ届ける視点</span>
+        <span>支援実績140件以上の知見</span>
+      </div>
+    </div>
+  </div>
+</section>

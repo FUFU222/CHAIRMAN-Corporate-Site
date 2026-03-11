@@ -1,0 +1,156 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import NewsList from "../components/NewsList.astro";
+import heroImage from "../assets/images/service_livapon_card.webp";
+import { businesses, companyFacts, homeRoles, site } from "../data/site";
+import { withBase } from "../lib/links";
+import { getLatestNews, getNewsArticles } from "../lib/microcms";
+
+const articles = await getNewsArticles();
+const latestNews = getLatestNews(articles, 3);
+const base = import.meta.env.BASE_URL;
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: site.siteUrl,
+    logo: `${site.siteUrl}/og-default.png`,
+    description: site.description
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.siteUrl
+  }
+];
+---
+
+<BaseLayout
+  title="日本の価値を、地域から市場へ。"
+  description={site.description}
+  pathname="/"
+  schema={schema}
+  bodyClass="page-home"
+>
+  <Hero
+    title={"日本の価値を、<br>地域から市場へ。"}
+    lead="CHAIRMANは、自治体、地域事業者、ブランドとともに、日本の文化・技・商品価値を国内外の市場へ接続する事業会社です。"
+    image={heroImage}
+    imageAlt="日本の価値を市場へつなぐ事業イメージ"
+  />
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="ABOUT CHAIRMAN"
+        title="価値の発見から、需要への接続まで。"
+        intro="地域や日本の価値を見つけ、伝わるかたちに整え、国内外の市場へつなぐ。その一連の設計を、事業として担います。"
+      />
+      <p class="section-note" data-reveal>
+        Japan Festival CANADA 2026 公式スポンサーとして参画予定。地域性と国際性の両方に接続する実装を進めています。
+      </p>
+      <div class="role-grid">
+        {homeRoles.map((role) => (
+          <article class="role-card" data-reveal>
+            <p>{role.label}</p>
+            <h3>{role.title}</h3>
+            <p>{role.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-section--tone">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="BUSINESS"
+        title="主役は、地域価値を市場へ届ける事業設計です。"
+        intro="LIVAPONを軸に、発信、販売、運営の各機能を一体で実装しています。"
+      />
+      <div class="business-stack">
+        {businesses.map((business, index) => (
+          <article class={`business-row ${index % 2 ? "business-row--reverse" : ""}`} data-reveal>
+            <div class="business-row__media">
+              <img
+                src={business.image.src}
+                alt={business.title}
+                width={business.image.width}
+                height={business.image.height}
+                sizes="(max-width: 960px) 100vw, 34vw"
+                loading="lazy"
+              />
+            </div>
+            <div class="business-row__copy">
+              <p>{business.label}</p>
+              <h3>{business.title}</h3>
+              <p>{business.summary}</p>
+              <a class="text-link" href={business.href} target="_blank" rel="noopener">
+                {business.linkLabel}
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="NEWS"
+        title="新着情報"
+        intro="事業のお知らせ、取り組み、公開情報を整理してお届けします。"
+      />
+      <NewsList articles={latestNews} />
+      <div class="section-actions" data-reveal>
+        <a class="text-link" href={withBase("/news/", base)}>
+          バックナンバーを見る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-section--company">
+    <div class="site-shell company-grid">
+      <div>
+        <SectionHeading
+          eyebrow="COMPANY"
+          title="会社概要"
+          intro="事実情報を整然と示し、プロジェクトの窓口として信頼できる状態をつくります。"
+        />
+      </div>
+      <dl class="company-facts" data-reveal>
+        {companyFacts.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell founder-note">
+      <div data-reveal>
+        <p class="section-heading__eyebrow">CSO'S NOTE</p>
+        <h2>三倉信人の視点</h2>
+        <p>
+          日本の価値をどう市場へ接続し、どう事業として前へ進めるか。
+          三倉信人の note から、CHAIRMANの視点を継続的に発信しています。
+        </p>
+      </div>
+      <div class="founder-note__actions" data-reveal>
+        <a class="button button--secondary" href={site.noteUrl} target="_blank" rel="noopener">
+          noteを読む
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

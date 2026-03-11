@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import NewsArchive from "../../components/NewsArchive.astro";
+import { getNewsArticles } from "../../lib/microcms";
+
+const articles = await getNewsArticles();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "新着情報",
+  url: "https://chairman-official.com/news/",
+  description:
+    "株式会社CHAIRMANの新着情報とバックナンバー一覧です。事業のお知らせ、取り組み、公開情報を整理してお届けします。"
+};
+---
+
+<BaseLayout
+  title="新着情報"
+  description="株式会社CHAIRMANの新着情報とバックナンバー一覧です。事業のお知らせ、取り組み、公開情報を整理してお届けします。"
+  pathname="/news/"
+  schema={schema}
+  bodyClass="page-news"
+>
+  <section class="page-hero page-hero--narrow">
+    <div class="site-shell page-hero__inner page-hero__inner--single">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">NEWS</p>
+        <h1>新着情報</h1>
+        <p>
+          CHAIRMANの事業に関するお知らせ、取り組み、公開情報を一覧でご覧いただけます。
+          初期表示で記事を読み込めるよう、一覧自体も静的生成しています。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="ARCHIVE"
+        title="最新100件までを整理して掲載"
+        intro="カテゴリで絞り込みながら必要な情報へたどれる構成です。"
+      />
+      <NewsArchive articles={articles} />
+    </div>
+  </section>
+</BaseLayout>

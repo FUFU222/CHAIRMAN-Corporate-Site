@@ -1,0 +1,96 @@
+---
+import { contactCategories } from "../data/site";
+import contactFormScript from "../scripts/contact-form.js?url";
+
+interface Props {
+  endpoint?: string;
+}
+
+const { endpoint = "" } = Astro.props;
+---
+
+<section class="contact-form-block" data-contact-form-wrapper>
+  <div class="contact-form-block__intro" data-reveal>
+    <p class="section-heading__eyebrow">CONTACT</p>
+    <h2>ご相談内容に応じて、<br />適切な窓口でご案内します。</h2>
+    <p>
+      自治体連携、地域産品の販路設計、SNS運用、映像制作、LIVAPONに関するご相談まで、
+      事業の文脈に合わせて整理しながらご返信します。
+    </p>
+    <ul class="contact-form-block__notes">
+      <li>通常3営業日以内にご返信します。</li>
+      <li>初期実装では Apps Script または既存フォームへ差し替え可能です。</li>
+      <li>営業目的のご連絡は内容により返信できない場合があります。</li>
+    </ul>
+  </div>
+
+  <div class="contact-form-block__panel" data-reveal>
+    <form
+      class="contact-form"
+      method="POST"
+      action={endpoint || "#"}
+      target="contact-submit-target"
+      novalidate
+      data-contact-form
+      data-endpoint={endpoint}
+    >
+      <div class="contact-form__grid">
+        <label>
+          <span>お名前</span>
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+        <label>
+          <span>メールアドレス</span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+      </div>
+
+      <div class="contact-form__grid">
+        <label>
+          <span>電話番号</span>
+          <input name="phone" type="tel" autocomplete="tel" />
+        </label>
+        <label>
+          <span>問い合わせ種別</span>
+          <select name="category" required>
+            <option value="">選択してください</option>
+            {contactCategories.map((category) => (
+              <option value={category}>{category}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <label>
+        <span>本文</span>
+        <textarea name="message" rows={8} required></textarea>
+      </label>
+
+      <label class="contact-form__honeypot" aria-hidden="true">
+        <span>会社名</span>
+        <input name="company" type="text" tabindex="-1" autocomplete="off" />
+      </label>
+
+      <input name="source" type="hidden" value="chairman-astro-site" />
+
+      <div class="contact-form__actions">
+        <button class="button button--primary" type="submit" data-contact-submit>
+          送信する
+        </button>
+        <p class="contact-form__status" data-contact-status>
+          入力内容を確認のうえ送信してください。
+        </p>
+      </div>
+    </form>
+
+    <iframe
+      title="contact submission target"
+      name="contact-submit-target"
+      class="contact-form__target"
+      hidden
+      data-contact-target
+    ></iframe>
+  </div>
+</section>
+
+<script type="module" src={contactFormScript}></script>

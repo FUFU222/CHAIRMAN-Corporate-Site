@@ -1,0 +1,57 @@
+---
+import logo from "../assets/images/CompanyLogo.webp";
+import livaponLogo from "../assets/images/LIVAPON_logo_horizontal_350x.png";
+import { site } from "../data/site";
+import { withBase } from "../lib/links";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<footer class="site-footer">
+  <div class="site-shell site-footer__inner">
+    <div class="site-footer__brand">
+      <a href={withBase("/", base)} class="site-footer__logo">
+        <img src={logo.src} alt={site.name} width="220" height={logo.height} loading="lazy" />
+      </a>
+      <p>
+        日本の文化・技・商品価値を、
+        <br />
+        地域から国内外の市場へ接続します。
+      </p>
+    </div>
+
+    <div class="site-footer__nav">
+      <section>
+        <h2>サイト</h2>
+        <ul>
+          <li><a href={withBase("/about-us/", base)}>私たちについて</a></li>
+          <li><a href={withBase("/news/", base)}>新着情報</a></li>
+          <li><a href={withBase("/contact/", base)}>お問い合わせ</a></li>
+          <li><a href={withBase("/privacy/", base)}>プライバシーポリシー</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>事業</h2>
+        <ul>
+          <li>
+            <a href={withBase("/livapon/", base)}>
+              <img src={livaponLogo.src} alt="LIVAPON" width="158" height={Math.round((livaponLogo.height / livaponLogo.width) * 158)} loading="lazy" />
+            </a>
+          </li>
+          <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">SNS運用・映像制作</a></li>
+          <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener">KOSOLIFE</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2>知る</h2>
+        <ul>
+          <li><a href={site.noteUrl} target="_blank" rel="noopener">三倉信人のnote</a></li>
+          <li><a href="https://sell.livapon.com/" target="_blank" rel="noopener">LIVAPON サービスサイト</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <div class="site-shell site-footer__bottom">
+    <small>&copy; 2026 CHAIRMAN. All rights reserved.</small>
+  </div>
+</footer>
