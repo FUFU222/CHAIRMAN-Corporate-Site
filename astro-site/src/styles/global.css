@@ -1523,7 +1523,7 @@ body.page-home .hero__copy h1 {
   font-size: clamp(2.2rem, 4.2vw, 3.9rem);
   line-height: 1.06;
   letter-spacing: -0.01em;
-  text-wrap: balance;
+  text-wrap: initial;
 }
 
 body.page-home .hero__signature {
@@ -1539,6 +1539,10 @@ body.page-home .hero__title-line {
 body.page-home .hero__title-line--keep,
 body.page-home .hero__title-line--nowrap {
   white-space: nowrap;
+}
+
+body.page-home .hero__title-line--keep {
+  width: max-content;
 }
 
 body.page-home .hero__lead {
