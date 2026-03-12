@@ -19,10 +19,9 @@ export const site = {
 };
 
 export const navigation = [
-  { href: "/", label: "ホーム" },
   { href: "/about-us/", label: "私たちについて" },
+  { href: "/#business", label: "事業紹介" },
   { href: "/news/", label: "新着情報" },
-  { href: "/livapon/", label: "LIVAPON" },
   { href: "/contact/", label: "お問い合わせ" }
 ] as const;
 
