@@ -378,7 +378,7 @@ p {
 
 .hero__signature {
   margin: 0;
-  font-family: "Klee One", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
   font-size: clamp(3.8rem, 8vw, 7.4rem);
   line-height: 0.95;
   letter-spacing: 0.02em;
