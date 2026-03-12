@@ -3,7 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import OfficerModal from "../components/OfficerModal.astro";
 import { mediaProfiles, officers, projectTeam } from "../data/team";
-import heroImage from "../assets/images/service_livapon_card.webp";
 import { withBase } from "../lib/links";
 
 const schema = {
@@ -24,31 +23,6 @@ const base = import.meta.env.BASE_URL;
   schema={schema}
   bodyClass="page-about"
 >
-  <section class="page-hero">
-    <div class="site-shell page-hero__inner">
-      <div class="page-hero__copy" data-reveal>
-        <p class="section-heading__eyebrow">ABOUT US</p>
-        <h1>地域の価値を、<br />次の市場へ。</h1>
-        <p>
-          CHAIRMANは、日本の文化・技・商品価値を、国内外の需要へ接続する事業をつくり続けます。
-          Public / Regional、Demand Design、Global Connection の3つの視点から、
-          地域と市場のあいだにある情報の非対称をほどいていきます。
-        </p>
-      </div>
-      <div class="page-hero__visual" data-reveal>
-        <img
-          src={heroImage.src}
-          alt="地域価値と市場をつなぐ事業イメージ"
-          width={heroImage.width}
-          height={heroImage.height}
-          sizes="(max-width: 960px) 100vw, 36vw"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-    </div>
-  </section>
-
   <section class="page-section">
     <div class="site-shell">
       <SectionHeading
