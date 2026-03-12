@@ -163,13 +163,34 @@ main {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+  position: relative;
   color: var(--muted);
   transition: color var(--transition);
+}
+
+.site-header__nav ul > li > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 320ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .site-header__nav a[aria-current="page"],
 .site-header__nav a:hover {
   color: var(--accent);
+}
+
+.site-header__nav ul > li > a[aria-current="page"]::after,
+.site-header__nav ul > li > a:hover::after,
+.site-header__nav ul > li > a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 .site-header__contact {
@@ -230,9 +251,25 @@ main {
 .text-link {
   display: inline-flex;
   align-items: center;
+  position: relative;
   gap: 10px;
   color: var(--accent);
   font-weight: 500;
+  text-decoration: none;
+  padding-bottom: 4px;
+}
+
+.text-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 36px;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 320ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .text-link::after {
@@ -240,6 +277,12 @@ main {
   width: 26px;
   height: 1px;
   background: currentColor;
+}
+
+.text-link:hover::before,
+.text-link:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 h1,
@@ -1388,11 +1431,32 @@ p {
 }
 
 .site-footer__nav a {
+  position: relative;
   color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+
+.site-footer__nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.24em;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 320ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .site-footer__nav a:hover {
   color: #fff;
+}
+
+.site-footer__nav a:hover::after,
+.site-footer__nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 .site-footer__bottom {
