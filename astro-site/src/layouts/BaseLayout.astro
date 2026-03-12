@@ -75,14 +75,13 @@ const base = import.meta.env.BASE_URL;
     {gaId && (
       <>
         <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
-        <script is:inline>
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gaId}');
-          `}
-        </script>
+        <script
+          is:inline
+          set:html={`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', ${JSON.stringify(gaId)});`}
+        ></script>
       </>
     )}
     {schemaItems.filter(Boolean).map((item) => (
