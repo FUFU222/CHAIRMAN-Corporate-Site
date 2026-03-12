@@ -32,9 +32,12 @@ export interface Officer {
   role: string;
   roleDetail?: string;
   image: ImageMetadata;
+  imageClass?: string;
   summary: string;
   details: string[];
   noteUrl?: string;
+  noteLabel?: string;
+  noteStatus?: string;
 }
 
 export interface MediaProfile {

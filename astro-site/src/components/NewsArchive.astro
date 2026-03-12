@@ -6,15 +6,20 @@ import archiveScript from "../scripts/news-archive.js?url";
 
 interface Props {
   articles: NewsArticle[];
+  articleBasePath?: string;
 }
 
-const { articles } = Astro.props;
+const { articles, articleBasePath = "/news/" } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const categories = Array.from(
   new Map(
     articles.flatMap((article) => article.categories).map((category) => [category.id, category])
   ).values()
 );
+
+function articleHref(slug: string) {
+  return withBase(`${articleBasePath}${slug}/`, base);
+}
 ---
 
 <section class="news-archive" data-news-archive>
@@ -39,7 +44,7 @@ const categories = Array.from(
         data-categories={article.categories.map((category) => category.id).join(",")}
         data-index={index}
       >
-        <a href={withBase(`/news/${article.slug}/`, base)}>
+        <a href={articleHref(article.slug)}>
           <div>
             <p class="news-archive__meta">
               <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>

@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { getBusinessNewsArticles, getKnowhowArticles } from "../lib/article-groups";
 import { getNewsArticles } from "../lib/microcms";
 
 export const GET: APIRoute = async () => {
@@ -14,9 +15,12 @@ export const GET: APIRoute = async () => {
   ];
 
   const articles = await getNewsArticles();
+  const businessArticles = getBusinessNewsArticles(articles);
+  const knowhowArticles = getKnowhowArticles(articles);
   const urls = [
     ...staticPages.map((path) => `${siteUrl}/${path}`),
-    ...articles.map((article) => `${siteUrl}/news/${article.slug}/`)
+    ...businessArticles.map((article) => `${siteUrl}/news/${article.slug}/`),
+    ...knowhowArticles.map((article) => `${siteUrl}/sns-marketing/${article.slug}/`)
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

@@ -432,8 +432,82 @@ document.addEventListener("DOMContentLoaded", function () {
   const image = dialog.querySelector("[data-officer-modal-image]");
   const closeButton = dialog.querySelector("[data-officer-modal-close]");
   let activeTrigger = null;
+  let imageRequestId = 0;
 
-  function applyOfficerContent(trigger) {
+  function setDialogLockState(locked) {
+    var scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+    document.documentElement.style.setProperty("--scroll-lock-offset", locked ? scrollbarWidth + "px" : "0px");
+    document.body.classList.toggle("modal-open", locked);
+  }
+
+  async function syncModalImage(triggerImage, officerName) {
+    if (
+      !(image instanceof HTMLImageElement) ||
+      !(triggerImage instanceof HTMLImageElement)
+    ) {
+      return false;
+    }
+
+    var nextSrc = triggerImage.currentSrc || triggerImage.src;
+    var nextClassName = triggerImage.className;
+    var nextAlt = triggerImage.alt || officerName || "";
+    var requestId = ++imageRequestId;
+
+    image.className = nextClassName;
+    image.alt = nextAlt;
+    image.classList.remove("is-ready");
+
+    if (!nextSrc) {
+      image.removeAttribute("src");
+      return true;
+    }
+
+    if (image.currentSrc === nextSrc && image.complete) {
+      image.classList.add("is-ready");
+      return true;
+    }
+
+    var preload = new Image();
+    preload.src = nextSrc;
+
+    try {
+      if (typeof preload.decode === "function") {
+        await preload.decode();
+      } else if (!preload.complete) {
+        await new Promise(function (resolve) {
+          preload.onload = resolve;
+          preload.onerror = resolve;
+        });
+      }
+    } catch (_error) {
+      // decode に失敗しても同じ画像をそのまま描画する
+    }
+
+    if (requestId !== imageRequestId) {
+      return false;
+    }
+
+    image.className = nextClassName;
+    image.src = nextSrc;
+    image.alt = nextAlt;
+
+    try {
+      if (typeof image.decode === "function") {
+        await image.decode();
+      }
+    } catch (_error) {
+      // 表示は継続
+    }
+
+    if (requestId !== imageRequestId) {
+      return false;
+    }
+
+    image.classList.add("is-ready");
+    return true;
+  }
+
+  async function applyOfficerContent(trigger) {
     const card = trigger.closest(".team-minimal-item-officer");
     const copy = card?.querySelector(".team-minimal-detail-copy");
     const triggerImage = trigger.querySelector(".team-minimal-image img");
@@ -459,41 +533,51 @@ document.addEventListener("DOMContentLoaded", function () {
     roleDetail.textContent = card.dataset.officerRoleDetail || "";
     roleDetail.hidden = !roleDetail.textContent;
     body.innerHTML = copy.innerHTML;
-    image.src = triggerImage.currentSrc || triggerImage.src;
-    image.alt = triggerImage.alt || card.dataset.officerName || "";
-    image.className = triggerImage.className;
+
+    const imageReady = await syncModalImage(triggerImage, card.dataset.officerName || "");
+    if (!imageReady) {
+      return false;
+    }
 
     const officerNoteUrl = card.dataset.officerNoteUrl || "";
-    const officerNoteLabel = card.dataset.officerNoteLabel || "noteを読む";
+    const officerNoteLabel = card.dataset.officerNoteLabel || "note";
     const officerNoteStatus = card.dataset.officerNoteStatus || "";
 
     actions.hidden = !officerNoteUrl && !officerNoteStatus;
+    actions.style.display = officerNoteUrl || officerNoteStatus ? "flex" : "none";
 
     if (officerNoteUrl) {
       noteLink.href = officerNoteUrl;
-      noteLink.textContent = officerNoteLabel;
+      noteLink.setAttribute("aria-label", officerNoteLabel);
+      noteLink.setAttribute("title", officerNoteLabel);
       noteLink.hidden = false;
+      noteLink.style.display = "inline-flex";
       noteStatus.hidden = true;
+      noteStatus.style.display = "none";
       noteStatus.textContent = "";
     } else {
       noteLink.hidden = true;
+      noteLink.style.display = "none";
       noteLink.removeAttribute("href");
+      noteLink.removeAttribute("aria-label");
+      noteLink.removeAttribute("title");
       noteStatus.hidden = !officerNoteStatus;
+      noteStatus.style.display = officerNoteStatus ? "" : "none";
       noteStatus.textContent = officerNoteStatus;
     }
 
     return true;
   }
 
-  function openDialog(trigger) {
-    if (!applyOfficerContent(trigger)) {
+  async function openDialog(trigger) {
+    if (!(await applyOfficerContent(trigger))) {
       return;
     }
     activeTrigger = trigger;
+    setDialogLockState(true);
     if (!dialog.open) {
       dialog.showModal();
     }
-    document.body.classList.add("modal-open");
   }
 
   function closeDialog() {
@@ -507,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     trigger.addEventListener("click", function () {
-      openDialog(trigger);
+      void openDialog(trigger);
     });
   });
 
@@ -516,7 +600,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   dialog.addEventListener("close", function () {
-    document.body.classList.remove("modal-open");
+    setDialogLockState(false);
     if (activeTrigger instanceof HTMLElement) {
       activeTrigger.focus();
     }

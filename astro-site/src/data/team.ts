@@ -14,7 +14,8 @@ import type { MediaProfile, Officer, TeamMember } from "../lib/types";
 export const officers: Officer[] = [
   {
     name: "田中 透",
-    role: "代表取締役",
+    role: "CEO",
+    roleDetail: "代表取締役",
     image: ceoImage,
     summary: "地域や事業者の価値を、市場に届く事業へ整理し前進させます。",
     details: [
@@ -38,11 +39,14 @@ export const officers: Officer[] = [
     role: "CSO",
     roleDetail: "最高戦略責任者",
     image: csoImage,
+    imageClass: "team-minimal-photo-cso",
     summary: "地域価値の事業化に向けた戦略設計を担います。",
     details: [
       "ソフトバンクグループで営業、社長室、新規事業開発を経験後に独立。",
       "大企業から地方企業、官公庁まで横断して、事業戦略と組織づくりを支援しています。"
-    ]
+    ],
+    noteUrl: "https://note.com/n_mikura",
+    noteLabel: "三倉信人のnoteを読む"
   }
 ];
 

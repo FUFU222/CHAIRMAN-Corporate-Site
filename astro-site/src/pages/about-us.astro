@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
-import OfficerModal from "../components/OfficerModal.astro";
 import { mediaProfiles, officers, projectTeam } from "../data/team";
 import { withBase } from "../lib/links";
+import teamMinimalModalScript from "../scripts/team-minimal-modal.js?url";
 
 const schema = {
   "@context": "https://schema.org",
@@ -11,123 +11,195 @@ const schema = {
   name: "私たちについて",
   url: "https://chairman-official.com/about-us/",
   description:
-    "株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、推進チーム、メディアネットワークをご覧いただけます。"
+    "株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、マネジメントチーム、メディアネットワークをご覧いただけます。"
 };
 const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout
   title="私たちについて"
-  description="株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、推進チーム、メディアネットワークをご覧いただけます。"
+  description="株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、マネジメントチーム、メディアネットワークをご覧いただけます。"
   pathname="/about-us/"
   schema={schema}
   bodyClass="page-about"
 >
-  <section class="page-section">
+  <section class="page-section page-about-hero-section">
+    <div class="site-shell about-page-hero-shell">
+      <div class="about-page-hero">
+        <div class="about-page-hero__label" data-reveal>
+          <SectionHeading eyebrow="ABOUT US" title="私たちについて" />
+        </div>
+        <div class="about-page-hero__body" data-reveal>
+          <h1>挑戦の担い手であれ</h1>
+          <p>
+            <span>地域やブランドが持つ魅力を磨き、</span>
+            <span>社会や市場との接点をつくります。</span>
+          </p>
+        </div>
+        <div class="about-page-hero__rule" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-about-team-section" id="officers">
     <div class="site-shell">
-      <SectionHeading
-        eyebrow="ABOUT US"
-        title="CHAIRMANが担う3つの役割"
-        intro="事業会社として、公共性のある連携と市場性のある実装を両立させます。"
-      />
-      <div class="role-grid role-grid--about">
-        <article class="role-card" data-reveal>
-          <p>Public / Regional</p>
-          <h3>地域と民間のあいだをつなぐ</h3>
-          <p>自治体、地域事業者、民間企業と連携しながら、価値の整理と導線設計を進めます。</p>
-        </article>
-        <article class="role-card" data-reveal>
-          <p>Demand Design</p>
-          <h3>需要が生まれるかたちに整える</h3>
-          <p>内需と外需のどちらにも対応し、届ける相手に合わせた発信と販売の設計を行います。</p>
-        </article>
-        <article class="role-card" data-reveal>
-          <p>Global Connection</p>
-          <h3>国内外の市場へ接続する</h3>
-          <p>文化や技の商品価値を、イベント、越境EC、発信の仕組みを通じて継続的な接点に変えます。</p>
-        </article>
-      </div>
-    </div>
-  </section>
+      <section class="team-minimal-preview" aria-label="チーム紹介" data-nosnippet>
+        <div class="team-minimal-block">
+          <div class="team-minimal-heading" data-reveal>
+            <h4>OFFICERS</h4>
+            <p>役員紹介</p>
+          </div>
+          <div class="team-minimal-grid team-minimal-grid-officers">
+            {officers.map((officer) => (
+              <article
+                class="team-minimal-item team-minimal-item-officer"
+                data-officer-name={officer.name}
+                data-officer-role={officer.role}
+                data-officer-role-detail={officer.roleDetail ?? ""}
+                data-officer-note-url={officer.noteUrl ?? undefined}
+                data-officer-note-label={officer.noteLabel ?? undefined}
+                data-officer-note-status={officer.noteStatus ?? undefined}
+                data-reveal
+              >
+                <button
+                  type="button"
+                  class="team-minimal-button"
+                  data-officer-modal-trigger
+                  aria-haspopup="dialog"
+                  aria-controls="officer-detail-modal"
+                >
+                  <span class="team-minimal-image">
+                    <img
+                      class={officer.imageClass ?? undefined}
+                      src={officer.image.src}
+                      alt={officer.name}
+                      width={officer.image.width}
+                      height={officer.image.height}
+                      sizes="(max-width: 768px) 100vw, 272px"
+                      loading="lazy"
+                    />
+                  </span>
+                  <span class="team-minimal-name">{officer.name}</span>
+                  <span class="team-minimal-role">{officer.role}</span>
+                  <span class="visually-hidden">略歴を開く</span>
+                </button>
+                <div class="team-minimal-detail-copy" hidden>
+                  {officer.details.map((detail) => (
+                    <p>{detail}</p>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
 
-  <section class="page-section page-section--tone" id="officers">
-    <div class="site-shell">
-      <SectionHeading
-        eyebrow="OFFICERS"
-        title="役員紹介"
-        intro="地域連携、海外接続、事業戦略を前に進める役員陣です。"
-      />
-      <OfficerModal officers={officers} />
-    </div>
-  </section>
+        <div class="team-minimal-block">
+          <div class="team-minimal-heading" data-reveal>
+            <h4>MEDIA</h4>
+            <p>メディア</p>
+          </div>
+          <div class="team-minimal-grid team-minimal-grid-media">
+            {mediaProfiles.map((profile) => (
+              <a
+                class="team-minimal-item team-minimal-item-link"
+                href={profile.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${profile.name} の Instagram を新しいタブで開く`}
+                data-reveal
+              >
+                <div class="team-minimal-image">
+                  <img
+                    src={profile.image.src}
+                    alt={profile.name}
+                    width={profile.image.width}
+                    height={profile.image.height}
+                    sizes="(max-width: 768px) 100vw, 240px"
+                    loading="lazy"
+                  />
+                  <span class="external-link-indicator" aria-hidden="true">
+                    <span class="external-link-indicator-tab"></span>
+                    <span class="external-link-indicator-arrow"></span>
+                  </span>
+                </div>
+                <div class="team-minimal-name">{profile.name}</div>
+                <div class="team-minimal-role">{profile.role}</div>
+              </a>
+            ))}
+          </div>
+        </div>
 
-  <section class="page-section">
-    <div class="site-shell split-section">
-      <div>
-        <SectionHeading
-          eyebrow="MEDIA"
-          title="メディアネットワーク"
-          intro="国内の共感形成と海外への認知拡張の両面で、ブランドの発信を支えるネットワークです。"
-        />
-      </div>
-      <div class="profile-grid">
-        {mediaProfiles.map((profile) => (
-          <a class="profile-card" href={profile.href} target="_blank" rel="noopener" data-reveal>
-            <img
-              src={profile.image.src}
-              alt={profile.name}
-              width={profile.image.width}
-              height={profile.image.height}
-              sizes="(max-width: 960px) 100vw, 24vw"
-              loading="lazy"
-            />
-            <div>
-              <strong>{profile.name}</strong>
-              <span>{profile.role}</span>
+        <div class="team-minimal-block">
+          <div class="team-minimal-heading" data-reveal>
+            <h4>MANAGEMENT TEAM</h4>
+            <p>マネジメントチーム</p>
+          </div>
+          <div class="team-minimal-grid">
+            {projectTeam.map((member) => (
+              <article class="team-minimal-item" data-reveal>
+                <div class="team-minimal-image">
+                  <img
+                    src={member.image.src}
+                    alt={member.name}
+                    width={member.image.width}
+                    height={member.image.height}
+                    sizes="(max-width: 768px) 100vw, 240px"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="team-minimal-name">{member.name}</div>
+                <div class="team-minimal-role">{member.role}</div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <dialog class="officer-detail-modal" id="officer-detail-modal" aria-labelledby="officer-detail-name" data-officer-modal>
+        <div class="officer-detail-panel">
+          <div class="officer-detail-media">
+            <div class="officer-detail-photo">
+              <img src="" alt="" data-officer-modal-image />
             </div>
-          </a>
-        ))}
-      </div>
+          </div>
+          <div class="officer-detail-content">
+            <button type="button" class="officer-detail-close" data-officer-modal-close aria-label="閉じる">
+              閉じる
+            </button>
+            <div class="officer-detail-header">
+              <p class="officer-detail-role" data-officer-modal-role></p>
+              <p class="officer-detail-role-detail" data-officer-modal-role-detail hidden></p>
+              <h3 id="officer-detail-name" data-officer-modal-name></h3>
+            </div>
+            <div class="officer-detail-body" data-officer-modal-body></div>
+            <div class="officer-detail-actions" data-officer-modal-actions hidden>
+              <a
+                class="officer-detail-note-link"
+                data-officer-modal-note-link
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+              >
+                <img src={withBase("/images/note_icon.svg", base)} alt="" aria-hidden="true" />
+              </a>
+              <p class="officer-detail-note-status" data-officer-modal-note-status hidden></p>
+            </div>
+          </div>
+        </div>
+      </dialog>
     </div>
   </section>
 
-  <section class="page-section">
-    <div class="site-shell split-section">
-      <div>
-        <SectionHeading
-          eyebrow="PROJECT TEAM"
-          title="推進チーム"
-          intro="SNS戦略、映像制作、運用実務まで並走し、価値が届き続ける運営を支えます。"
-        />
-      </div>
-      <div class="project-grid">
-        {projectTeam.map((member) => (
-          <article class="project-card" data-reveal>
-            <img
-              src={member.image.src}
-              alt={member.name}
-              width={member.image.width}
-              height={member.image.height}
-              sizes="(max-width: 960px) 48vw, 16vw"
-              loading="lazy"
-            />
-            <div>
-              <strong>{member.name}</strong>
-              <span>{member.role}</span>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+  <script is:inline type="module" src={teamMinimalModalScript}></script>
 
   <section class="page-section page-section--cta">
     <div class="site-shell consultation-cta" data-reveal>
       <div>
         <p class="section-heading__eyebrow">CONSULTATION</p>
-        <h2>地域の価値を、事業として前に進めたい方へ。</h2>
+        <h2>地域の価値を、届く事業へ。</h2>
         <p>
-          自治体連携、越境EC、発信設計、映像制作まで、文脈に合わせて相談内容を整理しながらご案内します。
+          価値の整理から発信・販路設計まで、前に進む形へ整えます。
         </p>
       </div>
       <a class="button button--primary" href={withBase("/contact/", base)}>

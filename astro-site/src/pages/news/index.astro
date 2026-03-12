@@ -1,10 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import SectionHeading from "../../components/SectionHeading.astro";
 import NewsArchive from "../../components/NewsArchive.astro";
+import { getBusinessNewsArticles } from "../../lib/article-groups";
 import { getNewsArticles } from "../../lib/microcms";
 
-const articles = await getNewsArticles();
+const articles = getBusinessNewsArticles(await getNewsArticles());
 
 const schema = {
   "@context": "https://schema.org",
@@ -12,13 +12,13 @@ const schema = {
   name: "新着情報",
   url: "https://chairman-official.com/news/",
   description:
-    "株式会社CHAIRMANの新着情報とバックナンバー一覧です。事業のお知らせ、取り組み、公開情報を整理してお届けします。"
+    "株式会社CHAIRMANの新着情報一覧です。LIVAPON、越境EC、海外展開に関する事業のお知らせを掲載しています。"
 };
 ---
 
 <BaseLayout
   title="新着情報"
-  description="株式会社CHAIRMANの新着情報とバックナンバー一覧です。事業のお知らせ、取り組み、公開情報を整理してお届けします。"
+  description="株式会社CHAIRMANの新着情報一覧です。LIVAPON、越境EC、海外展開に関する事業のお知らせを掲載しています。"
   pathname="/news/"
   schema={schema}
   bodyClass="page-news"
@@ -29,8 +29,8 @@ const schema = {
         <p class="section-heading__eyebrow">NEWS</p>
         <h1>新着情報</h1>
         <p>
-          CHAIRMANの事業に関するお知らせ、取り組み、公開情報を一覧でご覧いただけます。
-          初期表示で記事を読み込めるよう、一覧自体も静的生成しています。
+          LIVAPON、越境EC、海外展開に関する事業のお知らせを一覧で掲載しています。
+          取り組みやパートナーシップに関する更新も、こちらでまとめてご覧いただけます。
         </p>
       </div>
     </div>
@@ -38,12 +38,11 @@ const schema = {
 
   <section class="page-section">
     <div class="site-shell">
-      <SectionHeading
-        eyebrow="ARCHIVE"
-        title="最新100件までを整理して掲載"
-        intro="カテゴリで絞り込みながら必要な情報へたどれる構成です。"
-      />
-      <NewsArchive articles={articles} />
+      {articles.length > 0 ? (
+        <NewsArchive articles={articles} />
+      ) : (
+        <p class="empty-state" data-reveal>現在掲載中の新着情報はありません。</p>
+      )}
     </div>
   </section>
 </BaseLayout>

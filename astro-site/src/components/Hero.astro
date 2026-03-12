@@ -16,11 +16,11 @@ interface Props {
 const { signature, title, lead, slides } = Astro.props;
 ---
 
-<section class="hero">
+<section class="hero" data-hero>
   <div class="site-shell site-shell--wide hero__inner">
-    <div class="hero__copy">
-      <h1 set:html={title}></h1>
-      {signature && <p class="hero__signature">{signature}</p>}
+    <div class="hero__copy" data-hero-copy>
+      <h1 class="hero__title" data-hero-title set:html={title}></h1>
+      {signature && <p class="hero__signature" data-hero-signature>{signature}</p>}
       {lead && <p class="hero__lead">{lead}</p>}
     </div>
 

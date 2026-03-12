@@ -6,10 +6,15 @@ import { withBase } from "../lib/links";
 interface Props {
   articles: NewsArticle[];
   variant?: "home" | "stack";
+  articleBasePath?: string;
 }
 
-const { articles, variant = "home" } = Astro.props;
+const { articles, variant = "home", articleBasePath = "/news/" } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+function articleHref(slug: string) {
+  return withBase(`${articleBasePath}${slug}/`, base);
+}
 
 function isLocalImage(
   value: NewsArticle["eyecatch"]
@@ -26,7 +31,7 @@ function isLocalImage(
     return (
       <li class="news-list__item">
         {variant === "home" ? (
-          <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link news-list__link--home">
+          <a href={articleHref(article.slug)} class="news-list__link news-list__link--home">
             <span class="news-list__date">
               <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
             </span>
@@ -37,7 +42,7 @@ function isLocalImage(
             </span>
           </a>
         ) : (
-          <a href={withBase(`/news/${article.slug}/`, base)} class="news-list__link">
+          <a href={articleHref(article.slug)} class="news-list__link">
             {article.eyecatch && (
               <span class="news-list__media">
                 {localEyecatch ? (
