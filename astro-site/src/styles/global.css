@@ -376,6 +376,15 @@ p {
   gap: 22px;
 }
 
+.hero__signature {
+  margin: 0;
+  font-family: "Klee One", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size: clamp(3.8rem, 8vw, 7.4rem);
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  color: rgba(141, 8, 32, 0.9);
+}
+
 .hero__copy h1 {
   font-size: clamp(3rem, 7.2vw, 5.6rem);
   line-height: 1.08;
@@ -1484,11 +1493,12 @@ body.page-home .hero__inner {
 body.page-home .hero__copy {
   position: relative;
   z-index: 2;
-  gap: 26px;
+  gap: 10px;
   align-content: center;
-  max-width: 36rem;
+  max-width: 42rem;
 }
 
+html.js body.page-home .hero__signature,
 html.js body.page-home .hero__title-line,
 html.js body.page-home .hero__lead {
   opacity: 0;
@@ -1497,23 +1507,29 @@ html.js body.page-home .hero__lead {
 }
 
 html.js body.page-home .hero__title-line:first-child {
-  animation: hero-copy-in 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.18s forwards;
+  animation: hero-copy-in 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
 }
 
 html.js body.page-home .hero__title-line:last-child {
-  animation: hero-copy-in 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.34s forwards;
+  animation: hero-copy-in 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.22s forwards;
 }
 
-html.js body.page-home .hero__lead {
-  animation: hero-copy-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.58s forwards;
+html.js body.page-home .hero__signature {
+  animation: hero-copy-in 1.05s cubic-bezier(0.16, 1, 0.3, 1) 0.38s forwards;
 }
 
 body.page-home .hero__copy h1 {
   max-width: 10.6ch;
-  font-size: clamp(3.5rem, 6.6vw, 6.4rem);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
+  font-size: clamp(2.6rem, 4.9vw, 4.6rem);
+  line-height: 1.06;
+  letter-spacing: -0.01em;
   text-wrap: balance;
+}
+
+body.page-home .hero__signature {
+  margin-top: 6px;
+  font-size: clamp(4.6rem, 10vw, 8.6rem);
+  line-height: 0.88;
 }
 
 body.page-home .hero__title-line {
@@ -1859,9 +1875,14 @@ body.page-home .founder-note .button--secondary {
 
   body.page-home .hero__copy h1 {
     max-width: 9.8ch;
-    font-size: clamp(3.2rem, 6.8vw, 5.4rem);
+    font-size: clamp(2.4rem, 4.8vw, 4rem);
   }
 
+  body.page-home .hero__signature {
+    font-size: clamp(4.1rem, 9vw, 6.8rem);
+  }
+
+  html.js body.page-home .hero__signature,
   html.js body.page-home .hero__title-line,
   html.js body.page-home .hero__lead {
     transform: translate3d(0, 22px, 0);
@@ -2082,8 +2103,13 @@ body.page-home .founder-note .button--secondary {
     gap: 22px;
   }
 
+  body.page-home .hero__signature {
+    font-size: clamp(3.6rem, 13vw, 5.8rem);
+  }
+
   body.page-home .hero__copy h1 {
     max-width: 9.2ch;
+    font-size: clamp(2.2rem, 8vw, 3.2rem);
   }
 
   body.page-home .hero__lead {
@@ -2098,6 +2124,7 @@ body.page-home .founder-note .button--secondary {
     white-space: normal;
   }
 
+  html.js body.page-home .hero__signature,
   html.js body.page-home .hero__title-line,
   html.js body.page-home .hero__lead {
     transform: translate3d(0, 18px, 0);
@@ -2183,6 +2210,7 @@ body.page-home .founder-note .button--secondary {
     margin-top: 20px;
   }
 
+  html.js body.page-home .hero__signature,
   html.js body.page-home .hero__title-line,
   html.js body.page-home .hero__lead {
     transform: translate3d(0, 14px, 0);
@@ -2250,6 +2278,7 @@ body.page-home .founder-note .button--secondary {
     transform: none;
   }
 
+  html.js body.page-home .hero__signature,
   html.js body.page-home .hero__title-line,
   html.js body.page-home .hero__lead {
     opacity: 1;
