@@ -57,21 +57,20 @@ const schema = [
   >
     <div class="site-shell home-about">
       <div class="home-about__intro">
-        <SectionHeading
-          eyebrow="ABOUT CHAIRMAN"
-          title="価値の発見から、需要への接続まで。"
-          intro="地域や日本の価値を見つけ、伝わるかたちに整え、国内外の市場へつなぐ。その一連の設計を、事業として担います。"
-        />
-        <p class="section-note" data-reveal>
-          Japan Festival CANADA 2026 公式スポンサーとして参画予定。地域性と国際性の両方に接続する実装を進めています。
-        </p>
+        <header class="section-heading section-heading--left" data-reveal>
+          <p class="section-heading__eyebrow">ABOUT CHAIRMAN</p>
+          <h2>
+            <span class="section-heading__line">価値を見つけ、</span>
+            <span class="section-heading__line">伝わる形に</span>
+            <span class="section-heading__line">届ける</span>
+          </h2>
+        </header>
       </div>
       <div class="role-grid">
         {homeRoles.map((role) => (
           <article class="role-card" data-reveal>
             <p>{role.label}</p>
             <h3>{role.title}</h3>
-            <p>{role.body}</p>
           </article>
         ))}
       </div>

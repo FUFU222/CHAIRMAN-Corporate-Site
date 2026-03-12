@@ -7,6 +7,7 @@ export const GET: APIRoute = async () => {
     "",
     "about-us/",
     "news/",
+    "sns-marketing/",
     "contact/",
     "privacy/",
     "livapon/"

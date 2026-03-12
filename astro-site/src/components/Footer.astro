@@ -1,10 +1,14 @@
 ---
-import logo from "../assets/images/CompanyLogo.webp";
+import logo from "../assets/images/chairman-text-white.svg";
 import livaponLogo from "../assets/images/livapon_logo_white.png";
 import { site } from "../data/site";
 import { withBase } from "../lib/links";
 
 const base = import.meta.env.BASE_URL;
+const livaponLpHref = "https://sell.livapon.com/";
+const representativeNoteHref = site.representativeNote.href || withBase("/#representative-note", base);
+const representativeNoteTarget = site.representativeNote.href ? "_blank" : undefined;
+const representativeNoteRel = site.representativeNote.href ? "noopener" : undefined;
 ---
 
 <footer class="site-footer">
@@ -21,40 +25,27 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <div class="site-footer__nav">
-      <section>
-        <h2>サイト</h2>
+      <section aria-label="サイト">
         <ul>
           <li><a href={withBase("/about-us/", base)}>私たちについて</a></li>
           <li><a href={withBase("/news/", base)}>新着情報</a></li>
+          <li><a href={withBase("/sns-marketing/", base)}>SNSマーケティングについて</a></li>
           <li><a href={withBase("/contact/", base)}>お問い合わせ</a></li>
           <li><a href={withBase("/privacy/", base)}>プライバシーポリシー</a></li>
         </ul>
       </section>
-      <section>
-        <h2>事業</h2>
+      <section aria-label="事業">
         <ul>
           <li>
-            <a href={withBase("/livapon/", base)}>
+            <a href={livaponLpHref} class="site-footer__service-link" target="_blank" rel="noopener">
               <img src={livaponLogo.src} alt="LIVAPON" width={livaponLogo.width} height={livaponLogo.height} loading="lazy" class="site-footer__service-logo" />
             </a>
           </li>
           <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener">SNS運用・映像制作</a></li>
           <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener">KOSOLIFE</a></li>
-        </ul>
-      </section>
-      <section>
-        <h2>知る</h2>
-        <ul>
-          <li>
-            <a
-              href={site.representativeNote.href || withBase("/#representative-note", base)}
-              target={site.representativeNote.href ? "_blank" : undefined}
-              rel={site.representativeNote.href ? "noopener" : undefined}
-            >
-              代表の備忘録
-            </a>
+          <li class="site-footer__nav-secondary">
+            <a href={representativeNoteHref} target={representativeNoteTarget} rel={representativeNoteRel}>代表のnote</a>
           </li>
-          <li><a href="https://sell.livapon.com/" target="_blank" rel="noopener">LIVAPON サービスサイト</a></li>
         </ul>
       </section>
     </div>

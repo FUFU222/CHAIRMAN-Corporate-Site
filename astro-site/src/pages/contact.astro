@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ContactForm from "../components/ContactForm.astro";
 
 const endpoint = import.meta.env.PUBLIC_CONTACT_FORM_ENDPOINT || "";
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY || "";
 
 const schema = {
   "@context": "https://schema.org",
@@ -26,17 +27,13 @@ const schema = {
       <div class="page-hero__copy" data-reveal>
         <p class="section-heading__eyebrow">CONTACT</p>
         <h1>お問い合わせ</h1>
-        <p>
-          価値の整理から販路設計、発信支援まで、事業文脈に応じて整理しながらご案内します。
-          Astro の静的ページとして構築し、送信先は Apps Script や既存フォームへ差し替え可能な構成です。
-        </p>
       </div>
     </div>
   </section>
 
   <section class="page-section">
     <div class="site-shell">
-      <ContactForm endpoint={endpoint} />
+      <ContactForm endpoint={endpoint} recaptchaSiteKey={recaptchaSiteKey} />
     </div>
   </section>
 </BaseLayout>

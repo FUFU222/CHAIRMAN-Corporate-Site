@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import NewsList from "../components/NewsList.astro";
+import type { NewsArticle } from "../lib/types";
+import { withBase } from "../lib/links";
+import { getNewsArticles } from "../lib/microcms";
+
+const articles = await getNewsArticles();
+const base = import.meta.env.BASE_URL;
+
+const marketingKeywords = [
+  "sns",
+  "social",
+  "マーケ",
+  "運用",
+  "動画",
+  "ショート",
+  "アカウント",
+  "instagram",
+  "tiktok",
+  "youtube",
+  "line",
+  "発信"
+];
+
+function normalize(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function isMarketingArticle(article: NewsArticle) {
+  const source = [
+    article.title,
+    article.description,
+    article.excerpt,
+    ...article.categories.flatMap((category) => [category.id, category.name])
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return marketingKeywords.some((keyword) => source.includes(normalize(keyword)));
+}
+
+const marketingArticles = articles.filter(isMarketingArticle);
+const featuredArticles = (marketingArticles.length > 0 ? marketingArticles : articles).slice(0, 8);
+const visibleTopics = Array.from(
+  new Set(featuredArticles.flatMap((article) => article.categories.map((category) => category.name)))
+).slice(0, 6);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "SNSマーケティングについて",
+  url: "https://chairman-official.com/sns-marketing/",
+  description:
+    "株式会社CHAIRMANが公開しているSNSマーケティング関連の記事を整理した一覧ページです。運用設計、動画制作、改善の視点をまとめています。"
+};
+---
+
+<BaseLayout
+  title="SNSマーケティングについて"
+  description="株式会社CHAIRMANが公開しているSNSマーケティング関連の記事を整理した一覧ページです。運用設計、動画制作、改善の視点をまとめています。"
+  pathname="/sns-marketing/"
+  schema={schema}
+  bodyClass="page-sns-marketing"
+>
+  <section class="page-hero page-hero--narrow">
+    <div class="site-shell page-hero__inner page-hero__inner--single">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">SNS MARKETING</p>
+        <h1>SNSマーケティングの実践知を、静かに辿れる形で整理しています。</h1>
+        <p>
+          日々の運用現場で積み上げてきた視点を、公開記事としてまとめたページです。
+          企画、動画、改善、体制づくりまで、必要な論点から読み進められるようにしています。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="APPROACH"
+        title="支援の現場で繰り返し使う視点を、そのまま読みものへ。"
+        intro="華やかな施策紹介ではなく、実際に運用を続けるための考え方を中心に整理しています。"
+      />
+
+      <div class="sns-marketing__grid">
+        <article class="sns-marketing__card" data-reveal>
+          <p class="sns-marketing__card-label">Planning</p>
+          <h3>目的から逆算した発信設計</h3>
+          <p>認知だけで終わらせず、誰に何を届け、どこで反応を拾うかまで設計する視点を扱います。</p>
+        </article>
+        <article class="sns-marketing__card" data-reveal>
+          <p class="sns-marketing__card-label">Operation</p>
+          <h3>続く運用のための体制づくり</h3>
+          <p>属人的になりやすいSNS運用を、判断基準と運用フローに分解して整える考え方をまとめています。</p>
+        </article>
+        <article class="sns-marketing__card" data-reveal>
+          <p class="sns-marketing__card-label">Creative</p>
+          <h3>動画とクリエイティブの改善視点</h3>
+          <p>投稿単体の見た目ではなく、継続視聴や問い合わせにつながる表現設計の観点を扱います。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-section--tone">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="ARTICLES"
+        title="公開中の記事"
+        intro={
+          marketingArticles.length > 0
+            ? "SNSマーケティングに関連する記事を中心に掲載しています。"
+            : "現在取得できる公開記事を掲載しています。SNS関連の記事が増え次第、この一覧にも反映されます。"
+        }
+      />
+
+      {visibleTopics.length > 0 && (
+        <ul class="sns-marketing__topics" data-reveal aria-label="掲載テーマ">
+          {visibleTopics.map((topic) => (
+            <li>{topic}</li>
+          ))}
+        </ul>
+      )}
+
+      <div class="sns-marketing__articles" data-reveal>
+        <NewsList articles={featuredArticles} variant="stack" />
+      </div>
+
+      <div class="section-actions" data-reveal>
+        <a class="text-link" href={withBase("/contact/", base)}>
+          SNS運用について相談する
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

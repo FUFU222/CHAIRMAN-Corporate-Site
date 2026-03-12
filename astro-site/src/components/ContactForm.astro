@@ -4,22 +4,17 @@ import contactFormScript from "../scripts/contact-form.js?url";
 
 interface Props {
   endpoint?: string;
+  recaptchaSiteKey?: string;
 }
 
-const { endpoint = "" } = Astro.props;
+const { endpoint = "", recaptchaSiteKey = "" } = Astro.props;
 ---
 
 <section class="contact-form-block" data-contact-form-wrapper>
   <div class="contact-form-block__intro" data-reveal>
-    <p class="section-heading__eyebrow">CONTACT</p>
-    <h2>ご相談内容に応じて、<br />適切な窓口でご案内します。</h2>
-    <p>
-      自治体連携、地域産品の販路設計、SNS運用、映像制作、LIVAPONに関するご相談まで、
-      事業の文脈に合わせて整理しながらご返信します。
-    </p>
+    <h2>お問い合わせ内容を確認のうえ、<br />担当よりご返信します。</h2>
     <ul class="contact-form-block__notes">
       <li>通常3営業日以内にご返信します。</li>
-      <li>初期実装では Apps Script または既存フォームへ差し替え可能です。</li>
       <li>営業目的のご連絡は内容により返信できない場合があります。</li>
     </ul>
   </div>
@@ -37,18 +32,34 @@ const { endpoint = "" } = Astro.props;
       <div class="contact-form__grid">
         <label>
           <span>お名前</span>
-          <input name="name" type="text" autocomplete="name" required />
+          <input name="name" type="text" autocomplete="name" maxlength="80" required />
         </label>
         <label>
           <span>メールアドレス</span>
-          <input name="email" type="email" autocomplete="email" required />
+          <input
+            name="email"
+            type="email"
+            autocomplete="email"
+            inputmode="email"
+            autocapitalize="off"
+            spellcheck="false"
+            maxlength="254"
+            required
+          />
         </label>
       </div>
 
       <div class="contact-form__grid">
         <label>
           <span>電話番号</span>
-          <input name="phone" type="tel" autocomplete="tel" />
+          <input
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+            maxlength="32"
+            pattern="[0-9()+\\-. ]{6,32}"
+          />
         </label>
         <label>
           <span>問い合わせ種別</span>
@@ -63,7 +74,7 @@ const { endpoint = "" } = Astro.props;
 
       <label>
         <span>本文</span>
-        <textarea name="message" rows={8} required></textarea>
+        <textarea name="message" rows={8} minlength="10" maxlength="2000" required></textarea>
       </label>
 
       <label class="contact-form__honeypot" aria-hidden="true">
@@ -72,6 +83,24 @@ const { endpoint = "" } = Astro.props;
       </label>
 
       <input name="source" type="hidden" value="chairman-astro-site" />
+      <input name="jsEnabled" type="hidden" value="0" />
+      <input name="submittedAt" type="hidden" value="" />
+      <input name="g-recaptcha-response" type="hidden" value="" data-recaptcha-response />
+
+      <div class="contact-form__captcha-block">
+        {recaptchaSiteKey ? (
+          <div
+            class="contact-form__captcha"
+            data-recaptcha
+            data-sitekey={recaptchaSiteKey}
+            aria-label="reCAPTCHA によるボット対策"
+          ></div>
+        ) : (
+          <p class="contact-form__captcha-note">
+            reCAPTCHA の設定後にボット対策が有効になります。
+          </p>
+        )}
+      </div>
 
       <div class="contact-form__actions">
         <button class="button button--primary" type="submit" data-contact-submit>

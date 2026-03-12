@@ -19,8 +19,8 @@ const { signature, title, lead, slides } = Astro.props;
 <section class="hero">
   <div class="site-shell site-shell--wide hero__inner">
     <div class="hero__copy">
-      {signature && <p class="hero__signature">{signature}</p>}
       <h1 set:html={title}></h1>
+      {signature && <p class="hero__signature">{signature}</p>}
       {lead && <p class="hero__lead">{lead}</p>}
     </div>
 
