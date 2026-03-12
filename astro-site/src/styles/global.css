@@ -1521,6 +1521,7 @@ body.page-home .hero__title-line {
   display: block;
 }
 
+body.page-home .hero__title-line--keep,
 body.page-home .hero__title-line--nowrap {
   white-space: nowrap;
 }
