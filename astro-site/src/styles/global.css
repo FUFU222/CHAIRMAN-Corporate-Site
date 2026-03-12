@@ -1519,8 +1519,9 @@ html.js body.page-home .hero__signature {
 }
 
 body.page-home .hero__copy h1 {
-  max-width: 7.4ch;
-  font-size: clamp(2.2rem, 4.2vw, 3.9rem);
+  max-width: none;
+  width: max-content;
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
   line-height: 1.06;
   letter-spacing: -0.01em;
   text-wrap: initial;
@@ -1536,13 +1537,10 @@ body.page-home .hero__title-line {
   display: block;
 }
 
-body.page-home .hero__title-line--keep,
-body.page-home .hero__title-line--nowrap {
+body.page-home .hero__title-line--solid {
   white-space: nowrap;
-}
-
-body.page-home .hero__title-line--keep {
   width: max-content;
+  max-width: 100%;
 }
 
 body.page-home .hero__lead {
@@ -1878,8 +1876,7 @@ body.page-home .founder-note .button--secondary {
   }
 
   body.page-home .hero__copy h1 {
-    max-width: 7ch;
-    font-size: clamp(2rem, 4.1vw, 3.4rem);
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
   }
 
   body.page-home .hero__signature {
@@ -2112,8 +2109,8 @@ body.page-home .founder-note .button--secondary {
   }
 
   body.page-home .hero__copy h1 {
-    max-width: 6.8ch;
-    font-size: clamp(1.9rem, 7vw, 2.8rem);
+    width: 100%;
+    font-size: clamp(1.6rem, 5.7vw, 2.3rem);
   }
 
   body.page-home .hero__lead {
@@ -2124,8 +2121,8 @@ body.page-home .founder-note .button--secondary {
     min-height: min(48vh, 460px);
   }
 
-  body.page-home .hero__title-line--nowrap {
-    white-space: normal;
+  body.page-home .hero__title-line--solid {
+    width: 100%;
   }
 
   html.js body.page-home .hero__signature,
