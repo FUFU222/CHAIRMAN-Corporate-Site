@@ -1474,12 +1474,16 @@ body.page-home .hero {
 }
 
 body.page-home .hero__inner {
+  position: relative;
+  isolation: isolate;
   grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
   gap: clamp(44px, 5.5vw, 96px);
   align-items: stretch;
 }
 
 body.page-home .hero__copy {
+  position: relative;
+  z-index: 2;
   gap: 26px;
   align-content: center;
   max-width: 36rem;
@@ -1541,6 +1545,8 @@ body.page-home .hero__actions {
 }
 
 body.page-home .hero__visual {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: stretch;
   min-height: clamp(460px, calc(100dvh - var(--header-height) - 88px), 760px);
