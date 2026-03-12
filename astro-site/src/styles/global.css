@@ -1490,8 +1490,7 @@ body.page-home .hero__copy {
 }
 
 html.js body.page-home .hero__title-line,
-html.js body.page-home .hero__lead,
-html.js body.page-home .hero__actions {
+html.js body.page-home .hero__lead {
   opacity: 0;
   transform: translate3d(0, 28px, 0);
   filter: blur(10px);
@@ -1507,10 +1506,6 @@ html.js body.page-home .hero__title-line:last-child {
 
 html.js body.page-home .hero__lead {
   animation: hero-copy-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.58s forwards;
-}
-
-html.js body.page-home .hero__actions {
-  animation: hero-copy-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.74s forwards;
 }
 
 body.page-home .hero__copy h1 {
@@ -1535,13 +1530,6 @@ body.page-home .hero__lead {
   font-size: 1.04rem;
   line-height: 1.95;
   color: #595254;
-}
-
-body.page-home .hero__actions {
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 18px 28px;
 }
 
 body.page-home .hero__visual {
@@ -1875,8 +1863,7 @@ body.page-home .founder-note .button--secondary {
   }
 
   html.js body.page-home .hero__title-line,
-  html.js body.page-home .hero__lead,
-  html.js body.page-home .hero__actions {
+  html.js body.page-home .hero__lead {
     transform: translate3d(0, 22px, 0);
   }
 
@@ -2112,8 +2099,7 @@ body.page-home .founder-note .button--secondary {
   }
 
   html.js body.page-home .hero__title-line,
-  html.js body.page-home .hero__lead,
-  html.js body.page-home .hero__actions {
+  html.js body.page-home .hero__lead {
     transform: translate3d(0, 18px, 0);
   }
 
@@ -2197,15 +2183,8 @@ body.page-home .founder-note .button--secondary {
     margin-top: 20px;
   }
 
-  body.page-home .hero__actions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
   html.js body.page-home .hero__title-line,
-  html.js body.page-home .hero__lead,
-  html.js body.page-home .hero__actions {
+  html.js body.page-home .hero__lead {
     transform: translate3d(0, 14px, 0);
   }
 
@@ -2241,7 +2220,6 @@ body.page-home .founder-note .button--secondary {
 
   .hero__context,
   .article-share__links,
-  .hero__actions,
   .livapon-hero__actions,
   .contact-form__actions {
     flex-direction: column;
@@ -2273,8 +2251,7 @@ body.page-home .founder-note .button--secondary {
   }
 
   html.js body.page-home .hero__title-line,
-  html.js body.page-home .hero__lead,
-  html.js body.page-home .hero__actions {
+  html.js body.page-home .hero__lead {
     opacity: 1;
     transform: none;
     filter: none;
