@@ -370,7 +370,14 @@ function iframeResponse_(payload) {
     "<!doctype html><html><head><meta charset=\"UTF-8\"></head><body><script>" +
       "(function(){var payload=" +
       safePayload +
-      ";if(window.parent&&window.parent!==window){window.parent.postMessage(payload,'*');}document.body.textContent=payload.ok?'accepted':'rejected';})();" +
+      ";var sent=false;" +
+      "function postResult(target){try{if(target&&typeof target.postMessage==='function'){target.postMessage(payload,'*');sent=true;}}catch(error){}}" +
+      "postResult(window.parent);" +
+      "if(window.top&&window.top!==window.parent){postResult(window.top);}" +
+      "if(window.opener){postResult(window.opener);}" +
+      "document.body.textContent=payload.ok?'accepted':'rejected';" +
+      "if(!sent){document.body.setAttribute('data-postmessage','failed');}" +
+      "})();" +
       "</script></body></html>"
   ).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
