@@ -2,6 +2,9 @@ const form = document.querySelector("[data-contact-form]");
 const statusMessage = document.querySelector("[data-contact-status]");
 const submit = document.querySelector("[data-contact-submit]");
 const recaptchaContainer = document.querySelector("[data-recaptcha]");
+const feedback = document.querySelector("[data-contact-feedback]");
+const feedbackLabel = document.querySelector("[data-contact-feedback-label]");
+const assistMessage = document.querySelector("[data-contact-assist]");
 
 const RECAPTCHA_API_SRCS = [
   "https://www.google.com/recaptcha/api.js?render=explicit",
@@ -139,7 +142,7 @@ function loadRecaptchaApi() {
   });
 }
 
-if (form && statusMessage && submit) {
+if (form && statusMessage && submit && feedback && feedbackLabel) {
   let hasSubmitted = false;
   let recaptchaWidgetId = null;
   let submissionTimeoutId = null;
@@ -171,9 +174,16 @@ if (form && statusMessage && submit) {
     }
   })();
 
-  const setStatus = (message, state) => {
+  const setStatus = (message, state, options = {}) => {
+    const { label = "", assist = false } = options;
     statusMessage.textContent = message;
     statusMessage.dataset.state = state;
+    feedback.dataset.state = state;
+    feedbackLabel.textContent = label;
+
+    if (assistMessage) {
+      assistMessage.hidden = !assist;
+    }
   };
 
   const clearSubmissionTimeout = () => {
@@ -219,20 +229,28 @@ if (form && statusMessage && submit) {
             if (recaptchaResponseInput) {
               recaptchaResponseInput.value = token;
             }
-            setStatus("入力内容を確認のうえ送信してください。", "idle");
+            setStatus("入力内容を確認のうえ送信してください。", "idle", {
+              label: "ご案内"
+            });
           },
           "expired-callback": () => {
             clearRecaptchaResponse();
-            setStatus("reCAPTCHA の有効期限が切れました。もう一度チェックしてください。", "error");
+            setStatus("確認の有効期限が切れました。もう一度お試しください。", "error", {
+              label: "再確認をお願いします"
+            });
           },
           "error-callback": () => {
             clearRecaptchaResponse();
-            setStatus("reCAPTCHA の読み込みに失敗しました。時間をおいて再度お試しください。", "error");
+            setStatus("確認画面の読み込みに時間がかかっています。時間をおいて再度お試しください。", "error", {
+              label: "読み込みエラー"
+            });
           }
         });
       })
       .catch(() => {
-        setStatus("reCAPTCHA の読み込みに失敗しました。時間をおいて再度お試しください。", "error");
+        setStatus("確認画面の読み込みに時間がかかっています。時間をおいて再度お試しください。", "error", {
+          label: "読み込みエラー"
+        });
       });
   };
 
@@ -267,7 +285,9 @@ if (form && statusMessage && submit) {
       jsEnabledInput && (jsEnabledInput.value = "1");
       resetSubmissionWindow();
       resetRecaptcha();
-      setStatus("送信を受け付けました。内容を確認のうえ担当よりご連絡します。", "success");
+      setStatus("お問い合わせを受け付けました。通常3営業日以内に担当よりご連絡します。", "success", {
+        label: "送信完了"
+      });
       return;
     }
 
@@ -275,25 +295,75 @@ if (form && statusMessage && submit) {
     resetRecaptcha();
 
     const errorMessages = {
-      duplicate: "同じ内容の送信が短時間に繰り返されています。時間をおいて再度お試しください。",
-      rate_limited: "短時間の送信が多すぎます。しばらく時間をおいて再度お試しください。",
-      busy: "現在送信が混み合っています。しばらく時間をおいて再度お試しください。",
-      recaptcha_failed: "reCAPTCHA の確認に失敗しました。もう一度チェックして送信してください。",
-      recaptcha_hostname_mismatch: "reCAPTCHA の検証元が一致しません。設定をご確認ください。",
-      recaptcha_unavailable: "reCAPTCHA 検証サービスへ接続できませんでした。時間をおいて再度お試しください。",
-      recaptcha_invalid_response: "reCAPTCHA の検証結果を確認できませんでした。時間をおいて再度お試しください。",
-      recaptcha_not_configured: "サーバー側の reCAPTCHA 設定が未完了です。設定をご確認ください。",
-      missing_recaptcha_token: "reCAPTCHA を完了してから送信してください。"
+      duplicate: {
+        message: "同じ内容の送信が短時間に繰り返されています。時間をおいて再度お試しください。",
+        label: "送信をお待ちください",
+        assist: false
+      },
+      rate_limited: {
+        message: "短時間の送信が多いため、しばらく時間をおいて再度お試しください。",
+        label: "時間をおいて再送してください",
+        assist: false
+      },
+      busy: {
+        message: "現在送信が混み合っています。しばらく時間をおいて再度お試しください。",
+        label: "送信が混み合っています",
+        assist: true
+      },
+      recaptcha_failed: {
+        message: "送信前の確認が完了していません。もう一度チェックしてお試しください。",
+        label: "再確認をお願いします",
+        assist: false
+      },
+      recaptcha_hostname_mismatch: {
+        message: "現在フォームからの送信が不安定です。時間をおいて再度お試しください。",
+        label: "送信できませんでした",
+        assist: true
+      },
+      recaptcha_unavailable: {
+        message: "現在フォームからの送信が不安定です。時間をおいて再度お試しください。",
+        label: "送信できませんでした",
+        assist: true
+      },
+      recaptcha_invalid_response: {
+        message: "現在フォームからの送信が不安定です。時間をおいて再度お試しください。",
+        label: "送信できませんでした",
+        assist: true
+      },
+      recaptcha_not_configured: {
+        message: "現在フォームからの送信が不安定です。お手数ですが、時間をおいて再度お試しください。",
+        label: "送信できませんでした",
+        assist: true
+      },
+      missing_recaptcha_token: {
+        message: "送信前の確認を完了してからお試しください。",
+        label: "再確認をお願いします",
+        assist: false
+      }
     };
 
-    setStatus(errorMessages[payload.message] || "送信に失敗しました。入力内容を確認して再度お試しください。", "error");
+    const errorState = errorMessages[payload.message] || {
+      message: "送信できませんでした。時間をおいて再度お試しいただくか、下記アドレスまで直接ご連絡ください。",
+      label: "送信できませんでした",
+      assist: true
+    };
+
+    setStatus(errorState.message, "error", {
+      label: errorState.label,
+      assist: errorState.assist
+    });
   };
 
   const validateForm = () => {
-    setStatus("入力内容を確認のうえ送信してください。", "idle");
+    setStatus("入力内容を確認のうえ送信してください。", "idle", {
+      label: "ご案内"
+    });
 
     if (!nameInput || !emailInput || !phoneInput || !categoryInput || !messageInput || !companyInput) {
-      setStatus("フォーム設定に不備があります。時間をおいて再度お試しください。", "error");
+      setStatus("現在フォームの送信準備が整っていません。時間をおいて再度お試しください。", "error", {
+        label: "送信できませんでした",
+        assist: true
+      });
       return false;
     }
 
@@ -346,13 +416,17 @@ if (form && statusMessage && submit) {
     const submittedAt = Number(submittedAtInput?.value || "0");
     const elapsed = Date.now() - submittedAt;
     if (!submittedAt || elapsed < MIN_FORM_FILL_MS) {
-      setStatus("送信までの時間が短すぎます。内容を確認してからもう一度お試しください。", "error");
+      setStatus("内容を確認してから、もう一度送信してください。", "error", {
+        label: "内容をご確認ください"
+      });
       return false;
     }
 
     if (elapsed > MAX_FORM_AGE_MS) {
       resetSubmissionWindow();
-      setStatus("フォームの有効期限が切れました。入力内容を確認して再送信してください。", "error");
+      setStatus("入力に時間が空いたため、内容を確認のうえ再送信してください。", "error", {
+        label: "再送信をお願いします"
+      });
       return false;
     }
 
@@ -361,7 +435,9 @@ if (form && statusMessage && submit) {
     );
 
     if (invalidField) {
-      setStatus("入力内容をご確認ください。", "error");
+      setStatus("入力内容をご確認ください。", "error", {
+        label: "内容をご確認ください"
+      });
       invalidField.reportValidity();
       return false;
     }
@@ -383,13 +459,18 @@ if (form && statusMessage && submit) {
     if (endpoint) {
       if (!recaptchaContainer || !recaptchaSiteKey) {
         event.preventDefault();
-        setStatus("reCAPTCHA の設定が未完了です。設定後に再度お試しください。", "error");
+        setStatus("現在フォームからの送信が不安定です。時間をおいて再度お試しください。", "error", {
+          label: "送信できませんでした",
+          assist: true
+        });
         return;
       }
 
       if (!window.grecaptcha || recaptchaWidgetId === null) {
         event.preventDefault();
-        setStatus("reCAPTCHA を読み込んでいます。数秒後に再度お試しください。", "error");
+        setStatus("確認画面を読み込んでいます。数秒後に再度お試しください。", "submitting", {
+          label: "読み込み中"
+        });
         mountRecaptcha();
         return;
       }
@@ -400,7 +481,9 @@ if (form && statusMessage && submit) {
 
       if (!recaptchaToken) {
         event.preventDefault();
-        setStatus("reCAPTCHA を完了してから送信してください。", "error");
+        setStatus("送信前の確認を完了してからお試しください。", "error", {
+          label: "再確認をお願いします"
+        });
         return;
       }
 
@@ -412,21 +495,27 @@ if (form && statusMessage && submit) {
     if (!endpoint) {
       event.preventDefault();
       submit.disabled = true;
-      setStatus("デモ送信を実行しています。", "submitting");
+      setStatus("デモ送信を実行しています。", "submitting", {
+        label: "デモ送信中"
+      });
       window.setTimeout(() => {
         form.reset();
         jsEnabledInput && (jsEnabledInput.value = "1");
         resetSubmissionWindow();
         resetRecaptcha();
         submit.disabled = false;
-        setStatus("デモ送信が完了しました。Apps Script URL を設定すると本送信に切り替わります。", "success");
+        setStatus("デモ送信が完了しました。現在は確認用の表示です。", "success", {
+          label: "デモ送信完了"
+        });
       }, 700);
       return;
     }
 
     hasSubmitted = true;
     submit.disabled = true;
-    setStatus("送信中です。しばらくお待ちください。", "submitting");
+    setStatus("内容を送信しています。数秒ほどお待ちください。", "submitting", {
+      label: "送信中"
+    });
     clearSubmissionTimeout();
     submissionTimeoutId = window.setTimeout(() => {
       if (!hasSubmitted) {
@@ -437,7 +526,10 @@ if (form && statusMessage && submit) {
       submit.disabled = false;
       resetSubmissionWindow();
       resetRecaptcha();
-      setStatus("送信結果を確認できませんでした。Apps Script を最新コードで再デプロイしたうえで、もう一度お試しください。", "error");
+      setStatus("送信結果の確認に時間がかかっています。お手数ですが、時間をおいて再度お試しいただくか、下記アドレスまで直接ご連絡ください。", "error", {
+        label: "送信できませんでした",
+        assist: true
+      });
     }, 15000);
   });
 

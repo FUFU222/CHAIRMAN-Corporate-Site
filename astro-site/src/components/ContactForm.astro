@@ -5,9 +5,10 @@ import contactFormScript from "../scripts/contact-form.js?url";
 interface Props {
   endpoint?: string;
   recaptchaSiteKey?: string;
+  contactEmail?: string;
 }
 
-const { endpoint = "", recaptchaSiteKey = "" } = Astro.props;
+const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
 ---
 
 <section class="contact-form-block" data-contact-form-wrapper>
@@ -106,9 +107,24 @@ const { endpoint = "", recaptchaSiteKey = "" } = Astro.props;
         <button class="button button--primary" type="submit" data-contact-submit>
           送信する
         </button>
+      </div>
+
+      <div class="contact-form__feedback" data-contact-feedback data-state="idle" aria-live="polite" aria-atomic="true">
+        <p class="contact-form__feedback-label" data-contact-feedback-label>
+          ご案内
+        </p>
         <p class="contact-form__status" data-contact-status>
           入力内容を確認のうえ送信してください。
         </p>
+        {contactEmail && (
+          <p class="contact-form__assist" data-contact-assist hidden>
+            うまく送信できない場合は
+            {" "}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            {" "}
+            まで直接ご連絡ください。
+          </p>
+        )}
       </div>
     </form>
 

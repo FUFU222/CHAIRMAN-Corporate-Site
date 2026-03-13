@@ -6,6 +6,7 @@ import kosolifeCard from "../assets/images/service_kosolife.webp";
 export const site = {
   name: "株式会社CHAIRMAN",
   shortName: "CHAIRMAN",
+  contactEmail: "info@chairman.jp",
   description:
     "日本の文化・技・商品価値を、地域から国内外の市場へ接続する事業会社。自治体、地域事業者、ブランドとともに、価値の発見から発信、販売までを設計します。",
   siteUrl: "https://chairman-official.com",
