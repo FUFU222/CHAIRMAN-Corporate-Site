@@ -36,7 +36,10 @@ const schema = {
     </div>
   </section>
 
-  <section class="page-section">
+  <section
+    class="page-section page-news__archive-section page-section--outline page-section--outline-right"
+    data-outline-word="NEWS"
+  >
     <div class="site-shell">
       {articles.length > 0 ? (
         <NewsArchive articles={articles} />
