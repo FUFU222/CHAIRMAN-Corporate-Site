@@ -105,28 +105,14 @@ const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
 
       <div class="contact-form__actions">
         <button class="button button--primary" type="submit" data-contact-submit>
-          送信する
+          <span data-contact-submit-label>送信する</span>
         </button>
       </div>
-
-      <div class="contact-form__feedback" data-contact-feedback data-state="idle" aria-live="polite" aria-atomic="true">
-        <p class="contact-form__feedback-label" data-contact-feedback-label>
-          ご案内
-        </p>
-        <p class="contact-form__status" data-contact-status>
-          入力内容を確認のうえ送信してください。
-        </p>
-        {contactEmail && (
-          <p class="contact-form__assist" data-contact-assist hidden>
-            うまく送信できない場合は
-            {" "}
-            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-            {" "}
-            まで直接ご連絡ください。
-          </p>
-        )}
-      </div>
     </form>
+
+    <p class="contact-form__status visually-hidden" data-contact-status aria-live="polite" aria-atomic="true">
+      入力内容を確認のうえ送信してください。
+    </p>
 
     <iframe
       title="contact submission target"
@@ -135,6 +121,40 @@ const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
       hidden
       data-contact-target
     ></iframe>
+
+    <dialog class="contact-result-modal" data-contact-result-dialog aria-labelledby="contact-result-title">
+      <div class="contact-result-modal__panel" data-contact-result-panel data-state="idle">
+        <button
+          class="contact-result-modal__close"
+          type="button"
+          data-contact-result-close
+          aria-label="閉じる"
+        >
+          閉じる
+        </button>
+        <p class="contact-result-modal__eyebrow" data-contact-result-eyebrow>CONTACT</p>
+        <h3 class="contact-result-modal__title" id="contact-result-title" data-contact-result-title>
+          お問い合わせ内容をご確認ください
+        </h3>
+        <p class="contact-result-modal__message" data-contact-result-message>
+          入力内容を確認のうえ送信してください。
+        </p>
+        {contactEmail && (
+          <p class="contact-result-modal__assist" data-contact-result-assist hidden>
+            うまく送信できない場合は
+            {" "}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            {" "}
+            まで直接ご連絡ください。
+          </p>
+        )}
+        <div class="contact-result-modal__actions">
+          <button class="button button--secondary" type="button" data-contact-result-confirm>
+            フォームに戻る
+          </button>
+        </div>
+      </div>
+    </dialog>
   </div>
 </section>
 

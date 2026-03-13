@@ -1,10 +1,16 @@
 const form = document.querySelector("[data-contact-form]");
 const statusMessage = document.querySelector("[data-contact-status]");
 const submit = document.querySelector("[data-contact-submit]");
+const submitLabel = document.querySelector("[data-contact-submit-label]");
 const recaptchaContainer = document.querySelector("[data-recaptcha]");
-const feedback = document.querySelector("[data-contact-feedback]");
-const feedbackLabel = document.querySelector("[data-contact-feedback-label]");
-const assistMessage = document.querySelector("[data-contact-assist]");
+const resultDialog = document.querySelector("[data-contact-result-dialog]");
+const resultPanel = document.querySelector("[data-contact-result-panel]");
+const resultEyebrow = document.querySelector("[data-contact-result-eyebrow]");
+const resultTitle = document.querySelector("[data-contact-result-title]");
+const resultMessage = document.querySelector("[data-contact-result-message]");
+const resultAssist = document.querySelector("[data-contact-result-assist]");
+const resultClose = document.querySelector("[data-contact-result-close]");
+const resultConfirm = document.querySelector("[data-contact-result-confirm]");
 
 const RECAPTCHA_API_SRCS = [
   "https://www.google.com/recaptcha/api.js?render=explicit",
@@ -142,10 +148,21 @@ function loadRecaptchaApi() {
   });
 }
 
-if (form && statusMessage && submit && feedback && feedbackLabel) {
+if (
+  form &&
+  statusMessage &&
+  submit &&
+  submitLabel &&
+  resultDialog instanceof HTMLDialogElement &&
+  resultPanel &&
+  resultEyebrow &&
+  resultTitle &&
+  resultMessage
+) {
   let hasSubmitted = false;
   let recaptchaWidgetId = null;
   let submissionTimeoutId = null;
+  let activeTrigger = null;
   const endpoint = form.dataset.endpoint || "";
   const nameInput = form.elements.namedItem("name");
   const emailInput = form.elements.namedItem("email");
@@ -174,15 +191,58 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
     }
   })();
 
+  const setDialogLockState = (locked) => {
+    const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
+    document.documentElement.style.setProperty("--scroll-lock-offset", locked ? `${scrollbarWidth}px` : "0px");
+    document.body.classList.toggle("is-dialog-open", locked);
+  };
+
+  const closeResultDialog = () => {
+    if (resultDialog.open) {
+      resultDialog.close();
+    }
+  };
+
+  const openResultDialog = ({ eyebrow, title, message, state, assist = false }) => {
+    resultPanel.dataset.state = state;
+    resultEyebrow.textContent = eyebrow;
+    resultTitle.textContent = title;
+    resultMessage.textContent = message;
+
+    if (resultAssist) {
+      resultAssist.hidden = !assist;
+    }
+
+    activeTrigger = submit;
+    setDialogLockState(true);
+
+    if (resultDialog.open) {
+      return;
+    }
+
+    resultDialog.showModal();
+  };
+
   const setStatus = (message, state, options = {}) => {
-    const { label = "", assist = false } = options;
+    const {
+      label = "",
+      assist = false,
+      modal = false,
+      eyebrow = "CONTACT"
+    } = options;
+
     statusMessage.textContent = message;
     statusMessage.dataset.state = state;
-    feedback.dataset.state = state;
-    feedbackLabel.textContent = label;
+    submitLabel.textContent = state === "submitting" ? "送信中..." : "送信する";
 
-    if (assistMessage) {
-      assistMessage.hidden = !assist;
+    if (modal) {
+      openResultDialog({
+        eyebrow,
+        title: label,
+        message,
+        state,
+        assist
+      });
     }
   };
 
@@ -236,20 +296,26 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
           "expired-callback": () => {
             clearRecaptchaResponse();
             setStatus("確認の有効期限が切れました。もう一度お試しください。", "error", {
-              label: "再確認をお願いします"
+              label: "再確認をお願いします",
+              modal: true,
+              eyebrow: "ATTENTION"
             });
           },
           "error-callback": () => {
             clearRecaptchaResponse();
             setStatus("確認画面の読み込みに時間がかかっています。時間をおいて再度お試しください。", "error", {
-              label: "読み込みエラー"
+              label: "読み込みエラー",
+              modal: true,
+              eyebrow: "CONTACT"
             });
           }
         });
       })
       .catch(() => {
         setStatus("確認画面の読み込みに時間がかかっています。時間をおいて再度お試しください。", "error", {
-          label: "読み込みエラー"
+          label: "読み込みエラー",
+          modal: true,
+          eyebrow: "CONTACT"
         });
       });
   };
@@ -286,7 +352,9 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
       resetSubmissionWindow();
       resetRecaptcha();
       setStatus("お問い合わせを受け付けました。通常3営業日以内に担当よりご連絡します。", "success", {
-        label: "送信完了"
+        label: "お問い合わせを受け付けました",
+        modal: true,
+        eyebrow: "SEND COMPLETE"
       });
       return;
     }
@@ -298,59 +366,71 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
       duplicate: {
         message: "同じ内容の送信が短時間に繰り返されています。時間をおいて再度お試しください。",
         label: "送信をお待ちください",
-        assist: false
+        assist: false,
+        eyebrow: "SEND ERROR"
       },
       rate_limited: {
         message: "短時間の送信が多いため、しばらく時間をおいて再度お試しください。",
         label: "時間をおいて再送してください",
-        assist: false
+        assist: false,
+        eyebrow: "SEND ERROR"
       },
       busy: {
         message: "現在送信が混み合っています。しばらく時間をおいて再度お試しください。",
         label: "送信が混み合っています",
-        assist: true
+        assist: true,
+        eyebrow: "SEND ERROR"
       },
       recaptcha_failed: {
         message: "送信前の確認が完了していません。もう一度チェックしてお試しください。",
         label: "再確認をお願いします",
-        assist: false
+        assist: false,
+        eyebrow: "ATTENTION"
       },
       recaptcha_hostname_mismatch: {
         message: "現在フォームからの送信が不安定です。時間をおいて再度お試しください。",
         label: "送信できませんでした",
-        assist: true
+        assist: true,
+        eyebrow: "CONTACT"
       },
       recaptcha_unavailable: {
         message: "現在フォームからの送信が不安定です。時間をおいて再度お試しください。",
         label: "送信できませんでした",
-        assist: true
+        assist: true,
+        eyebrow: "CONTACT"
       },
       recaptcha_invalid_response: {
         message: "現在フォームからの送信が不安定です。時間をおいて再度お試しください。",
         label: "送信できませんでした",
-        assist: true
+        assist: true,
+        eyebrow: "CONTACT"
       },
       recaptcha_not_configured: {
         message: "現在フォームからの送信が不安定です。お手数ですが、時間をおいて再度お試しください。",
         label: "送信できませんでした",
-        assist: true
+        assist: true,
+        eyebrow: "CONTACT"
       },
       missing_recaptcha_token: {
         message: "送信前の確認を完了してからお試しください。",
         label: "再確認をお願いします",
-        assist: false
+        assist: false,
+        eyebrow: "ATTENTION"
       }
     };
 
     const errorState = errorMessages[payload.message] || {
       message: "送信できませんでした。時間をおいて再度お試しいただくか、下記アドレスまで直接ご連絡ください。",
       label: "送信できませんでした",
-      assist: true
+      assist: true,
+      eyebrow: "CONTACT"
     };
 
     setStatus(errorState.message, "error", {
       label: errorState.label,
-      assist: errorState.assist
+      assist: errorState.assist,
+      modal: true,
+      eyebrow: errorState.eyebrow
     });
   };
 
@@ -362,7 +442,9 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
     if (!nameInput || !emailInput || !phoneInput || !categoryInput || !messageInput || !companyInput) {
       setStatus("現在フォームの送信準備が整っていません。時間をおいて再度お試しください。", "error", {
         label: "送信できませんでした",
-        assist: true
+        assist: true,
+        modal: true,
+        eyebrow: "CONTACT"
       });
       return false;
     }
@@ -461,7 +543,9 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
         event.preventDefault();
         setStatus("現在フォームからの送信が不安定です。時間をおいて再度お試しください。", "error", {
           label: "送信できませんでした",
-          assist: true
+          assist: true,
+          modal: true,
+          eyebrow: "CONTACT"
         });
         return;
       }
@@ -505,7 +589,9 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
         resetRecaptcha();
         submit.disabled = false;
         setStatus("デモ送信が完了しました。現在は確認用の表示です。", "success", {
-          label: "デモ送信完了"
+          label: "デモ送信が完了しました",
+          modal: true,
+          eyebrow: "DEMO"
         });
       }, 700);
       return;
@@ -528,9 +614,32 @@ if (form && statusMessage && submit && feedback && feedbackLabel) {
       resetRecaptcha();
       setStatus("送信結果の確認に時間がかかっています。お手数ですが、時間をおいて再度お試しいただくか、下記アドレスまで直接ご連絡ください。", "error", {
         label: "送信できませんでした",
-        assist: true
+        assist: true,
+        modal: true,
+        eyebrow: "CONTACT"
       });
     }, 15000);
+  });
+
+  if (resultClose instanceof HTMLElement) {
+    resultClose.addEventListener("click", closeResultDialog);
+  }
+
+  if (resultConfirm instanceof HTMLElement) {
+    resultConfirm.addEventListener("click", closeResultDialog);
+  }
+
+  resultDialog.addEventListener("close", () => {
+    setDialogLockState(false);
+    if (activeTrigger instanceof HTMLElement) {
+      activeTrigger.focus();
+    }
+  });
+
+  resultDialog.addEventListener("click", (event) => {
+    if (event.target === resultDialog) {
+      closeResultDialog();
+    }
   });
 
   window.addEventListener("message", (event) => {

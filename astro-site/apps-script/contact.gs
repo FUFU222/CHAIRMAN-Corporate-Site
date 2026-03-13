@@ -1,5 +1,15 @@
 const CONTACT_SUBJECT_PREFIX = "[CHAIRMAN Contact]";
+const CONTACT_AUTO_REPLY_SUBJECT = "お問い合わせありがとうございます | 株式会社CHAIRMAN";
 const RESPONSE_MESSAGE_TYPE = "chairman-contact-submit";
+const COMPANY_NAME = "株式会社CHAIRMAN";
+const SITE_URL = "https://chairman-official.com/";
+const DEFAULT_REPLY_TO = "info@chairman.jp";
+const BRAND_COLOR = "#8d0820";
+const BRAND_COLOR_SOFT = "#f8eef1";
+const SUCCESS_COLOR = "#226749";
+const TEXT_COLOR = "#181214";
+const MUTED_COLOR = "#6b5d61";
+const LINE_COLOR = "rgba(141, 8, 32, 0.12)";
 const ALLOWED_CATEGORIES = [
   "SNSマーケティングについて",
   "動画制作について",
@@ -59,13 +69,18 @@ function doPost(e) {
   const notifyTo = properties.getProperty("NOTIFY_TO");
   const sheetId = properties.getProperty("SHEET_ID");
   const sheetName = properties.getProperty("SHEET_NAME") || "contact";
+  const replyToAddress = properties.getProperty("REPLY_TO") || notifyTo || DEFAULT_REPLY_TO;
 
   if (sheetId) {
     appendToSheet_(sheetId, sheetName, payload);
   }
 
   if (notifyTo) {
-    sendNotification_(notifyTo, payload);
+    sendNotification_(notifyTo, payload, replyToAddress);
+  }
+
+  if (payload.email) {
+    sendAutoReply_(payload, replyToAddress);
   }
 
   return iframeResponse_({ ok: true, message: "accepted" });
@@ -158,22 +173,104 @@ function appendToSheet_(sheetId, sheetName, payload) {
   }
 }
 
-function sendNotification_(notifyTo, payload) {
+function sendNotification_(notifyTo, payload, replyToAddress) {
   const subject = CONTACT_SUBJECT_PREFIX + " " + payload.category;
+  const receivedAt = formatTimestamp_(new Date());
+  const summaryRows = [
+    { label: "お名前", value: payload.name },
+    { label: "メールアドレス", value: payload.email },
+    { label: "電話番号", value: payload.phone || "未入力" },
+    { label: "問い合わせ種別", value: payload.category },
+    { label: "受付日時", value: receivedAt }
+  ];
+
   const body = [
     "CHAIRMANサイトからお問い合わせがありました。",
     "",
     "お名前: " + payload.name,
     "メールアドレス: " + payload.email,
-    "電話番号: " + payload.phone,
+    "電話番号: " + (payload.phone || "未入力"),
     "問い合わせ種別: " + payload.category,
-    "送信元: " + payload.source,
+    "受付日時: " + receivedAt,
     "",
     payload.message
   ].join("\n");
 
+  const htmlBody = buildMailShell_({
+    eyebrow: "CONTACT RECEIVED",
+    title: "新しいお問い合わせを受け付けました",
+    lead: "コーポレートサイトから新しいお問い合わせが届いています。返信時はお問い合わせ元メールアドレスへ返送されます。",
+    tone: "default",
+    summaryRows: summaryRows,
+    messageLabel: "お問い合わせ本文",
+    messageBody: payload.message,
+    footer:
+      "このメールは " +
+      COMPANY_NAME +
+      " の問い合わせ受付から自動送信されています。返信は " +
+      escapeHtml_(payload.email) +
+      " 宛に返送されます。"
+  });
+
   MailApp.sendEmail(notifyTo, subject, body, {
-    replyTo: payload.email
+    htmlBody: htmlBody,
+    name: COMPANY_NAME,
+    replyTo: payload.email || replyToAddress
+  });
+}
+
+function sendAutoReply_(payload, replyToAddress) {
+  const summaryRows = [
+    { label: "お名前", value: payload.name },
+    { label: "メールアドレス", value: payload.email },
+    { label: "電話番号", value: payload.phone || "未入力" },
+    { label: "問い合わせ種別", value: payload.category }
+  ];
+
+  const body = [
+    payload.name + " 様",
+    "",
+    COMPANY_NAME + " へお問い合わせいただき、ありがとうございます。",
+    "内容を確認のうえ、通常3営業日以内に担当よりご連絡します。",
+    "お急ぎの場合は " + replyToAddress + " までご連絡ください。",
+    "",
+    "受け付けた内容",
+    "お名前: " + payload.name,
+    "メールアドレス: " + payload.email,
+    "電話番号: " + (payload.phone || "未入力"),
+    "問い合わせ種別: " + payload.category,
+    "",
+    payload.message
+  ].join("\n");
+
+  const htmlBody = buildMailShell_({
+    eyebrow: "THANK YOU",
+    title: "お問い合わせありがとうございます",
+    lead:
+      COMPANY_NAME +
+      " へのお問い合わせを受け付けました。内容を確認のうえ、通常3営業日以内に担当よりご連絡します。",
+    tone: "success",
+    summaryRows: summaryRows,
+    messageLabel: "お問い合わせ本文",
+    messageBody: payload.message,
+    note:
+      "お急ぎの場合は <a href=\"mailto:" +
+      escapeHtmlAttribute_(replyToAddress) +
+      "\" style=\"color:" +
+      BRAND_COLOR +
+      ";text-decoration:underline;text-underline-offset:0.18em;\">" +
+      escapeHtml_(replyToAddress) +
+      "</a> まで直接ご連絡ください。",
+    footer:
+      "本メールは送信専用です。ご返信の際は " +
+      escapeHtml_(replyToAddress) +
+      " までご連絡ください。"
+  });
+
+  MailApp.sendEmail(payload.email, CONTACT_AUTO_REPLY_SUBJECT, body, {
+    htmlBody: htmlBody,
+    name: COMPANY_NAME,
+    replyTo: replyToAddress
   });
 }
 
@@ -200,6 +297,146 @@ function normalizeMessage_(value) {
   normalized = normalized.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim();
   normalized = normalized.replace(/\n{3,}/g, "\n\n");
   return normalized.slice(0, MESSAGE_MAX_LENGTH);
+}
+
+function formatTimestamp_(date) {
+  return Utilities.formatDate(date, Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm:ss");
+}
+
+function escapeHtml_(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeHtmlAttribute_(value) {
+  return escapeHtml_(value).replace(/\n/g, " ");
+}
+
+function escapeHtmlWithBreaks_(value) {
+  return escapeHtml_(value).replace(/\r\n?/g, "\n").replace(/\n/g, "<br>");
+}
+
+function buildMailShell_(options) {
+  const tone = options.tone === "success" ? SUCCESS_COLOR : BRAND_COLOR;
+  const summaryRows = options.summaryRows || [];
+  const summaryHtml = summaryRows
+    .map(function (row) {
+      return (
+        "<tr>" +
+        "<td style=\"padding:11px 0;color:" +
+        MUTED_COLOR +
+        ";font-size:13px;letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid " +
+        LINE_COLOR +
+        ";width:34%;vertical-align:top;\">" +
+        escapeHtml_(row.label) +
+        "</td>" +
+        "<td style=\"padding:11px 0 11px 18px;color:" +
+        TEXT_COLOR +
+        ";font-size:14px;line-height:1.75;border-bottom:1px solid " +
+        LINE_COLOR +
+        ";\">" +
+        escapeHtmlWithBreaks_(row.value) +
+        "</td>" +
+        "</tr>"
+      );
+    })
+    .join("");
+
+  const noteHtml = options.note
+    ? "<div style=\"margin-top:22px;padding:18px 20px;border-radius:18px;background:" +
+      BRAND_COLOR_SOFT +
+      ";color:" +
+      MUTED_COLOR +
+      ";font-size:14px;line-height:1.8;\">" +
+      options.note +
+      "</div>"
+    : "";
+
+  const messageHtml = options.messageBody
+    ? "<div style=\"margin-top:24px;\">" +
+      "<p style=\"margin:0 0 10px;color:" +
+      tone +
+      ";font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;\">" +
+      escapeHtml_(options.messageLabel || "本文") +
+      "</p>" +
+      "<div style=\"padding:20px 22px;border:1px solid " +
+      LINE_COLOR +
+      ";border-radius:18px;background:#ffffff;color:" +
+      TEXT_COLOR +
+      ";font-size:14px;line-height:1.9;\">" +
+      escapeHtmlWithBreaks_(options.messageBody) +
+      "</div>" +
+      "</div>"
+    : "";
+
+  return (
+    "<!doctype html><html><body style=\"margin:0;padding:0;background:#f4eff0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic','Meiryo',sans-serif;color:" +
+    TEXT_COLOR +
+    ";\">" +
+    "<div style=\"padding:32px 16px;\">" +
+    "<table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" style=\"max-width:680px;margin:0 auto;border-collapse:collapse;\">" +
+    "<tr><td>" +
+    "<div style=\"padding:28px 30px 12px;background:" +
+    tone +
+    ";border-radius:28px 28px 0 0;color:#ffffff;\">" +
+    "<p style=\"margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;opacity:0.88;\">" +
+    escapeHtml_(options.eyebrow || "CONTACT") +
+    "</p>" +
+    "<p style=\"margin:0;font-size:31px;line-height:1.24;font-weight:700;\">" +
+    escapeHtml_(COMPANY_NAME) +
+    "</p>" +
+    "</div>" +
+    "</td></tr>" +
+    "<tr><td>" +
+    "<div style=\"padding:32px 30px;background:#ffffff;border:1px solid rgba(24,18,20,0.06);border-top:0;border-radius:0 0 28px 28px;box-shadow:0 18px 42px rgba(24,18,20,0.08);\">" +
+    "<p style=\"margin:0 0 14px;color:" +
+    tone +
+    ";font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;\">" +
+    escapeHtml_(options.eyebrow || "CONTACT") +
+    "</p>" +
+    "<h1 style=\"margin:0 0 16px;font-size:28px;line-height:1.4;font-weight:700;color:" +
+    TEXT_COLOR +
+    ";\">" +
+    escapeHtml_(options.title || "") +
+    "</h1>" +
+    "<p style=\"margin:0;color:" +
+    MUTED_COLOR +
+    ";font-size:14px;line-height:1.9;\">" +
+    escapeHtml_(options.lead || "") +
+    "</p>" +
+    "<div style=\"margin-top:28px;padding:22px 24px;border:1px solid " +
+    LINE_COLOR +
+    ";border-radius:20px;background:#fbf8f8;\">" +
+    "<table role=\"presentation\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\" style=\"border-collapse:collapse;\">" +
+    summaryHtml +
+    "</table>" +
+    "</div>" +
+    messageHtml +
+    noteHtml +
+    "<div style=\"margin-top:28px;padding-top:20px;border-top:1px solid " +
+    LINE_COLOR +
+    ";\">" +
+    "<p style=\"margin:0 0 8px;color:" +
+    TEXT_COLOR +
+    ";font-size:13px;font-weight:700;\">" +
+    escapeHtml_(COMPANY_NAME) +
+    "</p>" +
+    "<p style=\"margin:0;color:" +
+    MUTED_COLOR +
+    ";font-size:12px;line-height:1.8;\">" +
+    escapeHtml_(options.footer || SITE_URL) +
+    "</p>" +
+    "</div>" +
+    "</div>" +
+    "</td></tr>" +
+    "</table>" +
+    "</div>" +
+    "</body></html>"
+  );
 }
 
 function hasSuspiciousMarkup_(value) {

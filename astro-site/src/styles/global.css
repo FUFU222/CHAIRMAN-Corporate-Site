@@ -1881,30 +1881,8 @@ body.page-about .officer-detail-note-status {
   gap: 14px 18px;
 }
 
-.contact-form__feedback {
-  display: grid;
-  gap: 10px;
-  margin-top: 22px;
-  padding: 18px 20px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  background: #fbf8f8;
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
-}
-
-.contact-form__feedback-label {
-  margin: 0;
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
 .contact-form__status {
-  margin: 0;
   color: var(--muted);
-  line-height: 1.75;
 }
 
 .contact-form__status[data-state="success"] {
@@ -1919,39 +1897,109 @@ body.page-about .officer-detail-note-status {
   color: var(--gold);
 }
 
-.contact-form__feedback[data-state="success"] {
-  border-color: rgba(34, 103, 73, 0.18);
-  background: rgba(34, 103, 73, 0.05);
+.contact-form .button[disabled] {
+  cursor: wait;
+  opacity: 0.78;
 }
 
-.contact-form__feedback[data-state="success"] .contact-form__feedback-label {
+.contact-result-modal {
+  inset: 0;
+  width: min(560px, calc(100% - 28px));
+  max-width: 560px;
+  max-height: calc(100vh - 28px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.contact-result-modal::backdrop {
+  background: rgba(18, 14, 16, 0.54);
+  backdrop-filter: blur(6px);
+}
+
+.contact-result-modal__panel {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  padding: clamp(28px, 4vw, 34px);
+  border: 1px solid rgba(141, 8, 32, 0.1);
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: 0 28px 60px rgba(27, 16, 20, 0.2);
+}
+
+.contact-result-modal__panel[data-state="success"] {
+  border-color: rgba(34, 103, 73, 0.16);
+}
+
+.contact-result-modal__panel[data-state="error"] {
+  border-color: rgba(141, 8, 32, 0.18);
+}
+
+.contact-result-modal__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.contact-result-modal__panel[data-state="success"] .contact-result-modal__eyebrow {
   color: #226749;
 }
 
-.contact-form__feedback[data-state="error"] {
-  border-color: rgba(141, 8, 32, 0.16);
-  background: rgba(141, 8, 32, 0.05);
+.contact-result-modal__panel[data-state="error"] .contact-result-modal__eyebrow {
+  color: var(--accent);
 }
 
-.contact-form__feedback[data-state="submitting"] {
-  border-color: rgba(158, 123, 66, 0.22);
-  background: rgba(158, 123, 66, 0.07);
+.contact-result-modal__title {
+  margin: 0;
+  padding-right: 64px;
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  line-height: 1.35;
 }
 
-.contact-form__feedback[data-state="submitting"] .contact-form__feedback-label {
-  color: var(--gold);
-}
-
-.contact-form__assist {
+.contact-result-modal__message {
   margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
+  line-height: 1.8;
 }
 
-.contact-form__assist a {
+.contact-result-modal__assist {
+  margin: 2px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.contact-result-modal__assist a {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 0.18em;
+}
+
+.contact-result-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.contact-result-modal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: 0;
+  background: transparent;
+  color: #706569;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .legal-layout {
@@ -3164,6 +3212,21 @@ body.page-home .founder-note .button--secondary {
     padding: 26px;
   }
 
+  .contact-result-modal {
+    width: min(100% - 20px, 560px);
+    max-height: calc(100vh - 20px);
+  }
+
+  .contact-result-modal__panel {
+    padding: 24px 20px 22px;
+    border-radius: 24px;
+  }
+
+  .contact-result-modal__title {
+    padding-right: 52px;
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
   .site-footer__nav {
     grid-template-columns: 1fr;
   }
@@ -3238,6 +3301,19 @@ body.page-home .founder-note .button--secondary {
 
   .contact-form {
     padding: 22px;
+  }
+
+  .contact-result-modal__close {
+    top: 14px;
+    right: 14px;
+  }
+
+  .contact-result-modal__actions {
+    justify-content: stretch;
+  }
+
+  .contact-result-modal__actions .button {
+    width: 100%;
   }
 
   .article__content,
