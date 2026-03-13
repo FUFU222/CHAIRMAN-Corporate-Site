@@ -3,7 +3,10 @@ const statusMessage = document.querySelector("[data-contact-status]");
 const submit = document.querySelector("[data-contact-submit]");
 const recaptchaContainer = document.querySelector("[data-recaptcha]");
 
-const RECAPTCHA_API_SRC = "https://www.google.com/recaptcha/api.js?render=explicit";
+const RECAPTCHA_API_SRCS = [
+  "https://www.google.com/recaptcha/api.js?render=explicit",
+  "https://www.recaptcha.net/recaptcha/api.js?render=explicit"
+];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_PATTERN = /^[0-9()+\-. ]{6,32}$/;
 const SUSPICIOUS_MARKUP_PATTERN = /<[^>]+>|javascript:|data:text\/html|on[a-z]+\s*=|<script/i;
@@ -16,6 +19,8 @@ const EMAIL_MAX_LENGTH = 254;
 const PHONE_MAX_LENGTH = 32;
 const MESSAGE_MIN_LENGTH = 10;
 const MESSAGE_MAX_LENGTH = 2000;
+const RECAPTCHA_READY_TIMEOUT_MS = 7000;
+const RECAPTCHA_READY_POLL_MS = 120;
 
 function safeNormalize(value, form = "NFKC") {
   return typeof value.normalize === "function" ? value.normalize(form) : value;
@@ -55,33 +60,83 @@ function clearFieldError(field) {
   field.setCustomValidity("");
 }
 
+function getRecaptchaApi() {
+  return window.grecaptcha && typeof window.grecaptcha.render === "function" ? window.grecaptcha : null;
+}
+
+function waitForRecaptchaReady(timeoutMs = RECAPTCHA_READY_TIMEOUT_MS) {
+  const readyApi = getRecaptchaApi();
+  if (readyApi) {
+    return Promise.resolve(readyApi);
+  }
+
+  return new Promise((resolve, reject) => {
+    const startedAt = Date.now();
+
+    const check = () => {
+      const api = getRecaptchaApi();
+      if (api) {
+        resolve(api);
+        return;
+      }
+
+      if (Date.now() - startedAt >= timeoutMs) {
+        reject(new Error("reCAPTCHA timed out"));
+        return;
+      }
+
+      window.setTimeout(check, RECAPTCHA_READY_POLL_MS);
+    };
+
+    check();
+  });
+}
+
+function ensureRecaptchaScript(src) {
+  return new Promise((resolve, reject) => {
+    const existingScript = document.querySelector(`script[src="${src}"]`);
+    if (existingScript) {
+      waitForRecaptchaReady()
+        .then(resolve)
+        .catch(() => {
+          existingScript.addEventListener("load", () => {
+            waitForRecaptchaReady().then(resolve).catch(reject);
+          }, { once: true });
+          existingScript.addEventListener("error", () => reject(new Error("reCAPTCHA failed to load")), { once: true });
+        });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      waitForRecaptchaReady().then(resolve).catch(reject);
+    };
+    script.onerror = () => reject(new Error("reCAPTCHA failed to load"));
+    document.head.appendChild(script);
+  });
+}
+
 function loadRecaptchaApi() {
-  if (window.grecaptcha && typeof window.grecaptcha.render === "function") {
-    return Promise.resolve(window.grecaptcha);
+  const readyApi = getRecaptchaApi();
+  if (readyApi) {
+    return Promise.resolve(readyApi);
   }
 
   if (window.__chairmanRecaptchaPromise) {
     return window.__chairmanRecaptchaPromise;
   }
 
-  window.__chairmanRecaptchaPromise = new Promise((resolve, reject) => {
-    const existingScript = document.querySelector(`script[src="${RECAPTCHA_API_SRC}"]`);
-    if (existingScript) {
-      existingScript.addEventListener("load", () => resolve(window.grecaptcha), { once: true });
-      existingScript.addEventListener("error", () => reject(new Error("reCAPTCHA failed to load")), { once: true });
-      return;
-    }
+  window.__chairmanRecaptchaPromise = RECAPTCHA_API_SRCS.reduce((promise, src) => {
+    return promise.catch(() => ensureRecaptchaScript(src));
+  }, Promise.reject(new Error("reCAPTCHA not attempted")));
 
-    const script = document.createElement("script");
-    script.src = RECAPTCHA_API_SRC;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => resolve(window.grecaptcha);
-    script.onerror = () => reject(new Error("reCAPTCHA failed to load"));
-    document.head.appendChild(script);
+  return window.__chairmanRecaptchaPromise.catch((error) => {
+    window.__chairmanRecaptchaPromise = null;
+    throw error;
   });
-
-  return window.__chairmanRecaptchaPromise;
 }
 
 if (form && statusMessage && submit) {
