@@ -92,6 +92,26 @@ button {
   outline-offset: 4px;
 }
 
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -56px;
+  z-index: 140;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  transition: top 180ms ease;
+}
+
+.skip-link:focus-visible {
+  top: 14px;
+}
+
 main {
   padding-top: var(--header-height);
 }
@@ -1603,11 +1623,36 @@ body.page-about .officer-detail-note-status {
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.news-archive__item a {
+.news-archive__link {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.44fr);
   gap: 32px;
   padding: 26px 0;
+}
+
+.news-archive__link--visual {
+  grid-template-columns: minmax(280px, 0.56fr) minmax(0, 1fr);
+  align-items: center;
+}
+
+.news-archive__visual {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(141, 8, 32, 0.08);
+  border-radius: calc(var(--radius-small) + 2px);
+  background: linear-gradient(180deg, #faf7f8 0%, #ffffff 100%);
+  box-shadow: 0 16px 36px rgba(44, 24, 30, 0.05);
+}
+
+.news-archive__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.news-archive__body {
+  display: grid;
+  gap: 12px;
 }
 
 .news-archive__meta {
@@ -1618,10 +1663,15 @@ body.page-about .officer-detail-note-status {
   color: var(--muted);
 }
 
+.news-archive__body .news-archive__meta {
+  margin-bottom: 0;
+}
+
 .news-archive__item h2 {
   font-size: clamp(1.24rem, 2.2vw, 1.8rem);
 }
 
+.news-archive__excerpt,
 .news-archive__item p:last-child {
   color: var(--muted);
 }
@@ -1667,6 +1717,8 @@ body.page-about .officer-detail-note-status {
 }
 
 .article__hero-inner {
+  display: grid;
+  gap: 28px;
   max-width: 920px;
   margin: 0 auto;
 }
@@ -1686,6 +1738,20 @@ body.page-about .officer-detail-note-status {
   flex-wrap: wrap;
   gap: 8px 16px;
   color: var(--muted);
+}
+
+.article__hero-visual {
+  overflow: hidden;
+  border: 1px solid rgba(141, 8, 32, 0.08);
+  border-radius: calc(var(--radius) + 4px);
+  background: linear-gradient(180deg, #faf7f8 0%, #ffffff 100%);
+  box-shadow: 0 22px 48px rgba(44, 24, 30, 0.06);
+}
+
+.article__hero-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .article__content {
@@ -1723,6 +1789,25 @@ body.page-about .officer-detail-note-status {
 .rich-text ol {
   margin: 0;
   padding-left: 1.2em;
+}
+
+.rich-text__figure {
+  display: grid;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.rich-text__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.rich-text__figure figcaption {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.7;
 }
 
 .article__support {
@@ -2124,7 +2209,9 @@ body.page-about .officer-detail-note-status {
 
 .site-footer {
   margin-top: 96px;
-  background: linear-gradient(145deg, #262024 0%, #363035 100%);
+  background:
+    radial-gradient(circle at left top, rgba(141, 8, 32, 0.22), transparent 34%),
+    linear-gradient(145deg, #262024 0%, #363035 100%);
   color: rgba(255, 255, 255, 0.82);
 }
 
@@ -2137,11 +2224,22 @@ body.page-about .officer-detail-note-status {
 
 .site-footer__brand {
   display: grid;
-  gap: 18px;
+  gap: 16px;
 }
 
-.site-footer__brand p {
-  color: rgba(255, 255, 255, 0.62);
+.site-footer__eyebrow {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+}
+
+.site-footer__brand h2 {
+  margin: 0;
+  max-width: 9.6ch;
+  color: #fff;
+  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+  line-height: 1.18;
 }
 
 .site-footer__logo {
@@ -2165,9 +2263,11 @@ body.page-about .officer-detail-note-status {
 }
 
 .site-footer__nav h2 {
+  margin: 0;
   font-size: 1rem;
   font-family: var(--font-sans);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.12em;
 }
 
 .site-footer__nav ul {
@@ -2710,15 +2810,46 @@ body.page-home .company-facts dt {
   color: #8b8184;
 }
 
+body.page-home #representative-note.page-section {
+  padding-top: clamp(68px, 8vw, 96px);
+  padding-bottom: clamp(72px, 8vw, 102px);
+}
+
 body.page-home .founder-note {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 48px;
-  padding-top: 34px;
+  gap: 28px;
+  padding-top: 22px;
+}
+
+body.page-home .founder-note > div:first-child {
+  display: grid;
+  gap: 10px;
+  max-width: 40rem;
 }
 
 body.page-home .founder-note__actions {
-  align-self: end;
+  align-self: center;
+}
+
+body.page-home .founder-note h2 {
+  font-size: clamp(1.45rem, 2.2vw, 2.05rem);
+  line-height: 1.3;
+}
+
+body.page-home .founder-note p:last-child {
+  margin: 0;
+  max-width: 44ch;
+  color: #595254;
+  font-size: 0.97rem;
+  line-height: 1.85;
+}
+
+body.page-home .founder-note .status-chip,
+body.page-home .founder-note .button--secondary {
+  min-height: 40px;
+  padding: 9px 16px;
+  font-size: 0.86rem;
 }
 
 body.page-home .founder-note .button--secondary {
@@ -2875,7 +3006,7 @@ body.page-home .founder-note .button--secondary {
 
   .business-row,
   .business-row--reverse,
-  .news-archive__item a,
+  .news-archive__link,
   .consultation-cta,
   .related-section,
   .site-footer__inner {
@@ -2898,6 +3029,15 @@ body.page-home .founder-note .button--secondary {
 
   .site-footer__nav {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .site-footer__brand h2 {
+    max-width: none;
+  }
+
+  body.page-home #representative-note.page-section {
+    padding-top: 64px;
+    padding-bottom: 72px;
   }
 }
 
@@ -3192,6 +3332,11 @@ body.page-home .founder-note .button--secondary {
     gap: 12px;
   }
 
+  body.page-home #representative-note.page-section {
+    padding-top: 56px;
+    padding-bottom: 60px;
+  }
+
   body.page-home .company-facts div,
   body.page-home .founder-note {
     grid-template-columns: 1fr;
@@ -3229,6 +3374,20 @@ body.page-home .founder-note .button--secondary {
 
   .site-footer__nav {
     grid-template-columns: 1fr;
+  }
+
+  body.page-home .founder-note {
+    gap: 18px;
+    padding-top: 18px;
+  }
+
+  body.page-home .founder-note h2 {
+    font-size: clamp(1.2rem, 5.8vw, 1.55rem);
+  }
+
+  body.page-home .founder-note p:last-child {
+    font-size: 0.92rem;
+    line-height: 1.75;
   }
 }
 

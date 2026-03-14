@@ -2,14 +2,16 @@
 import type { NewsArticle } from "../lib/types";
 import { formatDateJP } from "../lib/format";
 import { withBase } from "../lib/links";
+import { getArticleHeroImage } from "../lib/article-enhancements";
 import archiveScript from "../scripts/news-archive.js?url";
 
 interface Props {
   articles: NewsArticle[];
   articleBasePath?: string;
+  showHeroImages?: boolean;
 }
 
-const { articles, articleBasePath = "/news/" } = Astro.props;
+const { articles, articleBasePath = "/news/", showHeroImages = false } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const categories = Array.from(
   new Map(
@@ -37,25 +39,53 @@ function articleHref(slug: string) {
   </div>
 
   <div class="news-archive__list">
-    {articles.map((article, index) => (
-      <article
-        class="news-archive__item"
-        data-archive-item
-        data-categories={article.categories.map((category) => category.id).join(",")}
-        data-index={index}
-      >
-        <a href={articleHref(article.slug)}>
-          <div>
-            <p class="news-archive__meta">
-              <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
-              <span>{article.categories.map((category) => category.name).join(" / ")}</span>
-            </p>
-            <h2>{article.title}</h2>
-          </div>
-          <p>{article.excerpt}</p>
-        </a>
-      </article>
-    ))}
+    {articles.map((article, index) => {
+      const heroImage = showHeroImages ? getArticleHeroImage(article) : null;
+
+      return (
+        <article
+          class="news-archive__item"
+          data-archive-item
+          data-categories={article.categories.map((category) => category.id).join(",")}
+          data-index={index}
+        >
+          {heroImage ? (
+            <a href={articleHref(article.slug)} class="news-archive__link news-archive__link--visual">
+              <span class="news-archive__visual">
+                <img
+                  src={heroImage.src}
+                  alt={heroImage.alt}
+                  width={heroImage.width}
+                  height={heroImage.height}
+                  sizes="(max-width: 820px) 100vw, 340px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <span class="news-archive__body">
+                <span class="news-archive__meta">
+                  <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+                  <span>{article.categories.map((category) => category.name).join(" / ")}</span>
+                </span>
+                <h2>{article.title}</h2>
+                <span class="news-archive__excerpt">{article.excerpt}</span>
+              </span>
+            </a>
+          ) : (
+            <a href={articleHref(article.slug)} class="news-archive__link">
+              <div>
+                <p class="news-archive__meta">
+                  <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+                  <span>{article.categories.map((category) => category.name).join(" / ")}</span>
+                </p>
+                <h2>{article.title}</h2>
+              </div>
+              <p>{article.excerpt}</p>
+            </a>
+          )}
+        </article>
+      );
+    })}
   </div>
 
   <div class="news-archive__actions">

@@ -3,12 +3,12 @@ import cooImage from "../assets/images/COO-image.webp";
 import csoImage from "../assets/images/CSO-image.webp";
 import travelImage from "../assets/images/teamMemberImage1.jpg";
 import mrTokyoImage from "../assets/images/mr_tokyo_image.webp";
+import hayashiImage from "../assets/images/teamMemberImage4.jpg";
 import marketerOne from "../assets/images/teamMemberImage2.jpg";
 import marketerTwo from "../assets/images/teamMemberImage3.jpg";
 import creatorOne from "../assets/images/teamMemberImage5.jpg";
 import creatorTwo from "../assets/images/teamMemberImage6.jpg";
 import creatorThree from "../assets/images/teamMemberImage7.jpg";
-import creatorFour from "../assets/images/teamMemberImage8.jpg";
 import type { MediaProfile, Officer, TeamMember } from "../lib/types";
 
 export const officers: Officer[] = [
@@ -66,10 +66,10 @@ export const mediaProfiles: MediaProfile[] = [
 ];
 
 export const projectTeam: TeamMember[] = [
+  { name: "林 健斗", role: "SNSマーケター", image: hayashiImage },
   { name: "本間 大嗣", role: "SNSマーケター", image: marketerOne },
   { name: "田中 彰", role: "SNSマーケター", image: marketerTwo },
   { name: "石井 克樹", role: "映像クリエイター", image: creatorOne },
   { name: "金 優樹", role: "映像クリエイター", image: creatorTwo },
-  { name: "杉本 雅", role: "映像クリエイター", image: creatorThree },
-  { name: "藤元 翼", role: "映像クリエイター", image: creatorFour }
+  { name: "杉本 雅", role: "映像クリエイター", image: creatorThree }
 ];

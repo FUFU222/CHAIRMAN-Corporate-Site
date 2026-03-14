@@ -5,6 +5,10 @@ import NewsList from "../../components/NewsList.astro";
 import ArticleShare from "../../components/ArticleShare.astro";
 import { absoluteUrl, formatDateJP } from "../../lib/format";
 import { withBase } from "../../lib/links";
+import {
+  getArticleHeroImage,
+  getEnhancedArticleContentHtml
+} from "../../lib/article-enhancements";
 import { getBusinessNewsArticles } from "../../lib/article-groups";
 import { getLatestNews, getNewsArticles, getRelatedNews } from "../../lib/microcms";
 
@@ -24,6 +28,8 @@ const latestArticles = getLatestNews(
 );
 const articleUrl = absoluteUrl(`/news/${article.slug}/`, "https://chairman-official.com");
 const base = import.meta.env.BASE_URL;
+const heroImage = getArticleHeroImage(article);
+const articleContentHtml = getEnhancedArticleContentHtml(article);
 
 const schema = {
   "@context": "https://schema.org",
@@ -43,6 +49,10 @@ const schema = {
   title={article.title}
   description={article.description || article.excerpt}
   pathname={`/news/${article.slug}/`}
+  image={heroImage?.src}
+  socialImageAlt={heroImage?.alt || article.title}
+  ogType="article"
+  publishedTime={article.publishedAt}
   schema={schema}
   bodyClass="page-article"
 >
@@ -57,12 +67,25 @@ const schema = {
           <h1>{article.title}</h1>
           <p>{article.description || article.excerpt}</p>
         </div>
+        {heroImage && (
+          <figure class="article__hero-visual" data-reveal>
+            <img
+              src={heroImage.src}
+              alt={heroImage.alt}
+              width={heroImage.width}
+              height={heroImage.height}
+              sizes="(max-width: 960px) 100vw, 920px"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+        )}
       </div>
     </header>
 
     <div class="site-shell article__content">
       <div class="article__main" data-reveal>
-        <div class="rich-text" set:html={article.contentHtml}></div>
+        <div class="rich-text" set:html={articleContentHtml}></div>
         <ArticleShare title={article.title} url={articleUrl} />
         <div class="article__support" data-reveal>
           <section class="author-card author-card--author">

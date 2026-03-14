@@ -24,6 +24,10 @@ const latestArticles = getLatestNews(
 );
 const articleUrl = absoluteUrl(`/sns-marketing/${article.slug}/`, "https://chairman-official.com");
 const base = import.meta.env.BASE_URL;
+const socialImage =
+  typeof article.eyecatch === "string"
+    ? article.eyecatch
+    : article.eyecatch?.src;
 
 const schema = {
   "@context": "https://schema.org",
@@ -43,6 +47,10 @@ const schema = {
   title={article.title}
   description={article.description || article.excerpt}
   pathname={`/sns-marketing/${article.slug}/`}
+  image={socialImage}
+  socialImageAlt={article.title}
+  ogType="article"
+  publishedTime={article.publishedAt}
   schema={schema}
   bodyClass="page-article"
 >

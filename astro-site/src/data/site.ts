@@ -14,7 +14,7 @@ export const site = {
   representativeNote: {
     title: "代表の備忘録",
     description:
-      "地域の価値をどう整理し、どの市場へどう接続していくか。CHAIRMANの視点を、代表の備忘録として少しずつ整理していくための場所です。",
+      "地域の価値をどう整理し、どの市場へつなぐか。代表の視点で短く記録していくノートです。",
     statusLabel: "公開準備中",
     href: ""
   }

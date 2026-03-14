@@ -11,6 +11,7 @@ function closeMenu() {
   }
 
   menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "メニューを開く");
   menuPanel.classList.remove("is-open");
   menuOverlay.hidden = true;
   document.body.classList.remove("is-nav-open");
@@ -20,6 +21,7 @@ if (menuToggle && menuPanel && menuOverlay) {
   menuToggle.addEventListener("click", () => {
     const nextExpanded = menuToggle.getAttribute("aria-expanded") !== "true";
     menuToggle.setAttribute("aria-expanded", String(nextExpanded));
+    menuToggle.setAttribute("aria-label", nextExpanded ? "メニューを閉じる" : "メニューを開く");
     menuPanel.classList.toggle("is-open", nextExpanded);
     menuOverlay.hidden = !nextExpanded;
     document.body.classList.toggle("is-nav-open", nextExpanded);
