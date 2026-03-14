@@ -39,14 +39,12 @@ function articleHref(slug: string) {
       <li class="news-list__item">
         {variant === "home" ? (
           <a href={articleHref(article.slug)} class="news-list__link news-list__link--home">
-            <span class="news-list__lead">
-              {eyecatchMedia}
-              <span class="news-list__date">
-                <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
-              </span>
-            </span>
+            {eyecatchMedia}
             <span class="news-list__body">
-              {article.categories[0] && <span class="news-list__meta news-list__meta--home">{article.categories[0].name}</span>}
+              <span class="news-list__meta news-list__meta--home">
+                <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+                {article.categories[0] && <span>{article.categories[0].name}</span>}
+              </span>
               <strong>{article.title}</strong>
               <span>{article.excerpt}</span>
             </span>
