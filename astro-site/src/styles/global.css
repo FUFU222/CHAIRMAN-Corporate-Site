@@ -2224,26 +2224,11 @@ body.page-about .officer-detail-note-status {
 
 .site-footer__brand {
   display: grid;
-  gap: 16px;
-}
-
-.site-footer__eyebrow {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.46);
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
-}
-
-.site-footer__brand h2 {
-  margin: 0;
-  max-width: 9.6ch;
-  color: #fff;
-  font-size: clamp(1.7rem, 2.8vw, 2.5rem);
-  line-height: 1.18;
+  align-content: start;
 }
 
 .site-footer__logo {
-  width: min(100%, 220px);
+  width: min(100%, 320px);
 }
 
 .site-footer__service-logo {
@@ -3029,10 +3014,6 @@ body.page-home .founder-note .button--secondary {
 
   .site-footer__nav {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
-  .site-footer__brand h2 {
-    max-width: none;
   }
 
   body.page-home #representative-note.page-section {
