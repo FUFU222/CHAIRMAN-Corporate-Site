@@ -1327,12 +1327,6 @@ body.page-about .officer-detail-note-status {
   object-fit: cover;
 }
 
-.news-list__media--home {
-  border: 1px solid rgba(141, 8, 32, 0.08);
-  border-radius: 16px;
-  background: linear-gradient(180deg, #faf7f8 0%, #ffffff 100%);
-}
-
 .news-list__body {
   display: grid;
   gap: 10px;
@@ -2674,44 +2668,6 @@ body.page-home .role-card h3 {
   font-size: clamp(1.45rem, 2.2vw, 2.1rem);
 }
 
-body.page-home .news-list--home {
-  gap: 0;
-  margin-top: 52px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-body.page-home .news-list--home .news-list__item {
-  border-top: 0;
-}
-
-body.page-home .news-list--home .news-list__link {
-  grid-template-columns: minmax(248px, 272px) minmax(0, 1fr);
-  gap: 32px;
-  padding: 34px 0;
-  align-items: center;
-}
-
-body.page-home .news-list__media--home img {
-  aspect-ratio: 16 / 9;
-}
-
-body.page-home .news-list__meta--home {
-  gap: 8px 14px;
-  color: #595254;
-  font-size: 0.9rem;
-  letter-spacing: normal;
-  text-transform: none;
-}
-
-body.page-home .news-list--home .news-list__body {
-  gap: 12px;
-}
-
-body.page-home .news-list--home .news-list__body strong {
-  font-size: clamp(1.24rem, 2vw, 1.8rem);
-  font-weight: 700;
-}
-
 body.page-home .business-stack {
   gap: 0;
   margin-top: 70px;
@@ -3313,11 +3269,6 @@ body.page-home .founder-note .button--secondary {
     padding-left: 0;
     border-left: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  body.page-home .news-list--home .news-list__link {
-    grid-template-columns: 1fr;
-    gap: 12px;
   }
 
   body.page-home #representative-note.page-section {
