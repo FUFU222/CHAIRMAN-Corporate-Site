@@ -1327,6 +1327,18 @@ body.page-about .officer-detail-note-status {
   object-fit: cover;
 }
 
+.news-list__lead {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.news-list__media--home {
+  border: 1px solid rgba(141, 8, 32, 0.08);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #faf7f8 0%, #ffffff 100%);
+}
+
 .news-list__body {
   display: grid;
   gap: 10px;
@@ -2682,11 +2694,16 @@ body.page-home .news-list--home .news-list__link {
   grid-template-columns: 220px minmax(0, 1fr);
   gap: 48px;
   padding: 34px 0;
+  align-items: start;
 }
 
 body.page-home .news-list__date {
   color: #595254;
   font-size: 0.95rem;
+}
+
+body.page-home .news-list--home .news-list__lead {
+  gap: 16px;
 }
 
 body.page-home .news-list__meta--home {
@@ -3310,6 +3327,10 @@ body.page-home .founder-note .button--secondary {
 
   body.page-home .news-list--home .news-list__link {
     grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  body.page-home .news-list--home .news-list__lead {
     gap: 12px;
   }
 
