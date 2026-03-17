@@ -3226,6 +3226,13 @@ body.page-home .founder-note .button--secondary {
     padding-bottom: 0;
   }
 
+  body.page-home .hero__visual {
+    width: 100%;
+    min-height: auto;
+    max-width: none;
+    margin-left: 0;
+  }
+
   body.page-home .hero__signature {
     font-size: clamp(2.2rem, 10.8vw, 3.8rem);
   }
@@ -3239,8 +3246,23 @@ body.page-home .founder-note .button--secondary {
     max-width: 36ch;
   }
 
-  body.page-home .hero__figure {
-    min-height: clamp(280px, 64vw, 400px);
+  body.page-home .hero__figure,
+  body.page-home .hero__slides {
+    min-height: 0;
+  }
+
+  body.page-home .hero__figure img {
+    display: block;
+    height: auto;
+    aspect-ratio: auto;
+    object-position: center;
+  }
+
+  html.js body.page-home .hero__slide img {
+    animation: none;
+    transform: none;
+    filter: none;
+    opacity: 1;
   }
 
   body.page-home .hero__title-line--solid {
@@ -3362,8 +3384,8 @@ body.page-home .founder-note .button--secondary {
     --outline-size: clamp(3.1rem, 16vw, 4.8rem);
   }
 
-  body.page-home .hero__figure {
-    min-height: clamp(240px, 66vw, 340px);
+  body.page-home .hero__visual {
+    min-height: auto;
   }
 
   body.page-home .page-section--about .section-heading h2 {
