@@ -1,5 +1,5 @@
 import ceoImage from "../assets/images/CEO-image.webp";
-import livaponCard from "../assets/images/service_livapon_card.webp";
+import jfcStageImage from "../assets/images/JFC_stage_image.webp";
 import type { NewsArticle } from "../lib/types";
 import { buildExcerpt } from "../lib/format";
 
@@ -31,7 +31,7 @@ export const mockNews: NewsArticle[] = [
       { id: "livapon", name: "LIVAPON" },
       { id: "north-america", name: "北米展開" }
     ],
-    eyecatch: livaponCard,
+    eyecatch: jfcStageImage,
     author: tanaka,
     contentHtml: `
       <p>CHAIRMANは、カナダ・トロントにて開催される日本文化の総合博覧会「Japan Festival CANADA（ジャパンフェスティバルカナダ）」を主催するJapan Expo Canada Inc.との間で、戦略的パートナーシップ契約を締結したことをお知らせいたします。</p>

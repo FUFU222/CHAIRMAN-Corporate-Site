@@ -2,29 +2,43 @@
 import type { NewsArticle } from "../lib/types";
 import { formatDateJP } from "../lib/format";
 import { withBase } from "../lib/links";
-import { getArticleHeroImage } from "../lib/article-enhancements";
+import { getArticleListImage } from "../lib/article-enhancements";
 import archiveScript from "../scripts/news-archive.js?url";
 
 interface Props {
   articles: NewsArticle[];
   articleBasePath?: string;
   showHeroImages?: boolean;
+  initialVisibleCount?: number;
+  loadMoreThreshold?: number;
 }
 
-const { articles, articleBasePath = "/news/", showHeroImages = false } = Astro.props;
+const {
+  articles,
+  articleBasePath = "/news/",
+  showHeroImages = false,
+  initialVisibleCount = 9,
+  loadMoreThreshold = initialVisibleCount + 1
+} = Astro.props;
 const base = import.meta.env.BASE_URL;
 const categories = Array.from(
   new Map(
     articles.flatMap((article) => article.categories).map((category) => [category.id, category])
   ).values()
 );
+const shouldRenderLoadMore = articles.length >= loadMoreThreshold;
 
 function articleHref(slug: string) {
   return withBase(`${articleBasePath}${slug}/`, base);
 }
 ---
 
-<section class="news-archive" data-news-archive>
+<section
+  class="news-archive"
+  data-news-archive
+  data-page-size={initialVisibleCount}
+  data-load-more-threshold={loadMoreThreshold}
+>
   <div class="news-archive__toolbar" data-reveal>
     <div class="news-archive__filters" role="toolbar" aria-label="カテゴリ絞り込み">
       <button class="is-active" type="button" data-filter="all">
@@ -40,7 +54,7 @@ function articleHref(slug: string) {
 
   <div class="news-archive__list">
     {articles.map((article, index) => {
-      const heroImage = showHeroImages ? getArticleHeroImage(article) : null;
+      const heroImage = showHeroImages ? getArticleListImage(article) : null;
 
       return (
         <article
@@ -88,11 +102,13 @@ function articleHref(slug: string) {
     })}
   </div>
 
-  <div class="news-archive__actions">
-    <button class="button button--secondary" type="button" data-load-more>
-      さらに表示
-    </button>
-  </div>
+  {shouldRenderLoadMore && (
+    <div class="news-archive__actions">
+      <button class="button button--secondary" type="button" data-load-more>
+        さらに表示
+      </button>
+    </div>
+  )}
 </section>
 
 <script is:inline type="module" src={archiveScript}></script>

@@ -25,6 +25,8 @@ PUBLIC_GA_ID=
 
 reCAPTCHA v2 の設定は [RECAPTCHA_SETUP.md](./RECAPTCHA_SETUP.md) を参照してください。
 
+Xserver 本番公開の手順は [XSERVER_DEPLOY_RUNBOOK.md](./XSERVER_DEPLOY_RUNBOOK.md) を参照してください。
+
 ## Apps Script 連携
 
 1. `apps-script/contact.gs` を Google Apps Script プロジェクトへ貼り付ける

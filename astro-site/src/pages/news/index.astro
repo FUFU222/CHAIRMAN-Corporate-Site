@@ -1,10 +1,9 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import NewsArchive from "../../components/NewsArchive.astro";
-import { getBusinessNewsArticles } from "../../lib/article-groups";
-import { getNewsArticles } from "../../lib/microcms";
+import { getLocalNewsArticles } from "../../lib/news";
 
-const articles = getBusinessNewsArticles(await getNewsArticles());
+const articles = getLocalNewsArticles();
 
 const schema = {
   "@context": "https://schema.org",
@@ -42,7 +41,7 @@ const schema = {
   >
     <div class="site-shell">
       {articles.length > 0 ? (
-        <NewsArchive articles={articles} showHeroImages />
+        <NewsArchive articles={articles} showHeroImages initialVisibleCount={2} loadMoreThreshold={3} />
       ) : (
         <p class="empty-state" data-reveal>現在掲載中の新着情報はありません。</p>
       )}

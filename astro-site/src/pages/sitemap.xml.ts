@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
-import { getBusinessNewsArticles, getKnowhowArticles } from "../lib/article-groups";
-import { getNewsArticles } from "../lib/microcms";
+import { getKnowhowArticles } from "../lib/article-groups";
+import { getLocalNewsArticles } from "../lib/news";
+import { getMicrocmsArticles } from "../lib/microcms";
 
 export const GET: APIRoute = async () => {
   const siteUrl = import.meta.env.SITE_URL || "https://chairman-official.com";
@@ -14,9 +15,8 @@ export const GET: APIRoute = async () => {
     "livapon/"
   ];
 
-  const articles = await getNewsArticles();
-  const businessArticles = getBusinessNewsArticles(articles);
-  const knowhowArticles = getKnowhowArticles(articles);
+  const businessArticles = getLocalNewsArticles();
+  const knowhowArticles = getKnowhowArticles(await getMicrocmsArticles());
   const urls = [
     ...staticPages.map((path) => `${siteUrl}/${path}`),
     ...businessArticles.map((article) => `${siteUrl}/news/${article.slug}/`),

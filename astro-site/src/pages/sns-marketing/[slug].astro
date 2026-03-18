@@ -6,10 +6,11 @@ import ArticleShare from "../../components/ArticleShare.astro";
 import { absoluteUrl, formatDateJP } from "../../lib/format";
 import { withBase } from "../../lib/links";
 import { getKnowhowArticles } from "../../lib/article-groups";
-import { getLatestNews, getNewsArticles, getRelatedNews } from "../../lib/microcms";
+import { getLatestNews, getRelatedNews } from "../../lib/news";
+import { getMicrocmsArticles } from "../../lib/microcms";
 
 export async function getStaticPaths() {
-  const articles = getKnowhowArticles(await getNewsArticles());
+  const articles = getKnowhowArticles(await getMicrocmsArticles());
   return articles.map((article) => ({
     params: { slug: article.slug },
     props: { article, articles }

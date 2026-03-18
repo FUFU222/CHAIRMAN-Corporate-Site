@@ -3,9 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import NewsArchive from "../components/NewsArchive.astro";
 import { getKnowhowArticles } from "../lib/article-groups";
-import { getNewsArticles } from "../lib/microcms";
+import { getMicrocmsArticles } from "../lib/microcms";
 
-const archiveArticles = getKnowhowArticles(await getNewsArticles());
+const archiveArticles = getKnowhowArticles(await getMicrocmsArticles());
 const visibleTopics = Array.from(
   new Set(archiveArticles.flatMap((article) => article.categories.map((category) => category.name)))
 ).slice(0, 8);

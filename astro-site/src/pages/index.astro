@@ -3,16 +3,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Hero from "../components/Hero.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import NewsList from "../components/NewsList.astro";
-import heroLivaponImage from "../assets/images/service_livapon_card.webp";
-import heroSnsImage from "../assets/images/service_sns_card.webp";
-import heroKosolifeImage from "../assets/images/service_kosolife.webp";
+import heroImage1 from "../assets/images/chairman_hero1.webp";
+import heroImage2 from "../assets/images/chairman_hero2.webp";
+import heroImage3 from "../assets/images/chairman_hero3.webp";
 import { businesses, companyFacts, homeRoles, site } from "../data/site";
 import { withBase } from "../lib/links";
-import { getBusinessNewsArticles } from "../lib/article-groups";
-import { getLatestNews, getNewsArticles } from "../lib/microcms";
+import { getLatestNews, getLocalNewsArticles } from "../lib/news";
 
-const articles = await getNewsArticles();
-const latestNews = getLatestNews(getBusinessNewsArticles(articles), 3);
+const latestNews = getLatestNews(getLocalNewsArticles(), 3);
 const base = import.meta.env.BASE_URL;
 
 const schema = [
@@ -46,9 +44,9 @@ const schema = [
       "<span class='hero__title-line hero__title-line--solid'>価値に、伝わる力を。</span>"
     }
     slides={[
-      { image: heroLivaponImage, alt: "日本の価値を市場へつなぐ事業イメージ" },
-      { image: heroSnsImage },
-      { image: heroKosolifeImage }
+      { image: heroImage1, alt: "CHAIRMAN Hero image 1" },
+      { image: heroImage2 },
+      { image: heroImage3 }
     ]}
   />
 

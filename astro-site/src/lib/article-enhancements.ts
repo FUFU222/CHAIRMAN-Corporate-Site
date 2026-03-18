@@ -25,7 +25,7 @@ const articleEnhancements: Record<string, ArticleEnhancement> = {
   "japan-expo-canada-partnership": {
     heroImage: {
       image: jfcHeaderImage,
-      alt: "Japan Festival CANADA と CHAIRMAN のロゴビジュアル"
+      alt: "CHAIRMAN と Japan Expo Canada Inc. のロゴを組み合わせたヘッダー画像"
     },
     insertAfterHeading: "Japan Festival CANADAについて",
     inlineImage: {
@@ -59,11 +59,15 @@ function escapeRegExp(value: string) {
 }
 
 export function getArticleHeroImage(article: NewsArticle): ResolvedArticleImage | null {
-  const overrideImage = articleEnhancements[article.slug]?.heroImage;
-  if (overrideImage) {
-    return mapStaticImage(overrideImage.image, overrideImage.alt);
+  const enhancement = articleEnhancements[article.slug];
+  if (enhancement?.heroImage) {
+    return mapStaticImage(enhancement.heroImage.image, enhancement.heroImage.alt);
   }
 
+  return getArticleListImage(article);
+}
+
+export function getArticleListImage(article: NewsArticle): ResolvedArticleImage | null {
   if (!article.eyecatch) {
     return null;
   }

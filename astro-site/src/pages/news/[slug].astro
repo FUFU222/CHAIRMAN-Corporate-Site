@@ -9,11 +9,10 @@ import {
   getArticleHeroImage,
   getEnhancedArticleContentHtml
 } from "../../lib/article-enhancements";
-import { getBusinessNewsArticles } from "../../lib/article-groups";
-import { getLatestNews, getNewsArticles, getRelatedNews } from "../../lib/microcms";
+import { getLatestNews, getLocalNewsArticles, getRelatedNews } from "../../lib/news";
 
 export async function getStaticPaths() {
-  const articles = getBusinessNewsArticles(await getNewsArticles());
+  const articles = getLocalNewsArticles();
   return articles.map((article) => ({
     params: { slug: article.slug },
     props: { article, articles }

@@ -3,7 +3,8 @@ if (archive) {
   const buttons = Array.from(archive.querySelectorAll("[data-filter]"));
   const loadMore = archive.querySelector("[data-load-more]");
   const items = Array.from(archive.querySelectorAll("[data-archive-item]"));
-  const pageSize = 9;
+  const pageSize = Math.max(1, Number.parseInt(archive.dataset.pageSize || "9", 10));
+  const loadMoreThreshold = Math.max(pageSize + 1, Number.parseInt(archive.dataset.loadMoreThreshold || `${pageSize + 1}`, 10));
   let activeFilter = "all";
   let visibleCount = pageSize;
 
@@ -24,7 +25,7 @@ if (archive) {
     });
 
     if (loadMore) {
-      loadMore.hidden = matched <= visibleCount;
+      loadMore.hidden = matched < loadMoreThreshold || matched <= visibleCount;
     }
   }
 

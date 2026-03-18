@@ -2,7 +2,7 @@
 import type { NewsArticle } from "../lib/types";
 import { formatDateJP } from "../lib/format";
 import { withBase } from "../lib/links";
-import { getArticleHeroImage } from "../lib/article-enhancements";
+import { getArticleListImage } from "../lib/article-enhancements";
 
 interface Props {
   articles: NewsArticle[];
@@ -21,7 +21,7 @@ function articleHref(slug: string) {
 
 <ul class={`news-list news-list--${variant}`}>
   {articles.map((article) => {
-    const heroImage = getArticleHeroImage(article);
+    const heroImage = getArticleListImage(article);
     const eyecatchMedia = heroImage ? (
       <span class="news-list__media">
         <img

@@ -1,5 +1,4 @@
 import { buildExcerpt } from "./format";
-import { mockNews } from "../data/mockNews";
 import type { NewsArticle, NewsCategory } from "./types";
 
 const serviceDomain = import.meta.env.MICROCMS_SERVICE_DOMAIN;
@@ -87,29 +86,13 @@ async function fetchMicrocmsArticles() {
   return (data.contents ?? []).map(mapArticle).filter((article) => article.slug);
 }
 
-export async function getNewsArticles() {
+export async function getMicrocmsArticles() {
   try {
     const articles = await fetchMicrocmsArticles();
-    if (articles && articles.length > 0) {
-      return articles;
-    }
+    return articles ?? [];
   } catch (error) {
-    console.warn("[microcms] fallback to mock data", error);
+    console.warn("[microcms] failed to fetch articles", error);
   }
 
-  return mockNews;
-}
-
-export function getLatestNews(articles: NewsArticle[], limit = 3) {
-  return [...articles]
-    .sort((left, right) => new Date(right.publishedAt).getTime() - new Date(left.publishedAt).getTime())
-    .slice(0, limit);
-}
-
-export function getRelatedNews(articles: NewsArticle[], current: NewsArticle, limit = 3) {
-  const currentCategoryIds = new Set(current.categories.map((category) => category.id));
-  return articles
-    .filter((article) => article.slug !== current.slug)
-    .filter((article) => article.categories.some((category) => currentCategoryIds.has(category.id)))
-    .slice(0, limit);
+  return [];
 }
