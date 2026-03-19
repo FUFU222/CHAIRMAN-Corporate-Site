@@ -3370,10 +3370,10 @@ body.page-home .founder-note .button--secondary {
   }
 
   body.page-home .hero__visual {
-    width: 100%;
-    min-height: auto;
+    width: 100vw;
+    min-height: clamp(260px, 64vw, 420px);
     max-width: none;
-    margin-left: 0;
+    margin-left: calc(50% - 50vw);
   }
 
   body.page-home .hero__signature {
@@ -3391,21 +3391,19 @@ body.page-home .founder-note .button--secondary {
 
   body.page-home .hero__figure,
   body.page-home .hero__slides {
-    min-height: 0;
+    min-height: inherit;
   }
 
   body.page-home .hero__figure img {
     display: block;
-    height: auto;
+    height: 100%;
     aspect-ratio: auto;
+    object-fit: cover;
     object-position: center;
   }
 
   html.js body.page-home .hero__slide img {
-    animation: none;
-    transform: none;
-    filter: none;
-    opacity: 1;
+    animation: hero-image-cycle 15s linear infinite;
   }
 
   body.page-home .hero__title-line--solid {
@@ -3496,6 +3494,14 @@ body.page-home .founder-note .button--secondary {
 }
 
 @media (max-width: 640px) {
+  body.page-home .hero__inner {
+    gap: 8px;
+  }
+
+  body.page-home .hero__copy {
+    gap: 10px;
+  }
+
   body.page-home .hero__copy h1 {
     max-width: 10.5ch;
   }
@@ -3528,11 +3534,35 @@ body.page-home .founder-note .button--secondary {
   }
 
   body.page-home .hero__visual {
-    min-height: auto;
+    min-height: clamp(320px, 96vw, 420px);
+    aspect-ratio: 1 / 0.98;
+    margin-top: -18px;
+  }
+
+  body.page-home .hero__signature {
+    position: relative;
+    z-index: 2;
+    margin-top: -4px;
+    margin-bottom: -0.12em;
+    font-size: clamp(2.9rem, 15vw, 4.4rem);
+    line-height: 0.9;
+  }
+
+  body.page-home .hero__figure,
+  body.page-home .hero__slides {
+    min-height: 100%;
+  }
+
+  body.page-home .hero__figure {
+    height: 100%;
   }
 
   body.page-home .page-section--about .section-heading h2 {
-    max-width: 9.4ch;
+    max-width: none;
+  }
+
+  body.page-home .page-section--about .section-heading__line {
+    white-space: nowrap;
   }
 
   html.js body.page-home .hero__signature,
