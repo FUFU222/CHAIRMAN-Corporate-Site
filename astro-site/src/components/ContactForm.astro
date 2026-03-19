@@ -13,7 +13,10 @@ const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
 
 <section class="contact-form-block" data-contact-form-wrapper>
   <div class="contact-form-block__intro" data-reveal>
-    <h2>お問い合わせ内容を確認のうえ、<br />担当よりご返信します。</h2>
+    <h2>
+      <span class="contact-form-block__intro-line">お問い合わせ内容を確認のうえ、</span>
+      <span class="contact-form-block__intro-line">担当よりご返信します。</span>
+    </h2>
     <ul class="contact-form-block__notes">
       <li>通常3営業日以内にご返信します。</li>
       <li>営業目的のご連絡は内容により返信できない場合があります。</li>

@@ -1350,6 +1350,7 @@ body.page-about .officer-detail-note-status {
 .news-list__body {
   display: grid;
   gap: 10px;
+  min-width: 0;
 }
 
 .news-list__meta {
@@ -1946,9 +1947,21 @@ body.page-news .news-archive__visual img {
   min-width: 0;
 }
 
+.contact-form-block__intro h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.contact-form-block__intro-line {
+  display: block;
+}
+
 .contact-form-block__notes {
   display: grid;
   gap: 10px;
+  margin: 18px 0 0;
   padding-left: 1.2em;
   color: var(--muted);
 }
@@ -3500,6 +3513,7 @@ body.page-home .founder-note .button--secondary {
 
   body.page-home .hero__copy {
     gap: 10px;
+    padding-top: 10px;
   }
 
   body.page-home .hero__copy h1 {
@@ -3698,6 +3712,11 @@ body.page-home .founder-note .button--secondary {
     padding: 18px 0;
   }
 
+  .news-list--inline .news-list__link {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
   .news-list__media {
     height: auto;
   }
@@ -3731,6 +3750,40 @@ body.page-home .founder-note .button--secondary {
   .news-list__body strong {
     font-size: 1.04rem;
     line-height: 1.45;
+  }
+
+  body.page-contact .page-hero {
+    padding-top: 28px;
+    padding-bottom: 12px;
+  }
+
+  body.page-contact .page-hero__copy {
+    gap: 12px;
+  }
+
+  body.page-contact .page-hero__copy h1 {
+    font-size: clamp(1.78rem, 8.2vw, 2.2rem);
+  }
+
+  body.page-contact .page-section {
+    padding-top: 44px;
+    padding-bottom: 72px;
+  }
+
+  body.page-contact .contact-form-block {
+    gap: 28px;
+  }
+
+  body.page-contact .contact-form-block__intro h2 {
+    font-size: clamp(1.24rem, 6.2vw, 1.56rem);
+    line-height: 1.5;
+  }
+
+  body.page-contact .contact-form-block__notes {
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 0.92rem;
+    line-height: 1.72;
   }
 
   .contact-form {
