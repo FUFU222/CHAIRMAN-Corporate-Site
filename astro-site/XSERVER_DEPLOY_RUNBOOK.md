@@ -158,7 +158,8 @@ Xserver はこれらを「普通の静的ファイル」として配信します
 
 補足:
 - `PUBLIC_CONTACT_FORM_ENDPOINT` と `PUBLIC_RECAPTCHA_SITE_KEY` は [README.md](./README.md) と [RECAPTCHA_SETUP.md](./RECAPTCHA_SETUP.md) を参照
-- `MICROCMS_*` がない場合、`/sns-marketing/` は空になります
+- `MICROCMS_*` がない場合、ローカルでは `/sns-marketing/` は空になります
+- CI / preview build では `MICROCMS_*` 未設定を fail-fast します
 
 ### 4-2. 本番前に必ず実行する確認
 
@@ -319,6 +320,7 @@ npm run build
 - `新着情報` が出る
 - `SNSノウハウ集` が出る
 - `SNSノウハウ集` が空なら `MICROCMS_*` を疑う
+- CI で build が止まるなら `MICROCMS_*` 未設定を疑う
 
 フォーム:
 - reCAPTCHA が表示される

@@ -4,6 +4,15 @@ import type { NewsArticle, NewsCategory } from "./types";
 const serviceDomain = import.meta.env.MICROCMS_SERVICE_DOMAIN;
 const apiKey = import.meta.env.MICROCMS_API_KEY;
 const endpoint = import.meta.env.MICROCMS_ENDPOINT || "blog";
+const processEnv =
+  typeof globalThis === "object" && "process" in globalThis
+    ? (globalThis as typeof globalThis & {
+        process?: { env?: Record<string, string | undefined> };
+      }).process?.env ?? {}
+    : {};
+const isStrictMicrocmsBuild =
+  processEnv.CI === "true" || processEnv.MICROCMS_STRICT === "true";
+const microcmsFixturePath = processEnv.MICROCMS_FIXTURE_PATH;
 
 function sanitizeContentId(value: string) {
   return value.trim().replace(/[^a-zA-Z0-9_-]/g, "");
@@ -62,7 +71,17 @@ function mapArticle(item: Record<string, unknown>): NewsArticle {
 }
 
 async function fetchMicrocmsArticles() {
+  if (microcmsFixturePath) {
+    const { readFile } = await import("node:fs/promises");
+    const raw = await readFile(microcmsFixturePath, "utf8");
+    const data = JSON.parse(raw) as { contents?: Record<string, unknown>[] };
+    return (data.contents ?? []).map(mapArticle).filter((article) => article.slug);
+  }
+
   if (!serviceDomain || !apiKey) {
+    if (isStrictMicrocmsBuild) {
+      throw new Error("microCMS credentials are required for this build");
+    }
     return null;
   }
 
@@ -91,6 +110,9 @@ export async function getMicrocmsArticles() {
     const articles = await fetchMicrocmsArticles();
     return articles ?? [];
   } catch (error) {
+    if (isStrictMicrocmsBuild) {
+      throw error;
+    }
     console.warn("[microcms] failed to fetch articles", error);
   }
 

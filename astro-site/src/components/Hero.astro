@@ -35,7 +35,7 @@ const { signature, title, lead, slides } = Astro.props;
                 width={slide.image.width}
                 height={slide.image.height}
                 sizes="(max-width: 820px) 100vw, 56vw"
-                loading={index === 0 ? "eager" : "eager"}
+                loading={index === 0 ? "eager" : "lazy"}
                 fetchpriority={index === 0 ? "high" : "low"}
                 decoding="async"
               />

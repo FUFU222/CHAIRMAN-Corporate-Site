@@ -21,7 +21,8 @@ PUBLIC_RECAPTCHA_SITE_KEY=
 PUBLIC_GA_ID=
 ```
 
-`MICROCMS_*` が未設定でも、`src/data/mockNews.ts` のモックデータで起動します。
+`MICROCMS_*` が未設定でもローカル起動と通常ビルドは継続しますが、`/sns-marketing/` は空になります。
+CI / preview build では `MICROCMS_*` が未設定のまま公開物を作らないよう fail-fast します。
 
 reCAPTCHA v2 の設定は [RECAPTCHA_SETUP.md](./RECAPTCHA_SETUP.md) を参照してください。
 

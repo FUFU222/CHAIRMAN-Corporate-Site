@@ -1,16 +1,4 @@
-const form = document.querySelector("[data-contact-form]");
-const statusMessage = document.querySelector("[data-contact-status]");
-const submit = document.querySelector("[data-contact-submit]");
-const submitLabel = document.querySelector("[data-contact-submit-label]");
-const recaptchaContainer = document.querySelector("[data-recaptcha]");
-const resultDialog = document.querySelector("[data-contact-result-dialog]");
-const resultPanel = document.querySelector("[data-contact-result-panel]");
-const resultEyebrow = document.querySelector("[data-contact-result-eyebrow]");
-const resultTitle = document.querySelector("[data-contact-result-title]");
-const resultMessage = document.querySelector("[data-contact-result-message]");
-const resultAssist = document.querySelector("[data-contact-result-assist]");
-const resultClose = document.querySelector("[data-contact-result-close]");
-const resultConfirm = document.querySelector("[data-contact-result-confirm]");
+import { ensureRecaptchaScript as loadManagedRecaptchaScript } from "../lib/recaptcha-loader.js";
 
 const RECAPTCHA_API_SRCS = [
   "https://www.google.com/recaptcha/api.js?render=explicit",
@@ -69,96 +57,78 @@ function clearFieldError(field) {
   field.setCustomValidity("");
 }
 
-function getRecaptchaApi() {
-  return window.grecaptcha && typeof window.grecaptcha.render === "function" ? window.grecaptcha : null;
+function ensureRecaptchaScript(documentRef, windowRef, src) {
+  return loadManagedRecaptchaScript({
+    document: documentRef,
+    window: windowRef,
+    src,
+    timeoutMs: RECAPTCHA_READY_TIMEOUT_MS,
+    pollMs: RECAPTCHA_READY_POLL_MS
+  });
 }
 
-function waitForRecaptchaReady(timeoutMs = RECAPTCHA_READY_TIMEOUT_MS) {
-  const readyApi = getRecaptchaApi();
+function loadRecaptchaApi(windowRef, documentRef) {
+  const readyApi = windowRef.grecaptcha && typeof windowRef.grecaptcha.render === "function"
+    ? windowRef.grecaptcha
+    : null;
   if (readyApi) {
     return Promise.resolve(readyApi);
   }
 
-  return new Promise((resolve, reject) => {
-    const startedAt = Date.now();
-
-    const check = () => {
-      const api = getRecaptchaApi();
-      if (api) {
-        resolve(api);
-        return;
-      }
-
-      if (Date.now() - startedAt >= timeoutMs) {
-        reject(new Error("reCAPTCHA timed out"));
-        return;
-      }
-
-      window.setTimeout(check, RECAPTCHA_READY_POLL_MS);
-    };
-
-    check();
-  });
-}
-
-function ensureRecaptchaScript(src) {
-  return new Promise((resolve, reject) => {
-    const existingScript = document.querySelector(`script[src="${src}"]`);
-    if (existingScript) {
-      waitForRecaptchaReady()
-        .then(resolve)
-        .catch(() => {
-          existingScript.addEventListener("load", () => {
-            waitForRecaptchaReady().then(resolve).catch(reject);
-          }, { once: true });
-          existingScript.addEventListener("error", () => reject(new Error("reCAPTCHA failed to load")), { once: true });
-        });
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = src;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      waitForRecaptchaReady().then(resolve).catch(reject);
-    };
-    script.onerror = () => reject(new Error("reCAPTCHA failed to load"));
-    document.head.appendChild(script);
-  });
-}
-
-function loadRecaptchaApi() {
-  const readyApi = getRecaptchaApi();
-  if (readyApi) {
-    return Promise.resolve(readyApi);
+  if (windowRef.__chairmanRecaptchaPromise) {
+    return windowRef.__chairmanRecaptchaPromise;
   }
 
-  if (window.__chairmanRecaptchaPromise) {
-    return window.__chairmanRecaptchaPromise;
-  }
-
-  window.__chairmanRecaptchaPromise = RECAPTCHA_API_SRCS.reduce((promise, src) => {
-    return promise.catch(() => ensureRecaptchaScript(src));
+  windowRef.__chairmanRecaptchaPromise = RECAPTCHA_API_SRCS.reduce((promise, src) => {
+    return promise.catch(() => ensureRecaptchaScript(documentRef, windowRef, src));
   }, Promise.reject(new Error("reCAPTCHA not attempted")));
 
-  return window.__chairmanRecaptchaPromise.catch((error) => {
-    window.__chairmanRecaptchaPromise = null;
+  return windowRef.__chairmanRecaptchaPromise.catch((error) => {
+    windowRef.__chairmanRecaptchaPromise = null;
     throw error;
   });
 }
 
-if (
-  form &&
-  statusMessage &&
-  submit &&
-  submitLabel &&
-  resultDialog instanceof HTMLDialogElement &&
-  resultPanel &&
-  resultEyebrow &&
-  resultTitle &&
-  resultMessage
-) {
+export function initializeContactForm(options = {}) {
+  const documentRef = options.document ?? (typeof document === "undefined" ? null : document);
+  const windowRef = options.window ?? (typeof window === "undefined" ? null : window);
+
+  if (!documentRef || !windowRef) {
+    return false;
+  }
+
+  const HTMLElementCtor = typeof windowRef.HTMLElement === "function" ? windowRef.HTMLElement : null;
+  const HTMLDialogElementCtor =
+    typeof windowRef.HTMLDialogElement === "function" ? windowRef.HTMLDialogElement : null;
+  const form = documentRef.querySelector("[data-contact-form]");
+  const statusMessage = documentRef.querySelector("[data-contact-status]");
+  const submit = documentRef.querySelector("[data-contact-submit]");
+  const submitLabel = documentRef.querySelector("[data-contact-submit-label]");
+  const recaptchaContainer = documentRef.querySelector("[data-recaptcha]");
+  const resultDialog = documentRef.querySelector("[data-contact-result-dialog]");
+  const resultPanel = documentRef.querySelector("[data-contact-result-panel]");
+  const resultEyebrow = documentRef.querySelector("[data-contact-result-eyebrow]");
+  const resultTitle = documentRef.querySelector("[data-contact-result-title]");
+  const resultMessage = documentRef.querySelector("[data-contact-result-message]");
+  const resultAssist = documentRef.querySelector("[data-contact-result-assist]");
+  const resultClose = documentRef.querySelector("[data-contact-result-close]");
+  const resultConfirm = documentRef.querySelector("[data-contact-result-confirm]");
+
+  if (
+    !form ||
+    !statusMessage ||
+    !submit ||
+    !submitLabel ||
+    !HTMLDialogElementCtor ||
+    !(resultDialog instanceof HTMLDialogElementCtor) ||
+    !resultPanel ||
+    !resultEyebrow ||
+    !resultTitle ||
+    !resultMessage
+  ) {
+    return false;
+  }
+
   let hasSubmitted = false;
   let recaptchaWidgetId = null;
   let submissionTimeoutId = null;
@@ -185,16 +155,16 @@ if (
     }
 
     try {
-      return new URL(endpoint, window.location.href).origin;
+      return new windowRef.URL(endpoint, windowRef.location.href).origin;
     } catch (error) {
       return "";
     }
   })();
 
   const setDialogLockState = (locked) => {
-    const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
-    document.documentElement.style.setProperty("--scroll-lock-offset", locked ? `${scrollbarWidth}px` : "0px");
-    document.body.classList.toggle("is-dialog-open", locked);
+    const scrollbarWidth = Math.max(0, windowRef.innerWidth - documentRef.documentElement.clientWidth);
+    documentRef.documentElement.style.setProperty("--scroll-lock-offset", locked ? `${scrollbarWidth}px` : "0px");
+    documentRef.body.classList.toggle("is-dialog-open", locked);
   };
 
   const closeResultDialog = () => {
@@ -248,7 +218,7 @@ if (
 
   const clearSubmissionTimeout = () => {
     if (submissionTimeoutId) {
-      window.clearTimeout(submissionTimeoutId);
+      windowRef.clearTimeout(submissionTimeoutId);
       submissionTimeoutId = null;
     }
   };
@@ -267,8 +237,8 @@ if (
 
   const resetRecaptcha = () => {
     clearRecaptchaResponse();
-    if (window.grecaptcha && recaptchaWidgetId !== null) {
-      window.grecaptcha.reset(recaptchaWidgetId);
+    if (windowRef.grecaptcha && recaptchaWidgetId !== null) {
+      windowRef.grecaptcha.reset(recaptchaWidgetId);
     }
   };
 
@@ -277,7 +247,7 @@ if (
       return;
     }
 
-    loadRecaptchaApi()
+    loadRecaptchaApi(windowRef, documentRef)
       .then((grecaptcha) => {
         if (!grecaptcha || typeof grecaptcha.render !== "function" || recaptchaWidgetId !== null) {
           return;
@@ -327,13 +297,13 @@ if (
 
     if (endpointOrigin && origin === endpointOrigin) {
       return true;
-    }
+      }
 
-    try {
-      const hostname = new URL(origin).hostname;
-      return (
-        hostname === "script.google.com" ||
-        hostname === "script.googleusercontent.com" ||
+      try {
+        const hostname = new windowRef.URL(origin).hostname;
+        return (
+          hostname === "script.google.com" ||
+          hostname === "script.googleusercontent.com" ||
         hostname.endsWith(".googleusercontent.com")
       );
     } catch (error) {
@@ -550,7 +520,7 @@ if (
         return;
       }
 
-      if (!window.grecaptcha || recaptchaWidgetId === null) {
+      if (!windowRef.grecaptcha || recaptchaWidgetId === null) {
         event.preventDefault();
         setStatus("確認画面を読み込んでいます。数秒後に再度お試しください。", "submitting", {
           label: "読み込み中"
@@ -561,7 +531,7 @@ if (
 
       const recaptchaToken =
         (recaptchaResponseInput && recaptchaResponseInput.value) ||
-        window.grecaptcha.getResponse(recaptchaWidgetId);
+        windowRef.grecaptcha.getResponse(recaptchaWidgetId);
 
       if (!recaptchaToken) {
         event.preventDefault();
@@ -582,7 +552,7 @@ if (
       setStatus("デモ送信を実行しています。", "submitting", {
         label: "デモ送信中"
       });
-      window.setTimeout(() => {
+      windowRef.setTimeout(() => {
         form.reset();
         jsEnabledInput && (jsEnabledInput.value = "1");
         resetSubmissionWindow();
@@ -603,7 +573,7 @@ if (
       label: "送信中"
     });
     clearSubmissionTimeout();
-    submissionTimeoutId = window.setTimeout(() => {
+    submissionTimeoutId = windowRef.setTimeout(() => {
       if (!hasSubmitted) {
         return;
       }
@@ -621,17 +591,17 @@ if (
     }, 15000);
   });
 
-  if (resultClose instanceof HTMLElement) {
+  if (HTMLElementCtor && resultClose instanceof HTMLElementCtor) {
     resultClose.addEventListener("click", closeResultDialog);
   }
 
-  if (resultConfirm instanceof HTMLElement) {
+  if (HTMLElementCtor && resultConfirm instanceof HTMLElementCtor) {
     resultConfirm.addEventListener("click", closeResultDialog);
   }
 
   resultDialog.addEventListener("close", () => {
     setDialogLockState(false);
-    if (activeTrigger instanceof HTMLElement) {
+    if (HTMLElementCtor && activeTrigger instanceof HTMLElementCtor) {
       activeTrigger.focus();
     }
   });
@@ -642,7 +612,7 @@ if (
     }
   });
 
-  window.addEventListener("message", (event) => {
+  windowRef.addEventListener("message", (event) => {
     if (!hasSubmitted || !isAllowedMessageOrigin(event.origin)) {
       return;
     }
@@ -653,4 +623,10 @@ if (
 
     handleSubmissionResult(event.data);
   });
+
+  return true;
+}
+
+if (typeof document !== "undefined" && typeof window !== "undefined") {
+  initializeContactForm({ document, window });
 }

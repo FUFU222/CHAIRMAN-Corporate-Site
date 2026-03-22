@@ -281,7 +281,7 @@ function normalizeSingleLine_(value, maxLength) {
   }
 
   normalized = normalized.replace(/[\u0000-\u001F\u007F]/g, " ").trim().replace(/\s+/g, " ");
-  return normalized.slice(0, maxLength);
+  return normalized;
 }
 
 function normalizeEmail_(value) {
@@ -296,7 +296,7 @@ function normalizeMessage_(value) {
   let normalized = String(value || "").replace(/\r\n?/g, "\n");
   normalized = normalized.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim();
   normalized = normalized.replace(/\n{3,}/g, "\n\n");
-  return normalized.slice(0, MESSAGE_MAX_LENGTH);
+  return normalized;
 }
 
 function formatTimestamp_(date) {
