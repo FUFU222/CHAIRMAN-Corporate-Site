@@ -1,10 +1,23 @@
-const archive = document.querySelector("[data-news-archive]");
-if (archive) {
+export function initializeNewsArchive(options = {}) {
+  const documentRef = options.document ?? (typeof document === "undefined" ? null : document);
+
+  if (!documentRef) {
+    return false;
+  }
+
+  const archive = documentRef.querySelector("[data-news-archive]");
+  if (!archive) {
+    return false;
+  }
+
   const buttons = Array.from(archive.querySelectorAll("[data-filter]"));
   const loadMore = archive.querySelector("[data-load-more]");
   const items = Array.from(archive.querySelectorAll("[data-archive-item]"));
   const pageSize = Math.max(1, Number.parseInt(archive.dataset.pageSize || "9", 10));
-  const loadMoreThreshold = Math.max(pageSize + 1, Number.parseInt(archive.dataset.loadMoreThreshold || `${pageSize + 1}`, 10));
+  const loadMoreThreshold = Math.max(
+    pageSize + 1,
+    Number.parseInt(archive.dataset.loadMoreThreshold || `${pageSize + 1}`, 10)
+  );
   let activeFilter = "all";
   let visibleCount = pageSize;
 
@@ -44,4 +57,9 @@ if (archive) {
   });
 
   applyState();
+  return true;
+}
+
+if (typeof document !== "undefined") {
+  initializeNewsArchive({ document });
 }

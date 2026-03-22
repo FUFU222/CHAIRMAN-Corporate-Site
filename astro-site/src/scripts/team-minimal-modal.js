@@ -1,6 +1,25 @@
-const dialog = document.querySelector("[data-officer-modal]");
+export function initializeTeamMinimalModal(options = {}) {
+  const documentRef = options.document ?? (typeof document === "undefined" ? null : document);
+  const windowRef = options.window ?? (typeof window === "undefined" ? null : window);
 
-if (dialog instanceof HTMLDialogElement) {
+  if (!documentRef || !windowRef) {
+    return false;
+  }
+
+  const HTMLElementCtor = typeof windowRef.HTMLElement === "function" ? windowRef.HTMLElement : null;
+  const HTMLDialogElementCtor =
+    typeof windowRef.HTMLDialogElement === "function" ? windowRef.HTMLDialogElement : null;
+  const HTMLImageElementCtor =
+    typeof windowRef.HTMLImageElement === "function" ? windowRef.HTMLImageElement : null;
+  const HTMLAnchorElementCtor =
+    typeof windowRef.HTMLAnchorElement === "function" ? windowRef.HTMLAnchorElement : null;
+  const ImageCtor = typeof windowRef.Image === "function" ? windowRef.Image : null;
+  const dialog = documentRef.querySelector("[data-officer-modal]");
+
+  if (!HTMLDialogElementCtor || !(dialog instanceof HTMLDialogElementCtor)) {
+    return false;
+  }
+
   const name = dialog.querySelector("[data-officer-modal-name]");
   const role = dialog.querySelector("[data-officer-modal-role]");
   const roleDetail = dialog.querySelector("[data-officer-modal-role-detail]");
@@ -10,17 +29,35 @@ if (dialog instanceof HTMLDialogElement) {
   const noteStatus = dialog.querySelector("[data-officer-modal-note-status]");
   const image = dialog.querySelector("[data-officer-modal-image]");
   const closeButton = dialog.querySelector("[data-officer-modal-close]");
+
+  if (
+    !HTMLElementCtor ||
+    !HTMLImageElementCtor ||
+    !HTMLAnchorElementCtor ||
+    !ImageCtor ||
+    !(name instanceof HTMLElementCtor) ||
+    !(role instanceof HTMLElementCtor) ||
+    !(roleDetail instanceof HTMLElementCtor) ||
+    !(body instanceof HTMLElementCtor) ||
+    !(actions instanceof HTMLElementCtor) ||
+    !(noteLink instanceof HTMLAnchorElementCtor) ||
+    !(noteStatus instanceof HTMLElementCtor) ||
+    !(image instanceof HTMLImageElementCtor)
+  ) {
+    return false;
+  }
+
   let activeTrigger = null;
   let imageRequestId = 0;
 
   function setDialogLockState(locked) {
-    const scrollbarWidth = Math.max(0, window.innerWidth - document.documentElement.clientWidth);
-    document.documentElement.style.setProperty("--scroll-lock-offset", locked ? `${scrollbarWidth}px` : "0px");
-    document.body.classList.toggle("is-dialog-open", locked);
+    const scrollbarWidth = Math.max(0, windowRef.innerWidth - documentRef.documentElement.clientWidth);
+    documentRef.documentElement.style.setProperty("--scroll-lock-offset", locked ? `${scrollbarWidth}px` : "0px");
+    documentRef.body.classList.toggle("is-dialog-open", locked);
   }
 
   async function syncModalImage(triggerImage, officerName) {
-    if (!(image instanceof HTMLImageElement) || !(triggerImage instanceof HTMLImageElement)) {
+    if (!(triggerImage instanceof HTMLImageElementCtor)) {
       return false;
     }
 
@@ -43,7 +80,7 @@ if (dialog instanceof HTMLDialogElement) {
       return true;
     }
 
-    const preload = new Image();
+    const preload = new ImageCtor();
     preload.src = nextSrc;
 
     try {
@@ -84,23 +121,15 @@ if (dialog instanceof HTMLDialogElement) {
   }
 
   async function applyOfficerContent(trigger) {
+    if (!(trigger instanceof HTMLElementCtor)) {
+      return false;
+    }
+
     const card = trigger.closest(".team-minimal-item-officer");
     const copy = card?.querySelector(".team-minimal-detail-copy");
     const triggerImage = trigger.querySelector(".team-minimal-image img");
 
-    if (
-      !(card instanceof HTMLElement) ||
-      !(copy instanceof HTMLElement) ||
-      !(name instanceof HTMLElement) ||
-      !(role instanceof HTMLElement) ||
-      !(roleDetail instanceof HTMLElement) ||
-      !(body instanceof HTMLElement) ||
-      !(actions instanceof HTMLElement) ||
-      !(noteLink instanceof HTMLAnchorElement) ||
-      !(noteStatus instanceof HTMLElement) ||
-      !(image instanceof HTMLImageElement) ||
-      !(triggerImage instanceof HTMLImageElement)
-    ) {
+    if (!(card instanceof HTMLElementCtor) || !(copy instanceof HTMLElementCtor)) {
       return false;
     }
 
@@ -152,6 +181,7 @@ if (dialog instanceof HTMLDialogElement) {
 
     activeTrigger = trigger;
     setDialogLockState(true);
+
     if (!dialog.open) {
       dialog.showModal();
     }
@@ -163,8 +193,8 @@ if (dialog instanceof HTMLDialogElement) {
     }
   }
 
-  document.querySelectorAll("[data-officer-modal-trigger]").forEach((trigger) => {
-    if (!(trigger instanceof HTMLElement)) {
+  documentRef.querySelectorAll("[data-officer-modal-trigger]").forEach((trigger) => {
+    if (!(trigger instanceof HTMLElementCtor)) {
       return;
     }
 
@@ -173,13 +203,14 @@ if (dialog instanceof HTMLDialogElement) {
     });
   });
 
-  if (closeButton instanceof HTMLElement) {
+  if (closeButton instanceof HTMLElementCtor) {
     closeButton.addEventListener("click", closeDialog);
   }
 
   dialog.addEventListener("close", () => {
     setDialogLockState(false);
-    if (activeTrigger instanceof HTMLElement) {
+
+    if (activeTrigger instanceof HTMLElementCtor) {
       activeTrigger.focus();
     }
   });
@@ -189,4 +220,10 @@ if (dialog instanceof HTMLDialogElement) {
       closeDialog();
     }
   });
+
+  return true;
+}
+
+if (typeof document !== "undefined" && typeof window !== "undefined") {
+  initializeTeamMinimalModal({ document, window });
 }
