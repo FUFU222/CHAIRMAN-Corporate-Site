@@ -33,7 +33,7 @@ const {
   bodyClass = ""
 } = Astro.props;
 
-const pageTitle = pathname === "/" ? `${title} | ${site.name}` : `${title} | ${site.name}`;
+const pageTitle = `${title} | ${site.name}`;
 const canonical = absoluteUrl(pathname, site.siteUrl);
 const socialImage = image.startsWith("http") ? image : absoluteUrl(image, site.siteUrl);
 const schemaItems = Array.isArray(schema) ? schema : [schema];

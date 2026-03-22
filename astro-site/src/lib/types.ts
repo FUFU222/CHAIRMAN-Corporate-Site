@@ -33,7 +33,6 @@ export interface Officer {
   roleDetail?: string;
   image: ImageMetadata;
   imageClass?: string;
-  summary: string;
   details: string[];
   noteUrl?: string;
   noteLabel?: string;

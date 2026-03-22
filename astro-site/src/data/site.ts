@@ -5,7 +5,6 @@ import kosolifeCard from "../assets/images/service_kosolife.webp";
 
 export const site = {
   name: "株式会社CHAIRMAN",
-  shortName: "CHAIRMAN",
   contactEmail: "info@chairman.jp",
   description:
     "日本の文化・技・商品価値を、地域から国内外の市場へ接続する事業会社。自治体、地域事業者、ブランドとともに、価値の発見から発信、販売までを設計します。",
@@ -29,21 +28,15 @@ export const navigation = [
 export const homeRoles = [
   {
     label: "Discover",
-    title: "届ける価値を見定める",
-    body:
-      "自治体、地域事業者、ブランドが持つ文化・技・商品価値を、事業として前に進めるために整理します。"
+    title: "届ける価値を見定める"
   },
   {
     label: "Shape",
-    title: "届く見せ方へ整える",
-    body:
-      "発信設計、ブランド設計、映像制作、販売導線の設計までを横断し、価値が正しく伝わる状態をつくります。"
+    title: "届く見せ方へ整える"
   },
   {
     label: "Connect",
-    title: "需要へつなげる",
-    body:
-      "LIVAPON、SNS運用、映像制作、自社ブランド運営を通じて、地域の価値を継続的な需要へ接続します。"
+    title: "需要へつなげる"
   }
 ];
 

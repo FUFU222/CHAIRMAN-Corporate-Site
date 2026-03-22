@@ -359,7 +359,6 @@ p {
 
 .section-heading__eyebrow,
 .article__meta span:last-child,
-.officer-card__role,
 .news-archive__meta span,
 .page-hero .section-heading__eyebrow {
   color: var(--accent);
@@ -687,8 +686,6 @@ p {
 
 .role-card p:last-child,
 .business-row__copy p:last-of-type,
-.profile-card span,
-.project-card span,
 .author-card p,
 .livapon-panel p,
 .legal-section p {
@@ -1463,132 +1460,6 @@ body.page-about .officer-detail-note-status {
 .page-hero__visual img {
   aspect-ratio: 16 / 10;
   object-fit: cover;
-}
-
-.split-section {
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: 48px;
-}
-
-.profile-grid,
-.project-grid,
-.officers__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.project-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.profile-card,
-.project-card,
-.officer-card {
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 18px;
-}
-
-.profile-card,
-.project-card {
-  display: grid;
-  gap: 14px;
-}
-
-.profile-card img {
-  border-radius: 20px;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-
-.project-card img {
-  border-radius: 20px;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
-.profile-card div,
-.project-card div {
-  display: grid;
-  gap: 4px;
-}
-
-.profile-card strong,
-.project-card strong,
-.officer-card strong {
-  font-size: 1.08rem;
-}
-
-.officer-card button {
-  display: grid;
-  gap: 16px;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  text-align: left;
-}
-
-.officer-card__media {
-  overflow: hidden;
-  border-radius: 22px;
-}
-
-.officer-card__media img {
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-}
-
-.officer-card__text {
-  display: grid;
-  gap: 6px;
-}
-
-.officer-dialog {
-  width: min(980px, calc(100vw - 32px));
-  padding: 0;
-  border: none;
-  border-radius: 28px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-}
-
-.officer-dialog::backdrop {
-  background: rgba(24, 18, 20, 0.55);
-}
-
-.officer-dialog__panel {
-  display: grid;
-  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
-  gap: 0;
-  background: #fff;
-}
-
-.officer-dialog__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.officer-dialog__body {
-  display: grid;
-  align-content: start;
-  gap: 14px;
-  padding: 44px;
-}
-
-.officer-dialog__role-detail,
-.officer-dialog__summary,
-.officer-dialog__details p {
-  color: var(--muted);
-}
-
-.officer-dialog__close {
-  justify-self: end;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--accent);
 }
 
 .consultation-cta {
@@ -3003,7 +2874,6 @@ body.page-home .founder-note .button--secondary {
 
   .hero__inner,
   .company-grid,
-  .split-section,
   .contact-form-block,
   .livapon-hero__inner {
     grid-template-columns: 1fr;
@@ -3027,10 +2897,6 @@ body.page-home .founder-note .button--secondary {
   .business-row--reverse .business-row__media,
   .business-row--reverse .business-row__copy {
     order: initial;
-  }
-
-  .project-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .article__content,
@@ -3134,9 +3000,6 @@ body.page-home .founder-note .button--secondary {
   }
 
   .role-grid,
-  .profile-grid,
-  .project-grid,
-  .officers__grid,
   .livapon-panels {
     grid-template-columns: 1fr;
   }
@@ -3459,17 +3322,12 @@ body.page-home .founder-note .button--secondary {
 
   .company-facts div,
   .contact-form__grid,
-  .officer-dialog__panel,
   .founder-note {
     grid-template-columns: 1fr;
   }
 
   .company-facts div {
     gap: 4px;
-  }
-
-  .officer-dialog__body {
-    padding: 26px;
   }
 
   .contact-result-modal {
