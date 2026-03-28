@@ -1,0 +1,120 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import livaponLogo from "../assets/images/LIVAPON_logo_horizontal_350x.png";
+import livaponVisual from "../assets/images/service_livapon_card.webp";
+import { livaponStatements } from "../data/site";
+import { withBase } from "../lib/links";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "LIVAPON",
+  url: "https://chairman-official.com/livapon/",
+  description:
+    "LIVAPONについて。日本のものづくりをLIVEで世界へ届ける越境ECプラットフォームの思想と背景を紹介します。"
+};
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="LIVAPON"
+  description="LIVAPONについて。日本のものづくりをLIVEで世界へ届ける越境ECプラットフォームの思想と背景を紹介します。"
+  pathname="/livapon/"
+  schema={schema}
+  bodyClass="page-livapon"
+>
+  <section class="livapon-hero">
+    <div class="site-shell livapon-hero__inner">
+      <div class="livapon-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">LIVAPON</p>
+        <h1>日本のものづくりを、<br />LIVEで世界へ。</h1>
+        <p>
+          ものが届くだけではなく、作り手の背景と熱量まで届く越境ECへ。
+          LIVAPONは、地域価値を国境を越えて届けるためのプラットフォームです。
+        </p>
+        <div class="livapon-hero__actions">
+          <a class="button button--primary" href="https://sell.livapon.com/" target="_blank" rel="noopener noreferrer">
+            サービス詳細を見る
+          </a>
+          <a class="button button--secondary" href={withBase("/contact/", base)}>
+            導入を相談する
+          </a>
+        </div>
+      </div>
+      <div class="livapon-hero__visual" data-reveal>
+        <img
+          src={livaponLogo.src}
+          alt="LIVAPON"
+          width="350"
+          height={Math.round((livaponLogo.height / livaponLogo.width) * 350)}
+          loading="eager"
+        />
+        <figure>
+          <img
+            src={livaponVisual.src}
+            alt="LIVAPON のイメージ"
+            width={livaponVisual.width}
+            height={livaponVisual.height}
+            sizes="(max-width: 960px) 100vw, 36vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+      </div>
+    </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>LIVE COMMERCE PLATFORM</span>
+        <span>LIVE COMMERCE PLATFORM</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading eyebrow="MISSION" title="Mission" />
+      <div class="statement-block" data-reveal>
+        {livaponStatements.mission.map((line) => (
+          <p>{line}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-section--tone">
+    <div class="site-shell">
+      <SectionHeading eyebrow="BELIEF" title="Belief" />
+      <div class="statement-block" data-reveal>
+        {livaponStatements.belief.map((line) => (
+          <p>{line}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell livapon-panels">
+      <article class="livapon-panel" data-reveal>
+        <p class="section-heading__eyebrow">CREDIBILITY</p>
+        <h2>運営会社情報</h2>
+        {livaponStatements.credibility.map((line) => (
+          <p>{line}</p>
+        ))}
+        <a class="text-link" href={withBase("/about-us/", base)}>
+          運営会社情報を見る
+        </a>
+      </article>
+      <article class="livapon-panel" data-reveal>
+        <p class="section-heading__eyebrow">CONTACT</p>
+        <h2>ご相談・協業のお問い合わせ</h2>
+        <p>
+          導入のご相談、自治体連携、パートナーシップのご相談はこちらから。
+        </p>
+        <a class="button button--secondary" href={withBase("/contact/", base)}>
+          お問い合わせフォームへ
+        </a>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

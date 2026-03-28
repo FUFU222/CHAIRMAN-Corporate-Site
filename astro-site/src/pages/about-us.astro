@@ -1,0 +1,210 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import { mediaProfiles, officers, projectTeam } from "../data/team";
+import { withBase } from "../lib/links";
+import teamMinimalModalScript from "../scripts/team-minimal-modal.js?url";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "私たちについて",
+  url: "https://chairman-official.com/about-us/",
+  description:
+    "株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、マネジメントチーム、メディアネットワークをご覧いただけます。"
+};
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="私たちについて"
+  description="株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、マネジメントチーム、メディアネットワークをご覧いただけます。"
+  pathname="/about-us/"
+  schema={schema}
+  bodyClass="page-about"
+>
+  <section class="page-section page-about-hero-section">
+    <div class="site-shell about-page-hero-shell">
+      <div class="about-page-hero">
+        <div class="about-page-hero__label" data-reveal>
+          <SectionHeading eyebrow="ABOUT US" title="私たちについて" />
+        </div>
+        <div class="about-page-hero__body" data-reveal>
+          <h1>挑戦の担い手であれ</h1>
+          <p>
+            <span>地域やブランドが持つ魅力を磨き、</span>
+            <span>社会や市場との接点をつくります。</span>
+          </p>
+        </div>
+        <div class="about-page-hero__rule" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section page-about-team-section" id="officers">
+    <div class="site-shell">
+      <section class="team-minimal-preview" aria-label="チーム紹介" data-nosnippet>
+        <div class="team-minimal-block">
+          <div class="team-minimal-heading" data-reveal>
+            <h4>OFFICERS</h4>
+            <p>役員紹介</p>
+          </div>
+          <div class="team-minimal-grid team-minimal-grid-officers">
+            {officers.map((officer) => (
+              <article
+                class="team-minimal-item team-minimal-item-officer"
+                data-officer-name={officer.name}
+                data-officer-role={officer.role}
+                data-officer-role-detail={officer.roleDetail ?? ""}
+                data-officer-note-url={officer.noteUrl ?? undefined}
+                data-officer-note-label={officer.noteLabel ?? undefined}
+                data-officer-note-status={officer.noteStatus ?? undefined}
+                data-reveal
+              >
+                <button
+                  type="button"
+                  class="team-minimal-button"
+                  data-officer-modal-trigger
+                  aria-haspopup="dialog"
+                  aria-controls="officer-detail-modal"
+                >
+                  <span class="team-minimal-image">
+                    <img
+                      class={officer.imageClass ?? undefined}
+                      src={officer.image.src}
+                      alt={officer.name}
+                      width={officer.image.width}
+                      height={officer.image.height}
+                      sizes="(max-width: 768px) 100vw, 272px"
+                      loading="lazy"
+                    />
+                  </span>
+                  <span class="team-minimal-name">{officer.name}</span>
+                  <span class="team-minimal-role">{officer.role}</span>
+                  <span class="visually-hidden">略歴を開く</span>
+                </button>
+                <div class="team-minimal-detail-copy" hidden>
+                  {officer.details.map((detail) => (
+                    <p>{detail}</p>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div class="team-minimal-block">
+          <div class="team-minimal-heading" data-reveal>
+            <h4>MEDIA</h4>
+            <p>メディア</p>
+          </div>
+          <div class="team-minimal-grid team-minimal-grid-media">
+            {mediaProfiles.map((profile) => (
+              <a
+                class="team-minimal-item team-minimal-item-link"
+                href={profile.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${profile.name} の Instagram を新しいタブで開く`}
+                data-reveal
+              >
+                <div class="team-minimal-image">
+                  <img
+                    src={profile.image.src}
+                    alt={profile.name}
+                    width={profile.image.width}
+                    height={profile.image.height}
+                    sizes="(max-width: 768px) 100vw, 240px"
+                    loading="lazy"
+                  />
+                  <span class="external-link-indicator" aria-hidden="true">
+                    <span class="external-link-indicator-tab"></span>
+                    <span class="external-link-indicator-arrow"></span>
+                  </span>
+                </div>
+                <div class="team-minimal-name">{profile.name}</div>
+                <div class="team-minimal-role">{profile.role}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="team-minimal-block">
+          <div class="team-minimal-heading" data-reveal>
+            <h4>MANAGEMENT TEAM</h4>
+            <p>マネジメントチーム</p>
+          </div>
+          <div class="team-minimal-grid">
+            {projectTeam.map((member) => (
+              <article class="team-minimal-item" data-reveal>
+                <div class="team-minimal-image">
+                  <img
+                    src={member.image.src}
+                    alt={member.name}
+                    width={member.image.width}
+                    height={member.image.height}
+                    sizes="(max-width: 768px) 100vw, 240px"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="team-minimal-name">{member.name}</div>
+                <div class="team-minimal-role">{member.role}</div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <dialog class="officer-detail-modal" id="officer-detail-modal" aria-labelledby="officer-detail-name" data-officer-modal>
+        <div class="officer-detail-panel">
+          <div class="officer-detail-media">
+            <div class="officer-detail-photo">
+              <img src="" alt="" data-officer-modal-image />
+            </div>
+          </div>
+          <div class="officer-detail-content">
+            <button type="button" class="officer-detail-close" data-officer-modal-close aria-label="閉じる">
+              閉じる
+            </button>
+            <div class="officer-detail-header">
+              <p class="officer-detail-role" data-officer-modal-role></p>
+              <p class="officer-detail-role-detail" data-officer-modal-role-detail hidden></p>
+              <h3 id="officer-detail-name" data-officer-modal-name></h3>
+            </div>
+            <div class="officer-detail-body" data-officer-modal-body></div>
+            <div class="officer-detail-actions" data-officer-modal-actions hidden>
+              <a
+                class="officer-detail-note-link"
+                data-officer-modal-note-link
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+              >
+                <img src={withBase("/images/note_icon.svg", base)} alt="" aria-hidden="true" />
+              </a>
+              <p class="officer-detail-note-status" data-officer-modal-note-status hidden></p>
+            </div>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  </section>
+
+  <script is:inline type="module" src={teamMinimalModalScript}></script>
+
+  <section class="page-section page-section--cta">
+    <div class="site-shell consultation-cta" data-reveal>
+      <div>
+        <p class="section-heading__eyebrow">CONSULTATION</p>
+        <p class="consultation-cta__message">
+          <span>価値の整理から発信・販路設計まで、</span>
+          <span class="consultation-cta__message-line">一気通貫で伴走します。</span>
+        </p>
+      </div>
+      <a class="button button--primary" href={withBase("/contact/", base)}>
+        相談する
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import NewsList from "../../components/NewsList.astro";
+import ArticleShare from "../../components/ArticleShare.astro";
+import { absoluteUrl, formatDateJP } from "../../lib/format";
+import { withBase } from "../../lib/links";
+import {
+  getArticleHeroImage,
+  getEnhancedArticleContentHtml
+} from "../../lib/article-enhancements";
+import { getLatestNews, getLocalNewsArticles, getRelatedNews } from "../../lib/news";
+
+export async function getStaticPaths() {
+  const articles = getLocalNewsArticles();
+  return articles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article, articles }
+  }));
+}
+
+const { article, articles } = Astro.props;
+const relatedArticles = getRelatedNews(articles, article, 3);
+const latestArticles = getLatestNews(
+  articles.filter((item) => item.slug !== article.slug),
+  3
+);
+const articleUrl = absoluteUrl(`/news/${article.slug}/`, "https://chairman-official.com");
+const base = import.meta.env.BASE_URL;
+const heroImage = getArticleHeroImage(article);
+const articleContentHtml = getEnhancedArticleContentHtml(article);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: article.title,
+  datePublished: article.publishedAt,
+  author: {
+    "@type": "Person",
+    name: article.author.name
+  },
+  mainEntityOfPage: articleUrl,
+  description: article.description
+};
+---
+
+<BaseLayout
+  title={article.title}
+  description={article.description || article.excerpt}
+  pathname={`/news/${article.slug}/`}
+  image={heroImage?.src}
+  socialImageAlt={heroImage?.alt || article.title}
+  ogType="article"
+  publishedTime={article.publishedAt}
+  schema={schema}
+  bodyClass="page-article"
+>
+  <article class="article">
+    <header class="article__hero">
+      <div class="site-shell article__hero-inner">
+        <div class="article__copy" data-reveal>
+          <p class="article__meta">
+            <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+            <span>{article.categories.map((category) => category.name).join(" / ")}</span>
+          </p>
+          <h1>{article.title}</h1>
+          <p>{article.description || article.excerpt}</p>
+        </div>
+        {heroImage && (
+          <figure class="article__hero-visual" data-reveal>
+            <img
+              src={heroImage.src}
+              alt={heroImage.alt}
+              width={heroImage.width}
+              height={heroImage.height}
+              sizes="(max-width: 960px) 100vw, 920px"
+              loading="eager"
+              decoding="async"
+            />
+          </figure>
+        )}
+      </div>
+    </header>
+
+    <div class="site-shell article__content">
+      <div class="article__main" data-reveal>
+        <div class="rich-text" set:html={articleContentHtml}></div>
+        <ArticleShare title={article.title} url={articleUrl} />
+        <div class="article__support" data-reveal>
+          <section class="author-card author-card--author">
+            <p class="section-heading__eyebrow">AUTHOR</p>
+            <div class="author-card__profile">
+              {article.author.image && (
+                typeof article.author.image === "string" ? (
+                  <img src={article.author.image} alt={article.author.name} width="320" height="320" loading="lazy" />
+                ) : (
+                  <img
+                    src={article.author.image.src}
+                    alt={article.author.name}
+                    width={article.author.image.width}
+                    height={article.author.image.height}
+                    sizes="112px"
+                    loading="lazy"
+                  />
+                )
+              )}
+              <div class="author-card__profile-copy">
+                <h2>{article.author.name}</h2>
+                <p class="author-card__role">{article.author.title}</p>
+              </div>
+            </div>
+            <p>{article.author.bio}</p>
+          </section>
+          <section class="author-card author-card--contact">
+            <p class="section-heading__eyebrow">CONTACT</p>
+            <h2>ご相談はこちら</h2>
+            <p>記事に関するご質問や、事業のご相談はお問い合わせページから受け付けています。</p>
+            <a class="button button--secondary" href={withBase("/contact/", base)}>
+              お問い合わせ
+            </a>
+          </section>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {(relatedArticles.length > 0 || latestArticles.length > 0) && (
+    <section class="page-section">
+      <div class="site-shell related-section">
+        {relatedArticles.length > 0 && (
+          <div data-reveal>
+            <SectionHeading eyebrow="RELATED" title="関連記事" />
+            <NewsList articles={relatedArticles} variant="stack" />
+          </div>
+        )}
+        {latestArticles.length > 0 && (
+          <div data-reveal>
+            <SectionHeading eyebrow="LATEST" title="新着記事" />
+            <NewsList articles={latestArticles} variant="stack" />
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+</BaseLayout>

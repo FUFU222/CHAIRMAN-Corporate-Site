@@ -1,0 +1,84 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import NewsArchive from "../components/NewsArchive.astro";
+import { getKnowhowArticles } from "../lib/article-groups";
+import { getMicrocmsArticles } from "../lib/microcms";
+
+const archiveArticles = getKnowhowArticles(await getMicrocmsArticles());
+const visibleTopics = Array.from(
+  new Set(archiveArticles.flatMap((article) => article.categories.map((category) => category.name)))
+).slice(0, 8);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "SNSノウハウ集",
+  url: "https://chairman-official.com/sns-marketing/",
+  description:
+    "株式会社CHAIRMANがmicroCMSで公開している記事のうち、SNS運用や発信設計に関する内容を整理したアーカイブページです。"
+};
+---
+
+<BaseLayout
+  title="SNSノウハウ集"
+  description="株式会社CHAIRMANがmicroCMSで公開している記事のうち、SNS運用や発信設計に関する内容を整理したアーカイブページです。"
+  pathname="/sns-marketing/"
+  schema={schema}
+  bodyClass="page-sns-marketing"
+>
+  <section class="page-hero page-hero--narrow">
+    <div class="site-shell page-hero__inner page-hero__inner--single">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">SNS KNOW-HOW</p>
+        <h1>SNSノウハウ集</h1>
+        <p>
+          CHAIRMANがmicroCMSで公開してきた記事のうち、SNS運用、発信設計、動画まわりの内容を中心に整理しています。
+          必要なテーマから過去の記事を辿れるよう、一覧で静かにまとめたページです。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="TOPICS"
+        title="テーマから記事を辿れるようにしています。"
+        intro="カテゴリに出てくる論点を先に見せて、必要なテーマから読める構成にしています。"
+      />
+
+      <p class="sns-marketing__summary" data-reveal>
+        {archiveArticles.length}件の公開記事を掲載しています。
+      </p>
+
+      {visibleTopics.length > 0 && (
+        <ul class="sns-marketing__topics" data-reveal aria-label="掲載テーマ">
+          {visibleTopics.map((topic) => (
+            <li>{topic}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <section class="page-section page-section--tone">
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="ARTICLES"
+        title="公開中の記事"
+        intro="既存のmicroCMS記事を、SNSノウハウとして一覧化しています。"
+      />
+
+      {archiveArticles.length > 0 ? (
+        <div class="sns-marketing__articles" data-reveal>
+          <NewsArchive articles={archiveArticles} articleBasePath="/sns-marketing/" />
+        </div>
+      ) : (
+        <p class="sns-marketing__empty" data-reveal>
+          公開中の記事はまだありません。
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

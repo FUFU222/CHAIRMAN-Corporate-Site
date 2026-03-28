@@ -1,0 +1,54 @@
+---
+import type { NewsArticle } from "../lib/types";
+import { formatDateJP } from "../lib/format";
+import { withBase } from "../lib/links";
+import { getArticleListImage } from "../lib/article-enhancements";
+
+interface Props {
+  articles: NewsArticle[];
+  variant?: "inline" | "stack";
+  articleBasePath?: string;
+}
+
+const { articles, variant = "inline", articleBasePath = "/news/" } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+function articleHref(slug: string) {
+  return withBase(`${articleBasePath}${slug}/`, base);
+}
+
+---
+
+<ul class={`news-list news-list--${variant}`}>
+  {articles.map((article) => {
+    const heroImage = getArticleListImage(article);
+    const eyecatchMedia = heroImage ? (
+      <span class="news-list__media">
+        <img
+          src={heroImage.src}
+          alt=""
+          width={heroImage.width}
+          height={heroImage.height}
+          sizes="(max-width: 960px) 100vw, 24vw"
+          loading="lazy"
+        />
+      </span>
+    ) : null;
+
+    return (
+      <li class="news-list__item">
+        <a href={articleHref(article.slug)} class="news-list__link">
+          {eyecatchMedia}
+          <span class="news-list__body">
+            <span class="news-list__meta">
+              <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
+              {article.categories[0] && <span>{article.categories[0].name}</span>}
+            </span>
+            <strong>{article.title}</strong>
+            <span>{article.excerpt}</span>
+          </span>
+        </a>
+      </li>
+    );
+  })}
+</ul>

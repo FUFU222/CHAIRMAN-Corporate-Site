@@ -1,0 +1,24 @@
+---
+import shareScript from "../scripts/share.js?url";
+
+interface Props {
+  title: string;
+  url: string;
+}
+
+const { title, url } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+---
+
+<div class="article-share" data-reveal>
+  <p>この記事を共有する</p>
+  <div class="article-share__links">
+    <a href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" aria-label="この記事を X で共有">X</a>
+    <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`} target="_blank" rel="noopener noreferrer" aria-label="この記事を Facebook で共有">Facebook</a>
+    <a href={`https://social-plugins.line.me/lineit/share?url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" aria-label="この記事を LINE で共有">LINE</a>
+    <button type="button" data-copy-url={url}>URLをコピー</button>
+  </div>
+</div>
+
+<script is:inline type="module" src={shareScript}></script>

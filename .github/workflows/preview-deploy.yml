@@ -1,0 +1,67 @@
+name: Preview Deploy to Xserver
+
+on:
+  push:
+    branches:
+      - codex/site-refresh-preview
+    paths:
+      - "astro-site/**"
+      - ".github/workflows/preview-deploy.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: astro-site/package-lock.json
+
+      - name: Install dependencies
+        working-directory: astro-site
+        run: npm ci
+
+      - name: Build Astro preview
+        working-directory: astro-site
+        env:
+          SITE_BASE: /preview/
+          SITE_URL: https://chairman-official.com
+          MICROCMS_SERVICE_DOMAIN: ${{ secrets.MICROCMS_SERVICE_DOMAIN }}
+          MICROCMS_API_KEY: ${{ secrets.MICROCMS_API_KEY }}
+          MICROCMS_ENDPOINT: blog
+          MICROCMS_STRICT: "true"
+          PUBLIC_CONTACT_FORM_ENDPOINT: ${{ secrets.CHAIRMAN_APPS_SCRIPT_ENDPOINT }}
+          PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.CHAIRMAN_RECAPTCHA_SITE_KEY }}
+          PUBLIC_GA_ID: G-C1YTY7SVWF
+        run: npm run build
+
+      - name: Prepare preview bundle
+        run: |
+          rm -rf .preview-dist
+          mkdir -p .preview-dist
+          cp -R astro-site/dist/. .preview-dist/
+          cat <<'EOF' >> .preview-dist/.htaccess
+
+          <IfModule mod_headers.c>
+              Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+              Header always unset Content-Security-Policy
+              Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://www.google-analytics.com https://www.google.com https://www.recaptcha.net; frame-src 'self' https://chairman-official.com https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://recaptcha.google.com https://script.google.com https://script.googleusercontent.com"
+          </IfModule>
+          EOF
+
+      - name: Deploy preview folder via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.XSERVER_HOST }}
+          username: ${{ secrets.XSERVER_USERNAME }}
+          password: ${{ secrets.XSERVER_PASSWORD }}
+          protocol: ftps
+          local-dir: .preview-dist/
+          server-dir: public_html/preview/

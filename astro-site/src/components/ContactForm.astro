@@ -1,0 +1,164 @@
+---
+import { contactCategories } from "../data/site";
+import contactFormScript from "../scripts/contact-form.js?url";
+
+interface Props {
+  endpoint?: string;
+  recaptchaSiteKey?: string;
+  contactEmail?: string;
+}
+
+const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
+---
+
+<section class="contact-form-block" data-contact-form-wrapper>
+  <div class="contact-form-block__intro" data-reveal>
+    <h2>
+      <span class="contact-form-block__intro-line">お問い合わせ内容を確認のうえ、</span>
+      <span class="contact-form-block__intro-line">担当よりご返信します。</span>
+    </h2>
+    <ul class="contact-form-block__notes">
+      <li>通常3営業日以内にご返信します。</li>
+      <li>営業目的のご連絡は内容により返信できない場合があります。</li>
+    </ul>
+  </div>
+
+  <div class="contact-form-block__panel" data-reveal>
+    <form
+      class="contact-form"
+      method="POST"
+      action={endpoint || "#"}
+      target="contact-submit-target"
+      novalidate
+      data-contact-form
+      data-endpoint={endpoint}
+    >
+      <div class="contact-form__grid">
+        <label>
+          <span>お名前</span>
+          <input name="name" type="text" autocomplete="name" maxlength="80" required />
+        </label>
+        <label>
+          <span>メールアドレス</span>
+          <input
+            name="email"
+            type="email"
+            autocomplete="email"
+            inputmode="email"
+            autocapitalize="off"
+            spellcheck="false"
+            maxlength="254"
+            required
+          />
+        </label>
+      </div>
+
+      <div class="contact-form__grid">
+        <label>
+          <span>電話番号</span>
+          <input
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+            maxlength="32"
+            pattern="[0-9()+\\-. ]{6,32}"
+          />
+        </label>
+        <label>
+          <span>問い合わせ種別</span>
+          <select name="category" required>
+            <option value="">選択してください</option>
+            {contactCategories.map((category) => (
+              <option value={category}>{category}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <label>
+        <span>本文</span>
+        <textarea name="message" rows={8} minlength="10" maxlength="2000" required></textarea>
+      </label>
+
+      <label class="contact-form__honeypot" aria-hidden="true">
+        <span>会社名</span>
+        <input name="company" type="text" tabindex="-1" autocomplete="off" />
+      </label>
+
+      <input name="source" type="hidden" value="chairman-astro-site" />
+      <input name="jsEnabled" type="hidden" value="0" />
+      <input name="submittedAt" type="hidden" value="" />
+      <input name="g-recaptcha-response" type="hidden" value="" data-recaptcha-response />
+
+      <div class="contact-form__captcha-block">
+        {recaptchaSiteKey ? (
+          <div
+            class="contact-form__captcha"
+            data-recaptcha
+            data-sitekey={recaptchaSiteKey}
+            aria-label="reCAPTCHA によるボット対策"
+          ></div>
+        ) : (
+          <p class="contact-form__captcha-note">
+            reCAPTCHA の設定後にボット対策が有効になります。
+          </p>
+        )}
+      </div>
+
+      <div class="contact-form__actions">
+        <button class="button button--primary" type="submit" data-contact-submit>
+          <span data-contact-submit-label>送信する</span>
+        </button>
+      </div>
+    </form>
+
+    <p class="contact-form__status visually-hidden" data-contact-status aria-live="polite" aria-atomic="true">
+      入力内容を確認のうえ送信してください。
+    </p>
+
+    <iframe
+      title="contact submission target"
+      name="contact-submit-target"
+      class="contact-form__target"
+      hidden
+      data-contact-target
+    ></iframe>
+
+    <dialog class="contact-result-modal" data-contact-result-dialog aria-labelledby="contact-result-title">
+      <div class="contact-result-modal__panel" data-contact-result-panel data-state="idle">
+        <button
+          class="contact-result-modal__close"
+          type="button"
+          data-contact-result-close
+          aria-label="閉じる"
+        >
+          閉じる
+        </button>
+        <p class="contact-result-modal__eyebrow" data-contact-result-eyebrow>CONTACT</p>
+        <h3 class="contact-result-modal__title" id="contact-result-title" data-contact-result-title>
+          お問い合わせ内容をご確認ください
+        </h3>
+        <p class="contact-result-modal__message" data-contact-result-message>
+          入力内容を確認のうえ送信してください。
+        </p>
+        {contactEmail && (
+          <p class="contact-result-modal__assist" data-contact-result-assist hidden>
+            うまく送信できない場合は
+            {" "}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            {" "}
+            まで直接ご連絡ください。
+          </p>
+        )}
+        <div class="contact-result-modal__actions">
+          <button class="button button--secondary" type="button" data-contact-result-confirm>
+            フォームに戻る
+          </button>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</section>
+
+<script is:inline type="module" src={contactFormScript}></script>

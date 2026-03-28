@@ -1,0 +1,83 @@
+{
+  "contents": [
+    {
+      "id": "sns-short-video-playbook",
+      "slug": "sns-short-video-playbook",
+      "title": "ショート動画運用の設計メモ",
+      "description": "ショート動画の企画、導線、改善の見方を整理した記事です。",
+      "publishedAt": "2026-03-12T00:00:00.000Z",
+      "category": [
+        {
+          "id": "sns",
+          "name": "SNS運用"
+        },
+        {
+          "id": "video",
+          "name": "動画設計"
+        }
+      ],
+      "eyecatch": {
+        "url": "https://images.example.com/short-video-playbook.jpg"
+      },
+      "author": {
+        "author-title": "代表取締役",
+        "author-name": "田中 透",
+        "author-bio": "地域事業者と市場の間にある情報の非対称をなくし、価値が届く導線を設計しています。",
+        "author-image": {
+          "url": "https://images.example.com/authors/tanaka.jpg"
+        }
+      },
+      "content": "<p>ショート動画の設計では、冒頭3秒の設計と保存される理由を切り分けて考えます。</p><h2>改善の見方</h2><p>視聴維持率だけでなく、プロフィール遷移や保存率も確認します。</p>"
+    },
+    {
+      "id": "sns-caption-design",
+      "slug": "sns-caption-design",
+      "title": "キャプション設計の基本",
+      "description": "SNS投稿のキャプションで反応率を落とさないための基本整理です。",
+      "publishedAt": "2026-03-10T00:00:00.000Z",
+      "category": [
+        {
+          "id": "sns",
+          "name": "SNS運用"
+        }
+      ],
+      "eyecatch": {
+        "url": "https://images.example.com/caption-design.jpg"
+      },
+      "author": {
+        "author-title": "代表取締役",
+        "author-name": "田中 透",
+        "author-bio": "地域事業者と市場の間にある情報の非対称をなくし、価値が届く導線を設計しています。",
+        "author-image": {
+          "url": "https://images.example.com/authors/tanaka.jpg"
+        }
+      },
+      "content": "<p>本文です。</p>"
+    },
+    {
+      "id": "event-overseas-partnership",
+      "slug": "event-overseas-partnership",
+      "title": "海外展示会パートナーシップの進め方",
+      "description": "海外展示会に関する事業パートナーシップの整理です。",
+      "publishedAt": "2026-03-09T00:00:00.000Z",
+      "category": [
+        {
+          "id": "partnership",
+          "name": "パートナーシップ"
+        }
+      ],
+      "eyecatch": {
+        "url": "https://images.example.com/partnership.jpg"
+      },
+      "author": {
+        "author-title": "代表取締役",
+        "author-name": "田中 透",
+        "author-bio": "地域事業者と市場の間にある情報の非対称をなくし、価値が届く導線を設計しています。",
+        "author-image": {
+          "url": "https://images.example.com/authors/tanaka.jpg"
+        }
+      },
+      "content": "<p>本文です。</p>"
+    }
+  ]
+}

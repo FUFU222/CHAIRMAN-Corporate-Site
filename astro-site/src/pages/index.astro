@@ -1,0 +1,202 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import NewsList from "../components/NewsList.astro";
+import heroImage1 from "../assets/images/chairman_hero1.webp";
+import heroImage2 from "../assets/images/chairman_hero2.webp";
+import heroImage3 from "../assets/images/chairman_hero3.webp";
+import { businesses, companyFacts, homeRoles, site } from "../data/site";
+import { withBase } from "../lib/links";
+import { getLatestNews, getLocalNewsArticles } from "../lib/news";
+
+const latestNews = getLatestNews(getLocalNewsArticles(), 3);
+const base = import.meta.env.BASE_URL;
+
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.name,
+    url: site.siteUrl,
+    logo: `${site.siteUrl}/og-default.png`,
+    description: site.description
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.siteUrl
+  }
+];
+---
+
+<BaseLayout
+  title="価値に、伝わる力を。"
+  description={site.description}
+  pathname="/"
+  schema={schema}
+  bodyClass="page-home"
+>
+  <Hero
+    signature="CHAIRMAN"
+    title={
+      "<span class='hero__title-line hero__title-line--solid'>価値に、伝わる力を。</span>"
+    }
+    slides={[
+      { image: heroImage1, alt: "CHAIRMAN Hero image 1" },
+      { image: heroImage2 },
+      { image: heroImage3 }
+    ]}
+  />
+
+  <section
+    class="page-section page-section--about page-section--outline page-section--outline-left"
+    data-outline-word="ABOUT"
+  >
+    <div class="site-shell home-about">
+      <div class="home-about__intro">
+        <header class="section-heading section-heading--left" data-reveal>
+          <p class="section-heading__eyebrow">ABOUT CHAIRMAN</p>
+          <h2>
+            <span class="section-heading__line">掘り起こし、</span>
+            <span class="section-heading__line">磨き上げ、</span>
+            <span class="section-heading__line">届ける</span>
+          </h2>
+        </header>
+      </div>
+      <div class="role-grid">
+        {homeRoles.map((role) => (
+          <article class="role-card" data-reveal>
+            <p>{role.label}</p>
+            <h3>{role.title}</h3>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="page-section page-section--tone page-section--outline page-section--outline-right"
+    data-outline-word="NEWS"
+  >
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="NEWS"
+        title="新着情報"
+        intro="LIVAPONや越境EC、海外展開に関する事業のお知らせを掲載しています。"
+      />
+      {latestNews.length > 0 ? (
+        <NewsList articles={latestNews} variant="inline" />
+      ) : (
+        <p class="empty-state" data-reveal>現在掲載中の新着情報はありません。</p>
+      )}
+      <div class="section-actions" data-reveal>
+        <a class="text-link" href={withBase("/news/", base)}>
+          バックナンバーを見る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="page-section page-section--outline page-section--outline-left"
+    id="business"
+    data-outline-word="BUSINESS"
+  >
+    <div class="site-shell">
+      <SectionHeading
+        eyebrow="BUSINESS"
+        title="事業紹介"
+      />
+      <div class="business-stack">
+        {businesses.map((business, index) => (
+          <article class={`business-row ${index % 2 ? "business-row--reverse" : ""}`} data-reveal>
+            <div class="business-row__media">
+              <img
+                src={business.image.src}
+                alt={business.title}
+                width={business.image.width}
+                height={business.image.height}
+                sizes="(max-width: 960px) 100vw, 34vw"
+                loading="lazy"
+              />
+            </div>
+            <div class="business-row__copy">
+              <p>{business.label}</p>
+              <h3 class:list={[business.noWrapTitle && "is-nowrap", business.titleLogo && "business-row__logo-title"]}>
+                {business.titleLogo ? (
+                  <img
+                    src={business.titleLogo.src}
+                    alt={business.title}
+                    width={business.titleLogo.width}
+                    height={business.titleLogo.height}
+                    loading="lazy"
+                  />
+                ) : (
+                  business.title
+                )}
+              </h3>
+              <p>{business.summary}</p>
+              <a class="text-link" href={business.href} target="_blank" rel="noopener noreferrer">
+                {business.linkLabel}
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="page-section page-section--company page-section--outline page-section--outline-right"
+    data-outline-word="COMPANY"
+  >
+    <div class="site-shell company-grid">
+      <div>
+        <SectionHeading
+          eyebrow="COMPANY"
+          title="会社概要"
+        />
+      </div>
+      <dl class="company-facts" data-reveal>
+        {companyFacts.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section
+    class="page-section page-section--outline page-section--outline-left"
+    id="representative-note"
+    data-outline-word="NOTE"
+  >
+    <div class="site-shell founder-note">
+      <div data-reveal>
+        <p class="section-heading__eyebrow">REPRESENTATIVE'S NOTE</p>
+        <h2>{site.representativeNote.title}</h2>
+        <p>{site.representativeNote.description}</p>
+      </div>
+      <div class="founder-note__actions" data-reveal>
+        {site.representativeNote.href ? (
+          <a
+            class="button button--secondary"
+            href={site.representativeNote.href}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            noteを読む
+          </a>
+        ) : (
+          <span class="status-chip" aria-label="代表の備忘録は公開準備中です">
+            {site.representativeNote.statusLabel}
+          </span>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

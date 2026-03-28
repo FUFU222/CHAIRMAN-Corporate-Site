@@ -1,0 +1,48 @@
+---
+import type { ImageMetadata } from "astro";
+
+interface HeroSlide {
+  image: ImageMetadata;
+  alt?: string;
+}
+
+interface Props {
+  signature?: string;
+  title: string;
+  lead?: string;
+  slides: HeroSlide[];
+}
+
+const { signature, title, lead, slides } = Astro.props;
+---
+
+<section class="hero" data-hero>
+  <div class="site-shell site-shell--wide hero__inner">
+    <div class="hero__copy" data-hero-copy>
+      <h1 class="hero__title" data-hero-title set:html={title}></h1>
+      {signature && <p class="hero__signature" data-hero-signature>{signature}</p>}
+      {lead && <p class="hero__lead">{lead}</p>}
+    </div>
+
+    <div class="hero__visual">
+      <figure class="hero__figure">
+        <div class="hero__slides">
+          {slides.map((slide, index) => (
+            <span class={`hero__slide ${index === 0 ? "is-active" : ""}`} aria-hidden={index === 0 ? "false" : "true"}>
+              <img
+                src={slide.image.src}
+                alt={index === 0 ? slide.alt ?? "" : ""}
+                width={slide.image.width}
+                height={slide.image.height}
+                sizes="(max-width: 820px) 100vw, 56vw"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "low"}
+                decoding="async"
+              />
+            </span>
+          ))}
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>

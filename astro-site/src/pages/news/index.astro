@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NewsArchive from "../../components/NewsArchive.astro";
+import { getLocalNewsArticles } from "../../lib/news";
+
+const articles = getLocalNewsArticles();
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "新着情報",
+  url: "https://chairman-official.com/news/",
+  description:
+    "株式会社CHAIRMANの新着情報一覧です。LIVAPON、越境EC、海外展開に関する事業のお知らせを掲載しています。"
+};
+---
+
+<BaseLayout
+  title="新着情報"
+  description="株式会社CHAIRMANの新着情報一覧です。LIVAPON、越境EC、海外展開に関する事業のお知らせを掲載しています。"
+  pathname="/news/"
+  schema={schema}
+  bodyClass="page-news"
+>
+  <section class="page-hero page-hero--narrow">
+    <div class="site-shell page-hero__inner page-hero__inner--single">
+      <div class="page-hero__copy" data-reveal>
+        <p class="section-heading__eyebrow">NEWS</p>
+        <h1>新着情報</h1>
+        <p>
+          LIVAPON、越境EC、海外展開に関する事業のお知らせを一覧で掲載しています。
+          取り組みやパートナーシップに関する更新も、こちらでまとめてご覧いただけます。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="page-section page-news__archive-section page-section--outline page-section--outline-right"
+    data-outline-word="NEWS"
+  >
+    <div class="site-shell">
+      {articles.length > 0 ? (
+        <NewsArchive articles={articles} showHeroImages initialVisibleCount={2} loadMoreThreshold={3} />
+      ) : (
+        <p class="empty-state" data-reveal>現在掲載中の新着情報はありません。</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>

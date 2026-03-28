@@ -1,0 +1,48 @@
+---
+import logo from "../assets/images/CompanyLogo.webp";
+import { navigation, site } from "../data/site";
+import { withBase } from "../lib/links";
+
+const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
+---
+
+<header class="site-header" data-header>
+  <div class="site-shell site-header__inner">
+    <a class="site-header__brand" href={withBase("/", base)} aria-label={`${site.name} のホームへ`}>
+      <img src={logo.src} alt={site.name} width={logo.width} height={logo.height} loading="eager" />
+    </a>
+
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="global-nav"
+      aria-label="メニューを開く"
+      data-menu-toggle
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-header__nav" id="global-nav" aria-label="グローバルナビゲーション" data-menu-panel>
+      <ul>
+        {navigation.map((item) => (
+          <li>
+            <a
+              href={withBase(item.href, base)}
+              aria-current={currentPath === withBase(item.href, base) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="site-header__contact" href={withBase("/contact/", base)}>
+        お問い合わせ
+      </a>
+    </nav>
+  </div>
+  <div class="site-header__overlay" hidden data-menu-overlay></div>
+</header>

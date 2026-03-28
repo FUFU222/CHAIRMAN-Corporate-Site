@@ -1,0 +1,53 @@
+---
+import logo from "../assets/images/chairman-text-white.svg";
+import livaponLogo from "../assets/images/livapon_logo_white.png";
+import { site } from "../data/site";
+import { withBase } from "../lib/links";
+
+const base = import.meta.env.BASE_URL;
+const livaponLpHref = "https://sell.livapon.com/";
+const representativeNoteHref = site.representativeNote.href || withBase("/#representative-note", base);
+const representativeNoteTarget = site.representativeNote.href ? "_blank" : undefined;
+const representativeNoteRel = site.representativeNote.href ? "noopener noreferrer" : undefined;
+---
+
+<footer class="site-footer">
+  <div class="site-shell site-footer__inner">
+    <div class="site-footer__brand">
+      <a href={withBase("/", base)} class="site-footer__logo">
+        <img src={logo.src} alt={site.name} width={logo.width} height={logo.height} loading="lazy" />
+      </a>
+    </div>
+
+    <div class="site-footer__nav">
+      <section aria-label="サイト">
+        <h2>SITE</h2>
+        <ul>
+          <li><a href={withBase("/about-us/", base)}>私たちについて</a></li>
+          <li><a href={withBase("/news/", base)}>新着情報</a></li>
+          <li><a href={withBase("/sns-marketing/", base)}>SNSノウハウ集</a></li>
+          <li><a href={withBase("/contact/", base)}>お問い合わせ</a></li>
+          <li><a href={withBase("/privacy/", base)}>プライバシーポリシー</a></li>
+        </ul>
+      </section>
+      <section aria-label="事業">
+        <h2>BUSINESS</h2>
+        <ul>
+          <li>
+            <a href={livaponLpHref} class="site-footer__service-link" target="_blank" rel="noopener noreferrer">
+              <img src={livaponLogo.src} alt="LIVAPON" width={livaponLogo.width} height={livaponLogo.height} loading="lazy" class="site-footer__service-logo" />
+            </a>
+          </li>
+          <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener noreferrer">SNS運用・映像制作</a></li>
+          <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener noreferrer">KOSOLIFE</a></li>
+          <li class="site-footer__nav-secondary">
+            <a href={representativeNoteHref} target={representativeNoteTarget} rel={representativeNoteRel}>代表のnote</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+  <div class="site-shell site-footer__bottom">
+    <small>&copy; 2026 CHAIRMAN. All rights reserved.</small>
+  </div>
+</footer>
