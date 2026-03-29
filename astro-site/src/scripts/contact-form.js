@@ -16,6 +16,8 @@ const MESSAGE_MIN_LENGTH = 10;
 const MESSAGE_MAX_LENGTH = 2000;
 const RECAPTCHA_READY_TIMEOUT_MS = 7000;
 const RECAPTCHA_READY_POLL_MS = 120;
+const SUBMISSION_SOFT_TIMEOUT_MS = 15000;
+const SUBMISSION_HARD_TIMEOUT_MS = 60000;
 
 function getRecaptchaApi(windowObject) {
   return windowObject.grecaptcha && typeof windowObject.grecaptcha.render === "function"
@@ -236,7 +238,8 @@ export function initializeContactForm(options = {}) {
 
   let hasSubmitted = false;
   let recaptchaWidgetId = null;
-  let submissionTimeoutId = null;
+  let submissionSoftTimeoutId = null;
+  let submissionHardTimeoutId = null;
   let activeTrigger = null;
   const endpoint = form.dataset.endpoint || "";
   const nameInput = form.elements.namedItem("name");
@@ -322,9 +325,14 @@ export function initializeContactForm(options = {}) {
   };
 
   const clearSubmissionTimeout = () => {
-    if (submissionTimeoutId) {
-      windowRef.clearTimeout(submissionTimeoutId);
-      submissionTimeoutId = null;
+    if (submissionSoftTimeoutId) {
+      windowRef.clearTimeout(submissionSoftTimeoutId);
+      submissionSoftTimeoutId = null;
+    }
+
+    if (submissionHardTimeoutId) {
+      windowRef.clearTimeout(submissionHardTimeoutId);
+      submissionHardTimeoutId = null;
     }
   };
 
@@ -678,7 +686,20 @@ export function initializeContactForm(options = {}) {
       label: "送信中"
     });
     clearSubmissionTimeout();
-    submissionTimeoutId = windowRef.setTimeout(() => {
+    submissionSoftTimeoutId = windowRef.setTimeout(() => {
+      if (!hasSubmitted) {
+        return;
+      }
+
+      setStatus("送信処理に時間がかかっています。このまましばらくお待ちください。長時間完了しない場合は、下記アドレスまで直接ご連絡ください。", "submitting", {
+        label: "送信処理に時間がかかっています",
+        assist: true,
+        modal: true,
+        eyebrow: "CONTACT"
+      });
+    }, SUBMISSION_SOFT_TIMEOUT_MS);
+
+    submissionHardTimeoutId = windowRef.setTimeout(() => {
       if (!hasSubmitted) {
         return;
       }
@@ -693,7 +714,7 @@ export function initializeContactForm(options = {}) {
         modal: true,
         eyebrow: "CONTACT"
       });
-    }, 15000);
+    }, SUBMISSION_HARD_TIMEOUT_MS);
   });
 
   if (HTMLElementCtor && resultClose instanceof HTMLElementCtor) {

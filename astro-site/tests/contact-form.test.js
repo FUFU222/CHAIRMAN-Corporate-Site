@@ -267,3 +267,83 @@ test("accepted submission messages from allowed origins complete the live endpoi
     dom.window.close();
   }
 });
+
+test("slow submission keeps waiting and still accepts a later success message", async () => {
+  const { initializeContactForm } = await importContactFormModule();
+  const dom = createContactDom({
+    endpoint: "https://script.google.com/macros/s/example/exec",
+    recaptchaSiteKey: "site-key"
+  });
+  const grecaptcha = {
+    render() {
+      return 42;
+    },
+    getResponse() {
+      return "token-123";
+    },
+    resetCalls: [],
+    reset(widgetId) {
+      this.resetCalls.push(widgetId);
+    }
+  };
+  const scheduledCallbacks = [];
+
+  dom.window.grecaptcha = grecaptcha;
+  dom.window.setTimeout = (callback) => {
+    scheduledCallbacks.push(callback);
+    return scheduledCallbacks.length;
+  };
+  dom.window.clearTimeout = () => {};
+
+  try {
+    initializeContactForm({
+      document: dom.window.document,
+      window: dom.window
+    });
+    await flushMicrotasks();
+
+    fillValidForm(dom.window.document);
+    dom.window.document.querySelector('[name="submittedAt"]').value = String(Date.now() - 2_000);
+
+    const form = dom.window.document.querySelector("[data-contact-form]");
+    const status = dom.window.document.querySelector("[data-contact-status]");
+    const dialog = dom.window.document.querySelector("[data-contact-result-dialog]");
+    const panel = dom.window.document.querySelector("[data-contact-result-panel]");
+    const title = dom.window.document.querySelector("[data-contact-result-title]");
+    const submitButton = dom.window.document.querySelector("[data-contact-submit]");
+    const submitEvent = new dom.window.Event("submit", { bubbles: true, cancelable: true });
+
+    form.dispatchEvent(submitEvent);
+
+    assert.equal(submitEvent.defaultPrevented, false);
+    assert.equal(submitButton.disabled, true);
+    assert.equal(status.dataset.state, "submitting");
+    assert.equal(scheduledCallbacks.length >= 2, true);
+
+    scheduledCallbacks[0]();
+
+    assert.equal(status.dataset.state, "submitting");
+    assert.equal(panel.dataset.state, "submitting");
+    assert.equal(dialog.open, true);
+    assert.equal(submitButton.disabled, true);
+    assert.equal(title.textContent, "送信処理に時間がかかっています");
+
+    dom.window.dispatchEvent(
+      new dom.window.MessageEvent("message", {
+        origin: "https://script.google.com",
+        data: {
+          type: "chairman-contact-submit",
+          ok: true,
+          message: "accepted"
+        }
+      })
+    );
+
+    assert.equal(status.dataset.state, "success");
+    assert.equal(panel.dataset.state, "success");
+    assert.equal(submitButton.disabled, false);
+    assert.deepEqual(grecaptcha.resetCalls, [42]);
+  } finally {
+    dom.window.close();
+  }
+});
