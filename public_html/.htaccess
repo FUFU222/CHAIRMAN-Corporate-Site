@@ -4,12 +4,6 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# Maintenance mode for cutover.
-ErrorDocument 503 /maintenance.html
-RewriteCond %{REQUEST_URI} !^/maintenance\.html$
-RewriteCond %{REMOTE_ADDR} !^110\.233\.198\.106$
-RewriteRule ^ - [R=503,L]
-
 # Legacy HTML redirects
 RewriteRule ^index\.html$ / [R=301,L]
 RewriteRule ^about-us\.html$ /about-us/ [R=301,L]
@@ -20,8 +14,6 @@ RewriteRule ^news\.html$ /sns-marketing/ [R=301,L]
 RewriteRule ^news-detail\.html$ /sns-marketing/ [R=301,L]
 
 <IfModule mod_headers.c>
-    Header always set Retry-After "3600" "expr=%{REQUEST_STATUS} == 503"
-
     Header always set X-XSS-Protection "1; mode=block"
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
