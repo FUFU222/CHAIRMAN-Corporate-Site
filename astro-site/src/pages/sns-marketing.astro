@@ -35,7 +35,12 @@ const schema = {
     <div class="site-shell">
       {archiveArticles.length > 0 ? (
         <div class="sns-marketing__articles" data-reveal>
-          <NewsArchive articles={archiveArticles} articleBasePath="/sns-marketing/" />
+          <NewsArchive
+            articles={archiveArticles}
+            articleBasePath="/sns-marketing/"
+            showHeroImages
+            mobileFilterSelect
+          />
         </div>
       ) : (
         <p class="sns-marketing__empty" data-reveal>

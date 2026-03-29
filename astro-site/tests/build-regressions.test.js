@@ -39,6 +39,17 @@ function readBuiltStyles(relativeHtmlPath) {
     .join("\n");
 }
 
+function readBuiltModuleScript(relativeHtmlPath, scriptNameFragment) {
+  const dom = new JSDOM(readBuiltHtml(relativeHtmlPath));
+  const { document } = dom.window;
+  const scriptSrc = Array.from(document.querySelectorAll('script[type="module"]'))
+    .map((node) => node.getAttribute("src"))
+    .find((src) => src && src.includes(scriptNameFragment));
+
+  assert.ok(scriptSrc, `Expected a module script containing "${scriptNameFragment}" in ${relativeHtmlPath}`);
+  return fs.readFileSync(path.join(distDir, scriptSrc.replace(/^\//, "")), "utf8");
+}
+
 test("CI build fails when microCMS credentials are missing", () => {
   assert.throws(
     () =>
@@ -118,6 +129,22 @@ test("contact build renders the managed reCAPTCHA container when site key is con
   assert.ok(recaptcha, "Expected the built contact page to include the reCAPTCHA mount point");
   assert.equal(recaptcha.getAttribute("data-sitekey"), siteKey);
   assert.equal(document.body.textContent.includes("reCAPTCHA の設定後にボット対策が有効になります。"), false);
+});
+
+test("contact build bundles reCAPTCHA helpers into the shipped contact script", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog",
+    PUBLIC_CONTACT_FORM_ENDPOINT: "https://script.google.com/macros/s/example/exec",
+    PUBLIC_RECAPTCHA_SITE_KEY: "site-key"
+  });
+
+  const contactScript = readBuiltModuleScript(path.join("contact", "index.html"), "contact-form");
+
+  assert.equal(contactScript.includes("../lib/recaptcha-loader.js"), false);
+  assert.equal(contactScript.includes("/lib/recaptcha-loader.js"), false);
 });
 
 test("about-us build ships officer modal scaffolding", () => {
@@ -294,11 +321,11 @@ test("sns-marketing detail build ships article metadata, share links, and relate
       }
     })
     .find((item) => item && item["@type"] === "Article");
-  const heroImage = document.querySelector(".article__visual img");
+  const heroImage = document.querySelector(".article__hero-visual img");
   const shareLinks = Array.from(document.querySelectorAll(".article-share__links a"));
   const copyButton = document.querySelector("[data-copy-url]");
   const relatedSection = document.querySelector(".related-section");
-  const authorCard = document.querySelector(".author-card");
+  const authorCard = document.querySelector(".author-card--author");
 
   assert.equal(title?.textContent, "ショート動画運用の設計メモ | 株式会社CHAIRMAN");
   assert.equal(canonical?.getAttribute("href"), "https://chairman-official.com/sns-marketing/sns-short-video-playbook/");
@@ -316,5 +343,6 @@ test("sns-marketing detail build ships article metadata, share links, and relate
   assert.ok(relatedSection?.textContent?.includes("関連記事"));
   assert.ok(relatedSection?.textContent?.includes("キャプション設計の基本"));
   assert.equal(relatedSection?.textContent?.includes("海外展示会パートナーシップの進め方"), false);
+  assert.equal(relatedSection?.textContent?.includes("新しいノウハウ"), false);
   assert.ok(authorCard?.textContent?.includes("田中 透"));
 });

@@ -11,6 +11,7 @@ export function initializeNewsArchive(options = {}) {
   }
 
   const buttons = Array.from(archive.querySelectorAll("[data-filter]"));
+  const filterSelect = archive.querySelector("[data-filter-select]");
   const loadMore = archive.querySelector("[data-load-more]");
   const items = Array.from(archive.querySelectorAll("[data-archive-item]"));
   const pageSize = Math.max(1, Number.parseInt(archive.dataset.pageSize || "9", 10));
@@ -42,13 +43,33 @@ export function initializeNewsArchive(options = {}) {
     }
   }
 
+  function syncControls() {
+    buttons.forEach((button) => {
+      const isActive = (button.dataset.filter || "all") === activeFilter;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    if (filterSelect && filterSelect.value !== activeFilter) {
+      filterSelect.value = activeFilter;
+    }
+  }
+
+  function setActiveFilter(nextFilter) {
+    activeFilter = nextFilter || "all";
+    visibleCount = pageSize;
+    syncControls();
+    applyState();
+  }
+
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      activeFilter = button.dataset.filter || "all";
-      visibleCount = pageSize;
-      buttons.forEach((candidate) => candidate.classList.toggle("is-active", candidate === button));
-      applyState();
+      setActiveFilter(button.dataset.filter || "all");
     });
+  });
+
+  filterSelect?.addEventListener("change", () => {
+    setActiveFilter(filterSelect.value || "all");
   });
 
   loadMore?.addEventListener("click", () => {
@@ -56,6 +77,7 @@ export function initializeNewsArchive(options = {}) {
     applyState();
   });
 
+  syncControls();
   applyState();
   return true;
 }

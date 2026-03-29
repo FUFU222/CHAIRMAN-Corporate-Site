@@ -11,6 +11,7 @@ interface Props {
   showHeroImages?: boolean;
   initialVisibleCount?: number;
   loadMoreThreshold?: number;
+  mobileFilterSelect?: boolean;
 }
 
 const {
@@ -18,7 +19,8 @@ const {
   articleBasePath = "/news/",
   showHeroImages = false,
   initialVisibleCount = 9,
-  loadMoreThreshold = initialVisibleCount + 1
+  loadMoreThreshold = initialVisibleCount + 1,
+  mobileFilterSelect = false
 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const categories = Array.from(
@@ -34,22 +36,33 @@ function articleHref(slug: string) {
 ---
 
 <section
-  class="news-archive"
+  class:list={["news-archive", mobileFilterSelect && "news-archive--mobile-select"]}
   data-news-archive
   data-page-size={initialVisibleCount}
   data-load-more-threshold={loadMoreThreshold}
 >
   <div class="news-archive__toolbar" data-reveal>
     <div class="news-archive__filters" role="toolbar" aria-label="カテゴリ絞り込み">
-      <button class="is-active" type="button" data-filter="all">
+      <button class="is-active" type="button" data-filter="all" aria-pressed="true">
         すべて
       </button>
       {categories.map((category) => (
-        <button type="button" data-filter={category.id}>
+        <button type="button" data-filter={category.id} aria-pressed="false">
           {category.name}
         </button>
       ))}
     </div>
+    {mobileFilterSelect && (
+      <label class="news-archive__select-field">
+        <span class="visually-hidden">カテゴリを選択</span>
+        <select class="news-archive__select" data-filter-select aria-label="カテゴリ絞り込み">
+          <option value="all">すべて</option>
+          {categories.map((category) => (
+            <option value={category.id}>{category.name}</option>
+          ))}
+        </select>
+      </label>
+    )}
   </div>
 
   <div class="news-archive__list">

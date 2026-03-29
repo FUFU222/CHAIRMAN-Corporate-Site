@@ -6,7 +6,7 @@ import { buildExcerpt } from "../lib/format";
 const tanaka = {
   title: "代表取締役",
   name: "田中 透",
-  bio: "地域事業者と市場の間にある情報の非対称をなくし、価値が届く導線を設計しています。",
+  bio: "",
   image: ceoImage
 };
 
