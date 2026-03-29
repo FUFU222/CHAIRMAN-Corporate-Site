@@ -62,7 +62,7 @@ const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
             autocomplete="tel"
             inputmode="tel"
             maxlength="32"
-            pattern="[0-9()+\\-. ]{6,32}"
+            pattern="[0-9\\(\\)\\+\\.\\- ]{6,32}"
           />
         </label>
         <label>

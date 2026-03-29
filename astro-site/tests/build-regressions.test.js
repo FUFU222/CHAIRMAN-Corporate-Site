@@ -147,6 +147,25 @@ test("contact build bundles reCAPTCHA helpers into the shipped contact script", 
   assert.equal(contactScript.includes("/lib/recaptcha-loader.js"), false);
 });
 
+test("contact build ships a phone pattern compatible with browser validity checks", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog",
+    PUBLIC_CONTACT_FORM_ENDPOINT: "https://script.google.com/macros/s/example/exec",
+    PUBLIC_RECAPTCHA_SITE_KEY: "site-key"
+  });
+
+  const dom = new JSDOM(readBuiltHtml(path.join("contact", "index.html")));
+  const { document } = dom.window;
+  const phoneInput = document.querySelector('input[name="phone"]');
+  const pattern = phoneInput?.getAttribute("pattern");
+
+  assert.ok(pattern, "Expected the contact form phone input to include a pattern attribute");
+  assert.doesNotThrow(() => new RegExp(pattern, "v"));
+});
+
 test("about-us build ships officer modal scaffolding", () => {
   runBuild({
     CI: "",

@@ -1351,11 +1351,6 @@ body.page-about .officer-detail-note-status {
   min-width: 0;
 }
 
-.news-list--inline .news-list__body--meta-only {
-  align-content: start;
-  gap: 0;
-}
-
 .news-list__meta {
   display: flex;
   flex-wrap: wrap;

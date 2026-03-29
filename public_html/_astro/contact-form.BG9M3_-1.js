@@ -3,7 +3,7 @@ const RECAPTCHA_API_SRCS = [
   "https://www.recaptcha.net/recaptcha/api.js?render=explicit"
 ];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PHONE_PATTERN = /^[0-9()+\-. ]{6,32}$/;
+const PHONE_PATTERN = /^[0-9()+.\- ]{6,32}$/;
 const SUSPICIOUS_MARKUP_PATTERN = /<[^>]+>|javascript:|data:text\/html|on[a-z]+\s*=|<script/i;
 const CONTROL_CHARS_PATTERN = /[\u0000-\u001F\u007F]/g;
 const MULTILINE_CONTROL_CHARS_PATTERN = /[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g;

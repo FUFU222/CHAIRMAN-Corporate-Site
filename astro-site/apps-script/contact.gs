@@ -36,7 +36,7 @@ const EMAIL_BURST_WINDOW_SECONDS = 600;
 const EMAIL_DAILY_LIMIT = 8;
 const EMAIL_DAILY_WINDOW_SECONDS = 86400;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const PHONE_PATTERN = /^[0-9()+\-. ]{6,32}$/;
+const PHONE_PATTERN = /^[0-9()+.\- ]{6,32}$/;
 const SUSPICIOUS_MARKUP_PATTERN = /<[^>]+>|javascript:|data:text\/html|on[a-z]+\s*=|<script/i;
 
 function doGet() {
