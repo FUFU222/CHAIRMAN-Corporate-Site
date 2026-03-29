@@ -6,9 +6,6 @@ import { withBase } from "../lib/links";
 
 const base = import.meta.env.BASE_URL;
 const livaponLpHref = "https://sell.livapon.com/";
-const representativeNoteHref = site.representativeNote.href || withBase("/#representative-note", base);
-const representativeNoteTarget = site.representativeNote.href ? "_blank" : undefined;
-const representativeNoteRel = site.representativeNote.href ? "noopener noreferrer" : undefined;
 ---
 
 <footer class="site-footer">
@@ -40,9 +37,6 @@ const representativeNoteRel = site.representativeNote.href ? "noopener noreferre
           </li>
           <li><a href="https://service.chairman-official.com/" target="_blank" rel="noopener noreferrer">SNS運用・映像制作</a></li>
           <li><a href="https://sunskosolife.com/" target="_blank" rel="noopener noreferrer">KOSOLIFE</a></li>
-          <li class="site-footer__nav-secondary">
-            <a href={representativeNoteHref} target={representativeNoteTarget} rel={representativeNoteRel}>代表のnote</a>
-          </li>
         </ul>
       </section>
     </div>

@@ -27,6 +27,18 @@ function readBuiltHtml(relativePath) {
   return fs.readFileSync(path.join(distDir, relativePath), "utf8");
 }
 
+function readBuiltStyles(relativeHtmlPath) {
+  const dom = new JSDOM(readBuiltHtml(relativeHtmlPath));
+  const { document } = dom.window;
+  const styleHrefs = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .map((node) => node.getAttribute("href"))
+    .filter((href) => href && href.startsWith("/_astro/"));
+
+  return styleHrefs
+    .map((href) => fs.readFileSync(path.join(distDir, href.replace(/^\//, "")), "utf8"))
+    .join("\n");
+}
+
 test("CI build fails when microCMS credentials are missing", () => {
   assert.throws(
     () =>
@@ -138,9 +150,68 @@ test("sns-marketing build shows the empty state when microCMS articles are unava
   const dom = new JSDOM(readBuiltHtml(path.join("sns-marketing", "index.html")));
   const { document } = dom.window;
 
-  assert.ok(document.body.textContent.includes("0件の公開記事を掲載しています。"));
   assert.ok(document.body.textContent.includes("公開中の記事はまだありません。"));
   assert.equal(document.querySelector("[data-archive-item]"), null);
+});
+
+test("home build omits the representative note section and footer link", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const dom = new JSDOM(readBuiltHtml("index.html"));
+  const { document } = dom.window;
+  const bodyText = document.body.textContent || "";
+
+  assert.equal(document.querySelector("#representative-note"), null);
+  assert.equal(bodyText.includes("代表の備忘録"), false);
+  assert.equal(bodyText.includes("代表のnote"), false);
+});
+
+test("home build clips horizontal overflow on mobile", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const styles = readBuiltStyles("index.html");
+
+  assert.match(styles, /body\{[^}]*overflow-x:hidden;[^}]*overflow-x:clip/);
+});
+
+test("sns-marketing build removes the framing copy while keeping archive items", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog",
+    MICROCMS_FIXTURE_PATH: microcmsFixturePath
+  });
+
+  const dom = new JSDOM(readBuiltHtml(path.join("sns-marketing", "index.html")));
+  const { document } = dom.window;
+  const bodyText = document.body.textContent || "";
+  const removedCopy = [
+    "CHAIRMANがmicroCMSで公開してきた記事のうち、SNS運用、発信設計、動画まわりの内容を中心に整理しています。",
+    "必要なテーマから過去の記事を辿れるよう、一覧で静かにまとめたページです。",
+    "TOPICS",
+    "テーマから記事を辿れるようにしています。",
+    "カテゴリに出てくる論点を先に見せて、必要なテーマから読める構成にしています。",
+    "件の公開記事を掲載しています。",
+    "ARTICLES",
+    "公開中の記事",
+    "既存のmicroCMS記事を、SNSノウハウとして一覧化しています。"
+  ];
+
+  removedCopy.forEach((copy) => {
+    assert.equal(bodyText.includes(copy), false, `Expected removed copy to be absent: ${copy}`);
+  });
+  assert.ok(document.querySelectorAll("[data-archive-item]").length > 0);
 });
 
 test("news detail build ships article metadata, share links, and enhanced media", () => {

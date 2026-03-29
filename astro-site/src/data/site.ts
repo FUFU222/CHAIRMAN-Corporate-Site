@@ -9,14 +9,7 @@ export const site = {
   description:
     "日本の文化・技・商品価値を、地域から国内外の市場へ接続する事業会社。自治体、地域事業者、ブランドとともに、価値の発見から発信、販売までを設計します。",
   siteUrl: "https://chairman-official.com",
-  themeColor: "#8d0820",
-  representativeNote: {
-    title: "代表の備忘録",
-    description:
-      "地域の価値をどう整理し、どの市場へつなぐか。代表の視点で短く記録していくノートです。",
-    statusLabel: "公開準備中",
-    href: ""
-  }
+  themeColor: "#8d0820"
 };
 
 export const navigation = [

@@ -169,34 +169,4 @@ const schema = [
       </dl>
     </div>
   </section>
-
-  <section
-    class="page-section page-section--outline page-section--outline-left"
-    id="representative-note"
-    data-outline-word="NOTE"
-  >
-    <div class="site-shell founder-note">
-      <div data-reveal>
-        <p class="section-heading__eyebrow">REPRESENTATIVE'S NOTE</p>
-        <h2>{site.representativeNote.title}</h2>
-        <p>{site.representativeNote.description}</p>
-      </div>
-      <div class="founder-note__actions" data-reveal>
-        {site.representativeNote.href ? (
-          <a
-            class="button button--secondary"
-            href={site.representativeNote.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            noteを読む
-          </a>
-        ) : (
-          <span class="status-chip" aria-label="代表の備忘録は公開準備中です">
-            {site.representativeNote.statusLabel}
-          </span>
-        )}
-      </div>
-    </div>
-  </section>
 </BaseLayout>
