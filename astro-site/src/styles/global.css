@@ -1736,7 +1736,9 @@ body.page-sns-marketing .news-archive__visual img {
 .rich-text__figure {
   display: grid;
   gap: 12px;
-  margin: 4px 0;
+  width: min(100%, 720px);
+  justify-self: center;
+  margin: 8px auto;
 }
 
 .rich-text__figure img {
@@ -1829,6 +1831,45 @@ body.page-sns-marketing .news-archive__visual img {
 
 .related-section--single {
   grid-template-columns: minmax(0, 1fr);
+}
+
+.related-section--single .news-list {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.related-section--single .news-list__item {
+  border: 0;
+}
+
+.related-section--single .news-list__link {
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 0;
+}
+
+.related-section--single .news-list__media {
+  border-radius: 14px;
+}
+
+.related-section--single .news-list__media img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+}
+
+.related-section--single .news-list__body {
+  gap: 6px;
+}
+
+.related-section--single .news-list__body > span:last-child {
+  display: none;
+}
+
+.related-section--single .news-list__body strong {
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
 .contact-form-block {

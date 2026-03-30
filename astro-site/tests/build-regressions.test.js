@@ -217,6 +217,27 @@ test("home build omits the representative note section and footer link", () => {
   assert.equal(bodyText.includes("代表のnote"), false);
 });
 
+test("home build shows inline news summary copy and three corporate tags", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const dom = new JSDOM(readBuiltHtml("index.html"));
+  const { document } = dom.window;
+  const firstNewsItem = document.querySelector(".news-list--inline .news-list__item");
+
+  assert.ok(firstNewsItem, "Expected the home page to render an inline news item");
+  assert.ok(
+    firstNewsItem.textContent?.includes(
+      "CHAIRMANは、Japan Festival CANADAを主催するJapan Expo Canada Inc.との戦略的パートナーシップ契約を締結しました。"
+    )
+  );
+  assert.ok(firstNewsItem.textContent?.includes("パートナーシップ / 海外展開 / LIVAPON"));
+});
+
 test("home build clips horizontal overflow on mobile", () => {
   runBuild({
     CI: "",
@@ -293,12 +314,12 @@ test("news detail build ships article metadata, share links, and enhanced media"
 
   assert.equal(
     title?.textContent,
-    "【北米展開を加速】CHAIRMAN、Japan Expo Canada Inc.との戦略的パートナーシップ契約を締結。日本工芸・文化の北米市場独占供給ルートを構築 | 株式会社CHAIRMAN"
+    "Japan Expo Canada Inc.との戦略的パートナーシップ契約を締結。 | 株式会社CHAIRMAN"
   );
   assert.equal(canonical?.getAttribute("href"), "https://chairman-official.com/news/japan-expo-canada-partnership/");
   assert.equal(ogType?.getAttribute("content"), "article");
   assert.equal(publishedTime?.getAttribute("content"), "2026-03-11T00:00:00.000Z");
-  assert.equal(articleSchema?.headline, "【北米展開を加速】CHAIRMAN、Japan Expo Canada Inc.との戦略的パートナーシップ契約を締結。日本工芸・文化の北米市場独占供給ルートを構築");
+  assert.equal(articleSchema?.headline, "Japan Expo Canada Inc.との戦略的パートナーシップ契約を締結。");
   assert.equal(articleSchema?.mainEntityOfPage, "https://chairman-official.com/news/japan-expo-canada-partnership/");
   assert.equal(
     heroImage?.getAttribute("alt"),

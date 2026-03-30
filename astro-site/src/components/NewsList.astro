@@ -8,11 +8,18 @@ interface Props {
   articles: NewsArticle[];
   variant?: "inline" | "stack";
   articleBasePath?: string;
+  showExcerpt?: boolean;
+  categoryLimit?: number;
 }
 
-const { articles, variant = "inline", articleBasePath = "/news/" } = Astro.props;
+const {
+  articles,
+  variant = "inline",
+  articleBasePath = "/news/",
+  showExcerpt = variant !== "inline",
+  categoryLimit = 1
+} = Astro.props;
 const base = import.meta.env.BASE_URL;
-const showExcerpt = variant !== "inline";
 
 function articleHref(slug: string) {
   return withBase(`${articleBasePath}${slug}/`, base);
@@ -43,10 +50,12 @@ function articleHref(slug: string) {
           <span class="news-list__body">
             <span class="news-list__meta">
               <time datetime={article.publishedAt}>{formatDateJP(article.publishedAt)}</time>
-              {article.categories[0] && <span>{article.categories[0].name}</span>}
+              {article.categories.length > 0 && (
+                <span>{article.categories.slice(0, categoryLimit).map((category) => category.name).join(" / ")}</span>
+              )}
             </span>
             <strong>{article.title}</strong>
-            {showExcerpt && <span>{article.excerpt}</span>}
+            {showExcerpt && <span>{article.description || article.excerpt}</span>}
           </span>
         </a>
       </li>

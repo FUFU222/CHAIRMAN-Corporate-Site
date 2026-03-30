@@ -87,7 +87,7 @@ const schema = [
         intro="LIVAPONや越境EC、海外展開に関する事業のお知らせを掲載しています。"
       />
       {latestNews.length > 0 ? (
-        <NewsList articles={latestNews} variant="inline" />
+        <NewsList articles={latestNews} variant="inline" showExcerpt={true} categoryLimit={3} />
       ) : (
         <p class="empty-state" data-reveal>現在掲載中の新着情報はありません。</p>
       )}

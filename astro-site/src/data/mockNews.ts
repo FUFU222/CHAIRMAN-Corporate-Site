@@ -22,14 +22,14 @@ export const mockNews: NewsArticle[] = [
     id: "japan-expo-canada-partnership",
     slug: "japan-expo-canada-partnership",
     title:
-      "【北米展開を加速】CHAIRMAN、Japan Expo Canada Inc.との戦略的パートナーシップ契約を締結。日本工芸・文化の北米市場独占供給ルートを構築",
+      "Japan Expo Canada Inc.との戦略的パートナーシップ契約を締結。",
     description:
       "CHAIRMANは、Japan Festival CANADAを主催するJapan Expo Canada Inc.との戦略的パートナーシップ契約を締結しました。",
     publishedAt: "2026-03-11T00:00:00.000Z",
     categories: [
       { id: "partnership", name: "パートナーシップ" },
-      { id: "livapon", name: "LIVAPON" },
-      { id: "north-america", name: "北米展開" }
+      { id: "overseas-expansion", name: "海外展開" },
+      { id: "livapon", name: "LIVAPON" }
     ],
     eyecatch: jfcStageImage,
     author: tanaka,
