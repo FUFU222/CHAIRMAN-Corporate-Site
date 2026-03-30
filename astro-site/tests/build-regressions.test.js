@@ -251,6 +251,78 @@ test("home build clips horizontal overflow on mobile", () => {
   assert.match(styles, /body\{[^}]*overflow-x:hidden;[^}]*overflow-x:clip/);
 });
 
+test("home build ships inline news hover affordances for image zoom and title underline", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const styles = readBuiltStyles("index.html");
+
+  assert.match(
+    styles,
+    /body\.page-home \.news-list--inline \.news-list__media\{[^}]*transition:border-radius \.24s ease/
+  );
+  assert.match(
+    styles,
+    /body\.page-home \.news-list--inline \.news-list__media img\{[^}]*transform:scale\(1\.02\);[^}]*transition:transform \.24s ease/
+  );
+  assert.match(
+    styles,
+    /body\.page-home \.news-list--inline \.news-list__body strong:after\{[^}]*transform:scaleX\(0\);[^}]*transform-origin:right center;[^}]*transition:var\(--link-underline-transition\)/
+  );
+  assert.match(
+    styles,
+    /body\.page-home \.news-list--inline \.news-list__link:hover \.news-list__media,\s*body\.page-home \.news-list--inline \.news-list__link:focus-visible \.news-list__media\{[^}]*border-radius:22px/
+  );
+  assert.match(
+    styles,
+    /body\.page-home \.news-list--inline \.news-list__link:hover \.news-list__media img,\s*body\.page-home \.news-list--inline \.news-list__link:focus-visible \.news-list__media img\{[^}]*transform:scale\(1\.05\)/
+  );
+  assert.match(
+    styles,
+    /body\.page-home \.news-list--inline \.news-list__link:hover \.news-list__body strong:after,\s*body\.page-home \.news-list--inline \.news-list__link:focus-visible \.news-list__body strong:after\{[^}]*transform:scaleX\(1\);[^}]*transform-origin:left center/
+  );
+});
+
+test("news archive build ships hover affordances for image zoom and title underline", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const styles = readBuiltStyles(path.join("news", "index.html"));
+
+  assert.match(
+    styles,
+    /body\.page-news \.news-archive__visual\{[^}]*transition:border-radius \.24s ease/
+  );
+  assert.match(
+    styles,
+    /body\.page-news \.news-archive__visual img\{[^}]*transition:transform \.24s ease/
+  );
+  assert.match(
+    styles,
+    /body\.page-news \.news-archive__item h2:after\{[^}]*transform:scaleX\(0\);[^}]*transform-origin:right center;[^}]*transition:var\(--link-underline-transition\)/
+  );
+  assert.match(
+    styles,
+    /body\.page-news \.news-archive__link--visual:hover \.news-archive__visual,\s*body\.page-news \.news-archive__link--visual:focus-visible \.news-archive__visual\{[^}]*border-radius:22px/
+  );
+  assert.match(
+    styles,
+    /body\.page-news \.news-archive__link--visual:hover \.news-archive__visual img,\s*body\.page-news \.news-archive__link--visual:focus-visible \.news-archive__visual img\{[^}]*transform:scale\(1\.05\)/
+  );
+  assert.match(
+    styles,
+    /body\.page-news \.news-archive__link--visual:hover \.news-archive__body h2:after,\s*body\.page-news \.news-archive__link--visual:focus-visible \.news-archive__body h2:after\{[^}]*transform:scaleX\(1\);[^}]*transform-origin:left center/
+  );
+});
+
 test("sns-marketing build removes the framing copy while keeping archive items", () => {
   runBuild({
     CI: "",

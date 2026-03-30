@@ -133,7 +133,7 @@ const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
           data-contact-result-close
           aria-label="閉じる"
         >
-          閉じる
+          <span aria-hidden="true">&times;</span>
         </button>
         <p class="contact-result-modal__eyebrow" data-contact-result-eyebrow>CONTACT</p>
         <h3 class="contact-result-modal__title" id="contact-result-title" data-contact-result-title>
@@ -151,11 +151,6 @@ const { endpoint = "", recaptchaSiteKey = "", contactEmail = "" } = Astro.props;
             まで直接ご連絡ください。
           </p>
         )}
-        <div class="contact-result-modal__actions">
-          <button class="button button--secondary" type="button" data-contact-result-confirm>
-            フォームに戻る
-          </button>
-        </div>
       </div>
     </dialog>
   </div>

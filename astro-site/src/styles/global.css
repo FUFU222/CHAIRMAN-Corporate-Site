@@ -1363,6 +1363,53 @@ body.page-about .officer-detail-note-status {
   font-size: clamp(1.14rem, 1.7vw, 1.45rem);
 }
 
+body.page-home .news-list--inline .news-list__media {
+  transition: border-radius 0.24s ease;
+}
+
+body.page-home .news-list--inline .news-list__media img {
+  transform: scale(1.02);
+  transform-origin: center;
+  transition: transform 0.24s ease;
+}
+
+body.page-home .news-list--inline .news-list__body strong {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: 3px;
+}
+
+body.page-home .news-list--inline .news-list__body strong::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: var(--link-underline-transition);
+}
+
+body.page-home .news-list--inline .news-list__link:hover .news-list__media,
+body.page-home .news-list--inline .news-list__link:focus-visible .news-list__media {
+  border-radius: 22px;
+}
+
+body.page-home .news-list--inline .news-list__link:hover .news-list__media img,
+body.page-home .news-list--inline .news-list__link:focus-visible .news-list__media img {
+  transform: scale(1.05);
+}
+
+body.page-home .news-list--inline .news-list__link:hover .news-list__body strong::after,
+body.page-home .news-list--inline .news-list__link:focus-visible .news-list__body strong::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
 .news-list__body span:last-child {
   color: var(--muted);
 }
@@ -1585,6 +1632,16 @@ body.page-news .news-archive__visual img {
   object-position: center;
 }
 
+body.page-news .news-archive__visual {
+  transition: border-radius 0.24s ease;
+}
+
+body.page-news .news-archive__visual img {
+  transform: scale(1.02);
+  transform-origin: center;
+  transition: transform 0.24s ease;
+}
+
 body.page-sns-marketing .news-archive__visual img {
   width: 100%;
   height: 100%;
@@ -1611,6 +1668,43 @@ body.page-sns-marketing .news-archive__visual img {
 
 .news-archive__item h2 {
   font-size: clamp(1.24rem, 2.2vw, 1.8rem);
+}
+
+body.page-news .news-archive__item h2 {
+  position: relative;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: 3px;
+}
+
+body.page-news .news-archive__item h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: var(--link-underline-transition);
+}
+
+body.page-news .news-archive__link--visual:hover .news-archive__visual,
+body.page-news .news-archive__link--visual:focus-visible .news-archive__visual {
+  border-radius: 22px;
+}
+
+body.page-news .news-archive__link--visual:hover .news-archive__visual img,
+body.page-news .news-archive__link--visual:focus-visible .news-archive__visual img {
+  transform: scale(1.05);
+}
+
+body.page-news .news-archive__link--visual:hover .news-archive__body h2::after,
+body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2::after {
+  transform: scaleX(1);
+  transform-origin: left center;
 }
 
 .news-archive__excerpt,
@@ -2077,24 +2171,29 @@ body.page-sns-marketing .news-archive__visual img {
   text-underline-offset: 0.18em;
 }
 
-.contact-result-modal__actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 4px;
-}
-
 .contact-result-modal__close {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 16px;
+  right: 16px;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
   border: 0;
+  border-radius: 999px;
   background: transparent;
   color: #706569;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 2rem;
+  line-height: 1;
   cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.contact-result-modal__close:hover,
+.contact-result-modal__close:focus-visible {
+  color: var(--accent);
+  background: rgba(141, 8, 32, 0.08);
 }
 
 .legal-layout {
@@ -3649,14 +3748,6 @@ body.page-home .company-facts dt {
   .contact-result-modal__close {
     top: 14px;
     right: 14px;
-  }
-
-  .contact-result-modal__actions {
-    justify-content: stretch;
-  }
-
-  .contact-result-modal__actions .button {
-    width: 100%;
   }
 
   .article__content,

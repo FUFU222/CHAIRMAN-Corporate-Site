@@ -219,7 +219,6 @@ export function initializeContactForm(options = {}) {
   const resultMessage = documentRef.querySelector("[data-contact-result-message]");
   const resultAssist = documentRef.querySelector("[data-contact-result-assist]");
   const resultClose = documentRef.querySelector("[data-contact-result-close]");
-  const resultConfirm = documentRef.querySelector("[data-contact-result-confirm]");
 
   if (
     !form ||
@@ -719,10 +718,6 @@ export function initializeContactForm(options = {}) {
 
   if (HTMLElementCtor && resultClose instanceof HTMLElementCtor) {
     resultClose.addEventListener("click", closeResultDialog);
-  }
-
-  if (HTMLElementCtor && resultConfirm instanceof HTMLElementCtor) {
-    resultConfirm.addEventListener("click", closeResultDialog);
   }
 
   resultDialog.addEventListener("close", () => {
