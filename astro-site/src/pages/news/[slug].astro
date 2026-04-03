@@ -65,20 +65,20 @@ const schema = {
           </p>
           <h1>{article.title}</h1>
           <p>{article.description || article.excerpt}</p>
+          {heroImage && (
+            <figure class="article__hero-visual">
+              <img
+                src={heroImage.src}
+                alt={heroImage.alt}
+                width={heroImage.width}
+                height={heroImage.height}
+                sizes="(max-width: 960px) 100vw, 920px"
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+          )}
         </div>
-        {heroImage && (
-          <figure class="article__hero-visual" data-reveal>
-            <img
-              src={heroImage.src}
-              alt={heroImage.alt}
-              width={heroImage.width}
-              height={heroImage.height}
-              sizes="(max-width: 960px) 100vw, 920px"
-              loading="eager"
-              decoding="async"
-            />
-          </figure>
-        )}
       </div>
     </header>
 

@@ -195,6 +195,10 @@ body.is-dialog-open .site-header {
   gap: 22px;
 }
 
+.site-header__nav-surface {
+  display: contents;
+}
+
 .site-header__nav ul {
   display: flex;
   justify-content: flex-end;
@@ -248,9 +252,17 @@ body.is-dialog-open .site-header {
   background: transparent;
 }
 
+.site-header__close {
+  display: none;
+}
+
 .site-header__toggle,
 .site-header__overlay {
   display: none;
+}
+
+body.is-nav-open {
+  overflow: hidden;
 }
 
 .button,
@@ -1144,20 +1156,34 @@ body.page-about .officer-detail-photo img.team-minimal-photo-cso {
 
 body.page-about .officer-detail-content {
   min-width: 0;
+  display: grid;
+  align-content: start;
 }
 
 body.page-about .officer-detail-close {
   position: absolute;
   top: 18px;
   right: 18px;
-  border: 0;
-  background: transparent;
-  color: #64748b;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #475569;
+  font-size: 1.7rem;
+  line-height: 1;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
   cursor: pointer;
+}
+
+body.page-about .officer-detail-close:hover,
+body.page-about .officer-detail-close:focus-visible {
+  color: #1f2937;
+  border-color: rgba(15, 23, 42, 0.18);
 }
 
 body.page-about .officer-detail-header {
@@ -1652,6 +1678,7 @@ body.page-sns-marketing .news-archive__visual img {
 .news-archive__body {
   display: grid;
   gap: 12px;
+  min-width: 0;
 }
 
 .news-archive__meta {
@@ -1749,24 +1776,29 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 }
 
 .article__hero {
-  padding: clamp(44px, 7vw, 78px) 0 40px;
+  padding: clamp(40px, 6vw, 72px) 0 30px;
 }
 
 .article__hero-inner {
-  display: grid;
-  gap: 28px;
-  max-width: 920px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
 .article__copy {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .article__copy h1 {
-  font-size: clamp(1.9rem, 3.8vw, 3rem);
-  line-height: 1.3;
+  font-size: clamp(1.82rem, 3.25vw, 2.72rem);
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+}
+
+.article__copy > p:last-of-type {
+  max-width: 62ch;
+  color: var(--muted);
+  line-height: 1.8;
 }
 
 .article__meta {
@@ -1778,10 +1810,11 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 
 .article__hero-visual {
   overflow: hidden;
+  margin-top: 6px;
   border: 1px solid rgba(141, 8, 32, 0.08);
-  border-radius: calc(var(--radius) + 4px);
+  border-radius: calc(var(--radius) + 2px);
   background: linear-gradient(180deg, #faf7f8 0%, #ffffff 100%);
-  box-shadow: 0 22px 48px rgba(44, 24, 30, 0.06);
+  box-shadow: 0 18px 40px rgba(44, 24, 30, 0.07);
 }
 
 .article__hero-visual img {
@@ -1791,9 +1824,9 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 }
 
 .article__content {
-  max-width: 920px;
+  max-width: 960px;
   margin: 0 auto;
-  padding-bottom: 80px;
+  padding-bottom: 72px;
 }
 
 .article__main {
@@ -1830,7 +1863,7 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 .rich-text__figure {
   display: grid;
   gap: 12px;
-  width: min(100%, 720px);
+  width: min(100%, 680px);
   justify-self: center;
   margin: 8px auto;
 }
@@ -1920,7 +1953,9 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 .related-section {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 40px;
+  gap: 30px;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .related-section--single {
@@ -1928,9 +1963,9 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 }
 
 .related-section--single .news-list {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
-  margin-top: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-top: 22px;
 }
 
 .related-section--single .news-list__item {
@@ -1939,12 +1974,12 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 
 .related-section--single .news-list__link {
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 10px;
   padding: 0;
 }
 
 .related-section--single .news-list__media {
-  border-radius: 14px;
+  border-radius: 12px;
 }
 
 .related-section--single .news-list__media img {
@@ -1954,7 +1989,12 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 }
 
 .related-section--single .news-list__body {
-  gap: 6px;
+  gap: 5px;
+}
+
+.related-section--single .news-list__meta {
+  gap: 6px 10px;
+  font-size: 0.84rem;
 }
 
 .related-section--single .news-list__body > span:last-child {
@@ -1962,8 +2002,18 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 }
 
 .related-section--single .news-list__body strong {
-  font-size: 1rem;
+  font-size: 0.96rem;
   line-height: 1.55;
+}
+
+body.page-article .related-section .section-heading h2 {
+  font-size: clamp(1.46rem, 2.2vw, 1.82rem);
+  line-height: 1.18;
+}
+
+body.page-article .related-section .section-heading__eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
 }
 
 .contact-form-block {
@@ -2318,9 +2368,7 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 
 .site-footer {
   margin-top: 96px;
-  background:
-    radial-gradient(circle at left top, rgba(141, 8, 32, 0.22), transparent 34%),
-    linear-gradient(145deg, #262024 0%, #363035 100%);
+  background: #262024;
   color: rgba(255, 255, 255, 0.82);
 }
 
@@ -2341,7 +2389,8 @@ body.page-news .news-archive__link--visual:focus-visible .news-archive__body h2:
 }
 
 .site-footer__service-logo {
-  width: min(100%, 158px);
+  display: block;
+  width: min(100%, 126px);
   height: auto;
 }
 
@@ -3067,40 +3116,100 @@ body.page-home .company-facts dt {
 
   .site-header__nav {
     position: fixed;
-    inset: var(--header-height) 16px auto;
-    display: none;
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 20px;
+    inset: 0;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 24px;
+    padding: calc(var(--header-height) + 44px) 28px 40px;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.98);
-    border-radius: 24px;
-    box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: opacity 0.22s ease, transform 0.22s ease;
   }
 
   .site-header__nav.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .site-header__nav-surface {
     display: grid;
+    justify-items: center;
+    gap: 20px;
+    width: min(100%, 360px);
+    padding: 18px 20px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 28px;
+    background: rgba(40, 28, 31, 0.24);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(18px);
+  }
+
+  .site-header__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: end;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    font-size: 1.8rem;
+    line-height: 1;
   }
 
   .site-header__nav ul {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
   }
 
   .site-header__nav a {
-    min-height: 44px;
+    min-height: 56px;
+    justify-content: center;
+    color: #f8f1f2;
+    font-size: 1rem;
+    letter-spacing: 0.14em;
+  }
+
+  .site-header__nav ul > li > a::after {
+    bottom: 12px;
   }
 
   .site-header__contact {
-    justify-self: stretch;
+    justify-self: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 56px;
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+  }
+
+  body.is-nav-open .site-header {
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+
+  body.is-nav-open .site-header__toggle span {
+    background: #ffffff;
   }
 
   .site-header__overlay {
     position: fixed;
-    inset: var(--header-height) 0 0;
+    inset: 0;
     z-index: 1;
-    background: rgba(20, 13, 16, 0.3);
+    background: rgba(20, 13, 16, 0.42);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    transition: opacity 0.22s ease;
   }
 
   .site-header__overlay[hidden] {
@@ -3109,6 +3218,7 @@ body.page-home .company-facts dt {
 
   .site-header__overlay:not([hidden]) {
     display: block;
+    opacity: 1;
   }
 
   .role-grid,
@@ -3184,15 +3294,15 @@ body.page-home .company-facts dt {
   }
 
   body.page-about .officer-detail-modal {
-    width: min(100% - 20px, 680px);
-    max-height: calc(100vh - 20px);
+    width: min(100% - 14px, 680px);
+    max-height: calc(100vh - 14px);
   }
 
   body.page-about .officer-detail-panel {
     grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 24px 18px 20px;
-    max-height: calc(100vh - 20px);
+    gap: 14px;
+    padding: 16px 16px 18px;
+    max-height: calc(100vh - 14px);
     overflow: hidden;
     border-radius: 24px;
   }
@@ -3202,19 +3312,26 @@ body.page-home .company-facts dt {
   }
 
   body.page-about .officer-detail-photo {
-    max-width: 240px;
+    max-width: 180px;
     margin: 0 auto;
-    border-radius: 22px;
+    border-radius: 20px;
   }
 
   body.page-about .officer-detail-close {
-    top: 14px;
-    right: 14px;
+    position: sticky;
+    top: 0;
+    right: auto;
+    justify-self: end;
+    margin: -2px 0 0 auto;
+    width: 42px;
+    height: 42px;
+    backdrop-filter: blur(10px);
+    z-index: 2;
   }
 
   body.page-about .officer-detail-header {
-    padding-right: 56px;
-    margin-bottom: 18px;
+    padding-right: 0;
+    margin-bottom: 14px;
   }
 
   body.page-about .officer-detail-content {
@@ -3233,13 +3350,32 @@ body.page-home .company-facts dt {
   }
 
   body.page-about .officer-detail-header h3 {
-    font-size: 1.7rem;
-    line-height: 1.35;
+    font-size: clamp(1.42rem, 6vw, 1.82rem);
+    line-height: 1.18;
   }
 
   body.page-about .officer-detail-body p {
-    font-size: 0.94rem;
-    line-height: 1.8;
+    margin-bottom: 10px;
+    font-size: 0.96rem;
+    line-height: 1.72;
+  }
+
+  body.page-about .officer-detail-role {
+    margin-bottom: 6px;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+  }
+
+  body.page-about .officer-detail-role-detail {
+    margin: 0 0 8px;
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  body.page-about .officer-detail-actions {
+    margin-top: 18px;
+    padding-top: 16px;
+    gap: 10px;
   }
 
   body.page-home .hero,
@@ -3326,7 +3462,17 @@ body.page-home .company-facts dt {
     grid-template-columns: 1fr;
   }
 
+  body.page-sns-marketing .news-archive__link--visual {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
   body.page-news .news-archive__visual {
+    height: min(56vw, 240px);
+  }
+
+  body.page-sns-marketing .news-archive__visual {
+    width: 100%;
     height: min(56vw, 240px);
   }
 
@@ -3462,6 +3608,15 @@ body.page-home .company-facts dt {
 
   .site-footer__nav {
     grid-template-columns: 1fr;
+  }
+
+  .site-footer__service-logo {
+    width: min(100%, 114px);
+  }
+
+  .site-footer__nav h2 {
+    font-size: 0.8125rem;
+    letter-spacing: 0.16em;
   }
 
 }
@@ -3607,7 +3762,7 @@ body.page-home .company-facts dt {
   }
 
   body.page-article .article__hero-inner {
-    gap: 18px;
+    max-width: none;
   }
 
   body.page-article .article__copy {
@@ -3620,14 +3775,19 @@ body.page-home .company-facts dt {
   }
 
   body.page-article .article__copy h1 {
-    font-size: clamp(1.58rem, 7.6vw, 2.02rem);
+    font-size: clamp(1.5rem, 7.2vw, 1.94rem);
     line-height: 1.24;
     letter-spacing: -0.01em;
   }
 
-  body.page-article .article__copy p:last-child {
+  body.page-article .article__copy p:last-of-type {
     font-size: 0.94rem;
     line-height: 1.78;
+  }
+
+  body.page-article .article__hero-visual {
+    margin-top: 4px;
+    border-radius: 18px;
   }
 
   body.page-article .article__content {
@@ -3637,6 +3797,15 @@ body.page-home .company-facts dt {
   body.page-article .rich-text {
     gap: 20px;
     font-size: 0.97rem;
+  }
+
+  body.page-article .rich-text__figure {
+    width: 100%;
+  }
+
+  body.page-article .related-section--single .news-list {
+    margin-top: 18px;
+    gap: 12px;
   }
 
   body.page-news .news-archive,
@@ -3884,6 +4053,27 @@ body.page-home .company-facts dt {
     margin-top: 6px;
     font-size: 0.82rem;
     text-align: center;
+  }
+
+  body.page-about .officer-detail-modal {
+    width: min(100% - 10px, 680px);
+    max-height: calc(100vh - 10px);
+  }
+
+  body.page-about .officer-detail-panel {
+    gap: 12px;
+    padding: 14px 14px 16px;
+    max-height: calc(100vh - 10px);
+  }
+
+  body.page-about .officer-detail-photo {
+    max-width: 156px;
+  }
+
+  body.page-about .officer-detail-close {
+    width: 40px;
+    height: 40px;
+    font-size: 1.55rem;
   }
 }
 

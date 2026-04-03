@@ -4,6 +4,7 @@ const header = document.querySelector("[data-header]");
 const menuToggle = document.querySelector("[data-menu-toggle]");
 const menuPanel = document.querySelector("[data-menu-panel]");
 const menuOverlay = document.querySelector("[data-menu-overlay]");
+const menuCloseButtons = document.querySelectorAll("[data-menu-close]");
 
 function closeMenu() {
   if (!menuToggle || !menuPanel || !menuOverlay) {
@@ -28,9 +29,20 @@ if (menuToggle && menuPanel && menuOverlay) {
   });
 
   menuOverlay.addEventListener("click", closeMenu);
+  menuCloseButtons.forEach((button) => button.addEventListener("click", closeMenu));
+  menuPanel.addEventListener("click", (event) => {
+    if (event.target === menuPanel) {
+      closeMenu();
+    }
+  });
   menuPanel.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 820) {
       closeMenu();
     }
   });

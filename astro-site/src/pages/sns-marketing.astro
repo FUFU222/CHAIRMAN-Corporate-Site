@@ -11,13 +11,14 @@ const schema = {
   "@type": "CollectionPage",
   name: "SNSノウハウ集",
   url: "https://chairman-official.com/sns-marketing/",
-  description: "株式会社CHAIRMANのSNS運用や発信設計に関するノウハウ記事一覧です。"
+  description:
+    "株式会社CHAIRMANが発信するSNS運用・発信設計・動画活用のノウハウ記事一覧です。企業や地域ブランドの情報発信に役立つ実践知をまとめています。"
 };
 ---
 
 <BaseLayout
   title="SNSノウハウ集"
-  description="株式会社CHAIRMANのSNS運用や発信設計に関するノウハウ記事一覧です。"
+  description="株式会社CHAIRMANが発信するSNS運用・発信設計・動画活用のノウハウ記事一覧です。企業や地域ブランドの情報発信に役立つ実践知をまとめています。"
   pathname="/sns-marketing/"
   schema={schema}
   bodyClass="page-sns-marketing"
@@ -34,7 +35,7 @@ const schema = {
   <section class="page-section page-section--tone">
     <div class="site-shell">
       {archiveArticles.length > 0 ? (
-        <div class="sns-marketing__articles" data-reveal>
+        <div class="sns-marketing__articles">
           <NewsArchive
             articles={archiveArticles}
             articleBasePath="/sns-marketing/"

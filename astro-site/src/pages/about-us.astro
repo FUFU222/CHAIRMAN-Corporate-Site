@@ -11,14 +11,14 @@ const schema = {
   name: "私たちについて",
   url: "https://chairman-official.com/about-us/",
   description:
-    "株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、マネジメントチーム、メディアネットワークをご覧いただけます。"
+    "株式会社CHAIRMANの会社紹介ページです。役員紹介、マネジメントチーム、メディアネットワーク、会社概要をご覧いただけます。"
 };
 const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout
   title="私たちについて"
-  description="株式会社CHAIRMANの会社紹介ページです。地域の価値を国内外の市場へ接続する役員陣、マネジメントチーム、メディアネットワークをご覧いただけます。"
+  description="株式会社CHAIRMANの会社紹介ページです。役員紹介、マネジメントチーム、メディアネットワーク、会社概要をご覧いただけます。"
   pathname="/about-us/"
   schema={schema}
   bodyClass="page-about"
@@ -160,7 +160,8 @@ const base = import.meta.env.BASE_URL;
           </div>
           <div class="officer-detail-content">
             <button type="button" class="officer-detail-close" data-officer-modal-close aria-label="閉じる">
-              閉じる
+              <span aria-hidden="true">×</span>
+              <span class="visually-hidden">閉じる</span>
             </button>
             <div class="officer-detail-header">
               <p class="officer-detail-role" data-officer-modal-role></p>

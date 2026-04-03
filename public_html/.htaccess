@@ -11,7 +11,9 @@ RewriteRule ^contact\.html$ /contact/ [R=301,L]
 RewriteRule ^privacy\.html$ /privacy/ [R=301,L]
 RewriteRule ^livapon\.html$ /livapon/ [R=301,L]
 RewriteRule ^news\.html$ /sns-marketing/ [R=301,L]
-RewriteRule ^news-detail\.html$ /sns-marketing/ [R=301,L]
+RewriteCond %{QUERY_STRING} ^id=([A-Za-z0-9_-]+)$ [NC]
+RewriteRule ^news-detail\.html$ /sns-marketing/%1/? [R=301,L,NC]
+RewriteRule ^news-detail\.html$ /sns-marketing/? [R=301,L]
 
 <IfModule mod_headers.c>
     Header always set X-XSS-Protection "1; mode=block"

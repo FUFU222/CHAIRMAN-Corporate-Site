@@ -8,6 +8,7 @@ import { JSDOM } from "jsdom";
 const rootDir = process.cwd();
 const distDir = path.join(rootDir, "dist");
 const microcmsFixturePath = path.join(rootDir, "tests", "fixtures", "microcms-knowhow.json");
+const liveHtaccessPath = path.join(rootDir, "..", "public_html", ".htaccess");
 
 function runBuild(extraEnv = {}) {
   const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
@@ -79,6 +80,24 @@ test("home hero loads only the first slide eagerly", () => {
   const loadingModes = [...heroSection.matchAll(/loading="(eager|lazy)"/g)].map((match) => match[1]);
 
   assert.deepEqual(loadingModes, ["eager", "lazy", "lazy"]);
+});
+
+test("home build ships revised search metadata copy", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const dom = new JSDOM(readBuiltHtml("index.html"));
+  const { document } = dom.window;
+
+  assert.equal(document.querySelector("title")?.textContent, "価値に、伝わる力を | 株式会社CHAIRMAN");
+  assert.equal(
+    document.querySelector('meta[name="description"]')?.getAttribute("content"),
+    "株式会社CHAIRMANは、事業やブランドの価値を伝わる形に整え、発信から販路まで一気通貫で設計する会社です。SNS運用、映像制作、自社運営の知見をもとに支援しています。"
+  );
 });
 
 test("contact build ships hidden delivery fields and fallback UI without reCAPTCHA config", () => {
@@ -183,6 +202,23 @@ test("about-us build ships officer modal scaffolding", () => {
   assert.ok(document.querySelector("[data-officer-modal-note-link]"));
   assert.ok(document.querySelector("[data-officer-modal-close]"));
   assert.ok(document.querySelectorAll("[data-officer-modal-trigger]").length > 0);
+});
+
+test("header build ships explicit mobile menu dismiss controls", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const dom = new JSDOM(readBuiltHtml("index.html"));
+  const { document } = dom.window;
+  const siteScript = readBuiltModuleScript("index.html", "site");
+
+  assert.ok(document.querySelector("[data-menu-close]"));
+  assert.ok(document.querySelector("[data-menu-surface]"));
+  assert.match(siteScript, /event\.target === menuPanel/);
 });
 
 test("sns-marketing build shows the empty state when microCMS articles are unavailable", () => {
@@ -323,6 +359,21 @@ test("news archive build ships hover affordances for image zoom and title underl
   );
 });
 
+test("sns-marketing build collapses visual archive cards to one column on mobile", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog",
+    MICROCMS_FIXTURE_PATH: microcmsFixturePath
+  });
+
+  const styles = readBuiltStyles(path.join("sns-marketing", "index.html"));
+
+  assert.equal(styles.includes("body.page-sns-marketing .news-archive__link--visual{grid-template-columns:1fr;gap:14px}"), true);
+  assert.equal(styles.includes("body.page-sns-marketing .news-archive__visual{width:100%;height:min(56vw,240px)}"), true);
+});
+
 test("sns-marketing build removes the framing copy while keeping archive items", () => {
   runBuild({
     CI: "",
@@ -350,6 +401,7 @@ test("sns-marketing build removes the framing copy while keeping archive items",
   removedCopy.forEach((copy) => {
     assert.equal(bodyText.includes(copy), false, `Expected removed copy to be absent: ${copy}`);
   });
+  assert.equal(document.querySelector(".sns-marketing__articles")?.hasAttribute("data-reveal"), false);
   assert.ok(document.querySelectorAll("[data-archive-item]").length > 0);
 });
 
@@ -378,6 +430,7 @@ test("news detail build ships article metadata, share links, and enhanced media"
     })
     .find((item) => item && item["@type"] === "Article");
   const heroImage = document.querySelector(".article__hero-visual img");
+  const articleCopy = document.querySelector(".article__copy");
   const inlineFigure = document.querySelector(".rich-text__figure");
   const shareLinks = Array.from(document.querySelectorAll(".article-share__links a"));
   const copyButton = document.querySelector("[data-copy-url]");
@@ -397,6 +450,8 @@ test("news detail build ships article metadata, share links, and enhanced media"
     heroImage?.getAttribute("alt"),
     "CHAIRMAN と Japan Expo Canada Inc. のロゴを組み合わせたヘッダー画像"
   );
+  assert.ok(articleCopy?.querySelector(".article__hero-visual"));
+  assert.equal(document.querySelector(".article__hero-inner > .article__hero-visual"), null);
   assert.ok(inlineFigure?.textContent?.includes("Japan Festival CANADA の会場ステージの様子"));
   assert.equal(shareLinks.length, 3);
   assert.ok(shareLinks.every((link) => link.getAttribute("href")?.includes(encodeURIComponent("https://chairman-official.com/news/japan-expo-canada-partnership/"))));
@@ -434,6 +489,7 @@ test("sns-marketing detail build ships article metadata, share links, and relate
     })
     .find((item) => item && item["@type"] === "Article");
   const heroImage = document.querySelector(".article__hero-visual img");
+  const articleCopy = document.querySelector(".article__copy");
   const shareLinks = Array.from(document.querySelectorAll(".article-share__links a"));
   const copyButton = document.querySelector("[data-copy-url]");
   const relatedSection = document.querySelector(".related-section");
@@ -446,6 +502,8 @@ test("sns-marketing detail build ships article metadata, share links, and relate
   assert.equal(articleSchema?.headline, "ショート動画運用の設計メモ");
   assert.equal(articleSchema?.mainEntityOfPage, "https://chairman-official.com/sns-marketing/sns-short-video-playbook/");
   assert.equal(heroImage?.getAttribute("src"), "https://images.example.com/short-video-playbook.jpg");
+  assert.ok(articleCopy?.querySelector(".article__hero-visual"));
+  assert.equal(document.querySelector(".article__hero-inner > .article__hero-visual"), null);
   assert.equal(shareLinks.length, 3);
   assert.ok(shareLinks.every((link) => link.getAttribute("href")?.includes(encodeURIComponent("https://chairman-official.com/sns-marketing/sns-short-video-playbook/"))));
   assert.equal(
@@ -457,4 +515,30 @@ test("sns-marketing detail build ships article metadata, share links, and relate
   assert.equal(relatedSection?.textContent?.includes("海外展示会パートナーシップの進め方"), false);
   assert.equal(relatedSection?.textContent?.includes("新しいノウハウ"), false);
   assert.ok(authorCard?.textContent?.includes("田中 透"));
+});
+
+test("build ships canonical URLs in llms guidance", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const llms = fs.readFileSync(path.join(distDir, "llms.txt"), "utf8");
+
+  assert.match(llms, /About: https:\/\/chairman-official\.com\/about-us\//);
+  assert.match(llms, /Blog index: https:\/\/chairman-official\.com\/sns-marketing\//);
+  assert.match(llms, /Contact: https:\/\/chairman-official\.com\/contact\//);
+  assert.equal(llms.includes("about-us.html"), false);
+  assert.equal(llms.includes("news.html"), false);
+  assert.equal(llms.includes("contact.html"), false);
+});
+
+test("live htaccess redirects legacy detail ids to article slugs before fallback", () => {
+  const htaccess = fs.readFileSync(liveHtaccessPath, "utf8");
+
+  assert.equal(htaccess.includes("RewriteCond %{QUERY_STRING} ^id=([A-Za-z0-9_-]+)$ [NC]"), true);
+  assert.equal(htaccess.includes("RewriteRule ^news-detail\\.html$ /sns-marketing/%1/? [R=301,L,NC]"), true);
+  assert.equal(htaccess.includes("RewriteRule ^news-detail\\.html$ /sns-marketing/? [R=301,L]"), true);
 });

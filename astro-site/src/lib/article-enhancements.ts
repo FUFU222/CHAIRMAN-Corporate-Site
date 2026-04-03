@@ -58,6 +58,32 @@ function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+function normalizeRichTextFigureClasses(html: string) {
+  return html.replace(/<figure\b([^>]*)>/g, (match, rawAttributes = "") => {
+    const classAttribute = rawAttributes.match(/\bclass=(["'])(.*?)\1/i);
+
+    if (!classAttribute) {
+      return `<figure class="rich-text__figure"${rawAttributes}>`;
+    }
+
+    const quote = classAttribute[1];
+    const existingClasses = classAttribute[2]
+      .split(/\s+/)
+      .map((value) => value.trim())
+      .filter(Boolean);
+
+    if (existingClasses.includes("rich-text__figure")) {
+      return match;
+    }
+
+    const nextClasses = `rich-text__figure ${existingClasses.join(" ")}`;
+    return `<figure${rawAttributes.replace(
+      classAttribute[0],
+      `class=${quote}${nextClasses}${quote}`
+    )}>`;
+  });
+}
+
 export function getArticleHeroImage(article: NewsArticle): ResolvedArticleImage | null {
   const enhancement = articleEnhancements[article.slug];
   if (enhancement?.heroImage) {
@@ -87,7 +113,7 @@ export function getArticleListImage(article: NewsArticle): ResolvedArticleImage 
 export function getEnhancedArticleContentHtml(article: NewsArticle) {
   const enhancement = articleEnhancements[article.slug];
   if (!enhancement?.inlineImage || !enhancement.insertAfterHeading) {
-    return article.contentHtml;
+    return normalizeRichTextFigureClasses(article.contentHtml);
   }
 
   const headingPattern = new RegExp(
@@ -111,5 +137,5 @@ export function getEnhancedArticleContentHtml(article: NewsArticle) {
     "</figure>"
   ].join("");
 
-  return article.contentHtml.replace(headingPattern, `$1${figureHtml}`);
+  return normalizeRichTextFigureClasses(article.contentHtml.replace(headingPattern, `$1${figureHtml}`));
 }

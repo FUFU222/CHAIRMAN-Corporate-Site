@@ -27,21 +27,26 @@ const base = import.meta.env.BASE_URL;
     </button>
 
     <nav class="site-header__nav" id="global-nav" aria-label="グローバルナビゲーション" data-menu-panel>
-      <ul>
-        {navigation.map((item) => (
-          <li>
-            <a
-              href={withBase(item.href, base)}
-              aria-current={currentPath === withBase(item.href, base) ? "page" : undefined}
-            >
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <a class="site-header__contact" href={withBase("/contact/", base)}>
-        お問い合わせ
-      </a>
+      <div class="site-header__nav-surface" data-menu-surface>
+        <button class="site-header__close" type="button" aria-label="メニューを閉じる" data-menu-close>
+          <span aria-hidden="true">×</span>
+        </button>
+        <ul>
+          {navigation.map((item) => (
+            <li>
+              <a
+                href={withBase(item.href, base)}
+                aria-current={currentPath === withBase(item.href, base) ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a class="site-header__contact" href={withBase("/contact/", base)}>
+          お問い合わせ
+        </a>
+      </div>
     </nav>
   </div>
   <div class="site-header__overlay" hidden data-menu-overlay></div>

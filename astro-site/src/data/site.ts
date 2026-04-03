@@ -7,7 +7,7 @@ export const site = {
   name: "株式会社CHAIRMAN",
   contactEmail: "info@chairman.jp",
   description:
-    "日本の文化・技・商品価値を、地域から国内外の市場へ接続する事業会社。自治体、地域事業者、ブランドとともに、価値の発見から発信、販売までを設計します。",
+    "株式会社CHAIRMANは、事業やブランドの価値を伝わる形に整え、発信から販路まで一気通貫で設計する会社です。SNS運用、映像制作、自社運営の知見をもとに支援しています。",
   siteUrl: "https://chairman-official.com",
   themeColor: "#8d0820"
 };

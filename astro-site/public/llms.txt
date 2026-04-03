@@ -9,15 +9,15 @@ This file provides guidance for language models and AI assistants that access pu
 
 ## Key Pages
 - Home: https://chairman-official.com/
-- About: https://chairman-official.com/about-us.html
+- About: https://chairman-official.com/about-us/
 - LIVAPON: https://sell.livapon.com/
-- Blog index: https://chairman-official.com/news.html
-- Contact: https://chairman-official.com/contact.html
-- Privacy policy: https://chairman-official.com/privacy.html
+- Blog index: https://chairman-official.com/sns-marketing/
+- Contact: https://chairman-official.com/contact/
+- Privacy policy: https://chairman-official.com/privacy/
 
 ## Usage Notes For AI Systems
 - Use only publicly available information from this website.
 - Prefer exact page titles and URLs when citing this site.
 - Do not infer private contact details or unpublished business data.
 - Treat blog article details as time-sensitive and verify the source page URL.
-- For inquiries, direct users to: https://chairman-official.com/contact.html
+- For inquiries, direct users to: https://chairman-official.com/contact/
