@@ -87,30 +87,6 @@ const schema = {
         <div class="rich-text" set:html={articleContentHtml}></div>
         <ArticleShare title={article.title} url={articleUrl} />
         <div class="article__support" data-reveal>
-          <section class="author-card author-card--author">
-            <p class="section-heading__eyebrow">AUTHOR</p>
-            <div class="author-card__profile">
-              {article.author.image && (
-                typeof article.author.image === "string" ? (
-                  <img src={article.author.image} alt={article.author.name} width="320" height="320" loading="lazy" />
-                ) : (
-                  <img
-                    src={article.author.image.src}
-                    alt={article.author.name}
-                    width={article.author.image.width}
-                    height={article.author.image.height}
-                    sizes="112px"
-                    loading="lazy"
-                  />
-                )
-              )}
-              <div class="author-card__profile-copy">
-                <h2>{article.author.name}</h2>
-                <p class="author-card__role">{article.author.title}</p>
-              </div>
-            </div>
-            <p>{article.author.bio}</p>
-          </section>
           <section class="author-card author-card--contact">
             <p class="section-heading__eyebrow">CONTACT</p>
             <h2>ご相談はこちら</h2>

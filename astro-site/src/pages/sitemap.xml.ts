@@ -9,7 +9,6 @@ export const GET: APIRoute = async () => {
     "",
     "about-us/",
     "news/",
-    "sns-marketing/",
     "contact/",
     "privacy/",
     "livapon/"
@@ -19,8 +18,7 @@ export const GET: APIRoute = async () => {
   const knowhowArticles = getKnowhowArticles(await getMicrocmsArticles());
   const urls = [
     ...staticPages.map((path) => `${siteUrl}/${path}`),
-    ...businessArticles.map((article) => `${siteUrl}/news/${article.slug}/`),
-    ...knowhowArticles.map((article) => `${siteUrl}/sns-marketing/${article.slug}/`)
+    ...businessArticles.map((article) => `${siteUrl}/news/${article.slug}/`)
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

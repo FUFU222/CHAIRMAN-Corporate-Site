@@ -1,5 +1,6 @@
 import ceoImage from "../assets/images/CEO-image.webp";
 import jfcStageImage from "../assets/images/JFC_stage_image.webp";
+import bitekiCoverImage from "../assets/images/news/biteki-2026-06-koso-life/cover.jpg";
 import type { NewsArticle } from "../lib/types";
 import { buildExcerpt } from "../lib/format";
 
@@ -18,6 +19,37 @@ function article(partial: Omit<NewsArticle, "excerpt">): NewsArticle {
 }
 
 export const mockNews: NewsArticle[] = [
+  article({
+    id: "biteki-2026-06-koso-life",
+    slug: "biteki-2026-06-koso-life",
+    title:
+      "美容誌『美的スペシャル6月号増刊』にて「KOSOLIFE」の長岡式酵素玄米をご紹介いただきました",
+    description:
+      "株式会社小学館発行の美容誌『美的スペシャル6月号増刊』にて、弊社が運営する「KOSOLIFE」をタレントの指原莉乃様の美容習慣としてご紹介いただきました。",
+    publishedAt: "2026-04-28T00:00:00.000Z",
+    categories: [
+      { id: "media-coverage", name: "メディア掲載" },
+      { id: "koso-life", name: "KOSOLIFE" }
+    ],
+    eyecatch: bitekiCoverImage,
+    author: tanaka,
+    contentHtml: `
+      <p>このたび、株式会社小学館より発行されている美容誌『美的スペシャル6月号増刊』にて、弊社が運営する「KOSOLIFE」をご紹介いただきましたので、お知らせいたします。</p>
+      <h2>掲載概要</h2>
+      <p>タレントの指原莉乃様が日頃の美容習慣のひとつとして、「KOSOLIFE」の長岡式酵素玄米を1年以上にわたり継続的にご愛用いただいていることを、誌面の特集にてご紹介いただきました。</p>
+      <p>平素より弊社商品をご愛顧くださっている指原様、ならびに掲載の機会をいただきました『美的』編集部の皆さまに、心より御礼申し上げます。</p>
+      <h2>弊社の今後の取り組み</h2>
+      <p>株式会社CHAIRMANは、伝統的な長岡式酵素玄米の製法を守りながら、現代のライフスタイルに寄り添う食品ブランドとして「KOSOLIFE」を展開しております。今回のメディア掲載を励みに、より多くの方に本物の食を届けるべく、引き続き商品開発・品質向上に努めてまいります。</p>
+      <h2>掲載誌情報</h2>
+      <ul>
+        <li>誌名：美的スペシャル6月号増刊</li>
+        <li>発行：株式会社小学館</li>
+        <li>発売日：2026年4月22日（水）</li>
+        <li>表紙：SANA（TWICE）様</li>
+      </ul>
+      <p><small>※ 表紙画像は出版元より許諾を得て掲載しております。誌面の内容については本記事に転載しておりません。詳細は誌面をご覧ください。</small></p>
+    `
+  }),
   article({
     id: "japan-expo-canada-partnership",
     slug: "japan-expo-canada-partnership",

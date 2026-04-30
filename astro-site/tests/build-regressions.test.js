@@ -268,10 +268,10 @@ test("home build shows inline news summary copy and three corporate tags", () =>
   assert.ok(firstNewsItem, "Expected the home page to render an inline news item");
   assert.ok(
     firstNewsItem.textContent?.includes(
-      "CHAIRMANは、Japan Festival CANADAを主催するJapan Expo Canada Inc.との戦略的パートナーシップ契約を締結しました。"
+      "株式会社小学館発行の美容誌『美的スペシャル6月号増刊』にて、弊社が運営する「KOSOLIFE」をタレントの指原莉乃様の美容習慣としてご紹介いただきました。"
     )
   );
-  assert.ok(firstNewsItem.textContent?.includes("パートナーシップ / 海外展開 / LIVAPON"));
+  assert.ok(firstNewsItem.textContent?.includes("メディア掲載 / KOSOLIFE"));
 });
 
 test("home build clips horizontal overflow on mobile", () => {
@@ -401,6 +401,7 @@ test("sns-marketing build removes the framing copy while keeping archive items",
   removedCopy.forEach((copy) => {
     assert.equal(bodyText.includes(copy), false, `Expected removed copy to be absent: ${copy}`);
   });
+  assert.equal(document.querySelector('meta[name="robots"]')?.getAttribute("content"), "noindex, follow");
   assert.equal(document.querySelector(".sns-marketing__articles")?.hasAttribute("data-reveal"), false);
   assert.ok(document.querySelectorAll("[data-archive-item]").length > 0);
 });
@@ -417,6 +418,7 @@ test("news detail build ships article metadata, share links, and enhanced media"
   const { document } = dom.window;
   const title = document.querySelector("title");
   const canonical = document.querySelector('link[rel="canonical"]');
+  const robots = document.querySelector('meta[name="robots"]');
   const ogType = document.querySelector('meta[property="og:type"]');
   const publishedTime = document.querySelector('meta[property="article:published_time"]');
   const articleSchema = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
@@ -459,7 +461,7 @@ test("news detail build ships article metadata, share links, and enhanced media"
     copyButton?.getAttribute("data-copy-url"),
     "https://chairman-official.com/news/japan-expo-canada-partnership/"
   );
-  assert.ok(authorCard?.textContent?.includes("田中 透"));
+  assert.equal(authorCard, null);
   assert.ok(contactCard?.textContent?.includes("お問い合わせ"));
 });
 
@@ -476,6 +478,7 @@ test("sns-marketing detail build ships article metadata, share links, and relate
   const { document } = dom.window;
   const title = document.querySelector("title");
   const canonical = document.querySelector('link[rel="canonical"]');
+  const robots = document.querySelector('meta[name="robots"]');
   const ogType = document.querySelector('meta[property="og:type"]');
   const publishedTime = document.querySelector('meta[property="article:published_time"]');
   const articleSchema = Array.from(document.querySelectorAll('script[type="application/ld+json"]'))
@@ -497,6 +500,7 @@ test("sns-marketing detail build ships article metadata, share links, and relate
 
   assert.equal(title?.textContent, "ショート動画運用の設計メモ | 株式会社CHAIRMAN");
   assert.equal(canonical?.getAttribute("href"), "https://chairman-official.com/sns-marketing/sns-short-video-playbook/");
+  assert.equal(robots?.getAttribute("content"), "noindex, follow");
   assert.equal(ogType?.getAttribute("content"), "article");
   assert.equal(publishedTime?.getAttribute("content"), "2026-03-12T00:00:00.000Z");
   assert.equal(articleSchema?.headline, "ショート動画運用の設計メモ");
@@ -533,6 +537,22 @@ test("build ships canonical URLs in llms guidance", () => {
   assert.equal(llms.includes("about-us.html"), false);
   assert.equal(llms.includes("news.html"), false);
   assert.equal(llms.includes("contact.html"), false);
+});
+
+test("sitemap excludes sns-marketing archive and detail pages because they are noindex", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog",
+    MICROCMS_FIXTURE_PATH: microcmsFixturePath
+  });
+
+  const sitemap = fs.readFileSync(path.join(distDir, "sitemap.xml"), "utf8");
+
+  assert.equal(sitemap.includes("https://chairman-official.com/sns-marketing/"), false);
+  assert.equal(sitemap.includes("https://chairman-official.com/sns-marketing/sns-short-video-playbook/"), false);
+  assert.equal(sitemap.includes("https://chairman-official.com/news/japan-expo-canada-partnership/"), true);
 });
 
 test("live htaccess redirects legacy detail ids to article slugs before fallback", () => {

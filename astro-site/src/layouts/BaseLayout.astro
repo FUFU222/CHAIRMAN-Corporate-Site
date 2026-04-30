@@ -51,7 +51,7 @@ const base = import.meta.env.BASE_URL;
     <meta name="description" content={description} />
     <meta name="theme-color" content={site.themeColor} />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow"} />
+    <meta name="robots" content={noIndex ? "noindex, follow" : "index, follow"} />
     <link rel="canonical" href={canonical} />
     <link rel="manifest" href={withBase("/site.webmanifest", base)} />
     <link rel="icon" href={withBase("/assets/favicon-16x16.ico", base)} sizes="16x16" type="image/x-icon" />
