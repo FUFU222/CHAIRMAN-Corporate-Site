@@ -31,3 +31,7 @@ dist/
 build/
 .astro/
 astro-site/.astro/
+
+# Superpowers プラグインのローカル作業ファイル
+.superpowers/
+**/docs/superpowers/
