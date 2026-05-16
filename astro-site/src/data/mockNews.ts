@@ -1,6 +1,7 @@
 import ceoImage from "../assets/images/CEO-image.webp";
 import jfcStageImage from "../assets/images/JFC_stage_image.webp";
 import bitekiCoverImage from "../assets/images/news/biteki-2026-06-koso-life/cover.jpg";
+import livaponOpenImage from "../assets/images/news/livapon-online-store-launch/cover.svg";
 import type { NewsArticle } from "../lib/types";
 import { buildExcerpt } from "../lib/format";
 
@@ -19,6 +20,28 @@ function article(partial: Omit<NewsArticle, "excerpt">): NewsArticle {
 }
 
 export const mockNews: NewsArticle[] = [
+  article({
+    id: "livapon-online-store-launch",
+    slug: "livapon-online-store-launch",
+    title: "オンラインストア LIVAPONをオープンしました",
+    description:
+      "株式会社CHAIRMANは、日本各地で生まれたこだわりの商品を世界中のお客様へ届けるオンラインストア「LIVAPON」をオープンしました。",
+    publishedAt: "2026-05-16T00:00:00.000Z",
+    categories: [{ id: "livapon", name: "LIVAPON" }],
+    eyecatch: livaponOpenImage,
+    author: tanaka,
+    contentHtml: `
+      <p>株式会社CHAIRMANは、日本各地で生まれたこだわりの商品を世界中のお客様へ届けるオンラインストア「LIVAPON」をオープンしました。</p>
+      <h2>取り扱いジャンル</h2>
+      <p>LIVAPONでは、工芸品、陶磁器、食品、飲料、アパレル、生活雑貨、化粧品など、さまざまなジャンルの商品を取り扱ってまいります。</p>
+      <h2>LIVAPONが目指すもの</h2>
+      <p>当サイトでは、単に商品を販売するだけではなく、作り手の背景や、地域に根づく技術・文化も含めて紹介し、日本の商品が持つ魅力を海外へ届けることを目指しています。</p>
+      <h2>今後の展開</h2>
+      <p>今後は、商品ラインナップの拡充に加え、作り手のストーリーやブランドの背景を伝えるコンテンツも順次公開していく予定です。</p>
+      <p>株式会社CHAIRMANでは、LIVAPONを通じて、日本の作り手と世界中のお客様をつなぐ取り組みを進めてまいります。</p>
+      <p><a href="https://livapon.com/" target="_blank" rel="noopener noreferrer">LIVAPON公式サイトはこちら</a></p>
+    `
+  }),
   article({
     id: "biteki-2026-06-koso-life",
     slug: "biteki-2026-06-koso-life",
