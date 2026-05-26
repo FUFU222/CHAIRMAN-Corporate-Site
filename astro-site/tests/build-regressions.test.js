@@ -100,6 +100,24 @@ test("home build ships revised search metadata copy", () => {
   );
 });
 
+test("build uses system serif fonts without Google Fonts render blocking", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const homeHtml = readBuiltHtml("index.html");
+  const styles = readBuiltStyles("index.html");
+
+  assert.equal(homeHtml.includes("fonts.googleapis.com"), false);
+  assert.equal(homeHtml.includes("fonts.gstatic.com"), false);
+  assert.equal(homeHtml.includes("Noto+Serif+JP"), false);
+  assert.equal(styles.includes("Noto Serif JP"), false);
+  assert.match(styles, /--font-serif:/);
+});
+
 test("contact build ships hidden delivery fields and fallback UI without reCAPTCHA config", () => {
   runBuild({
     CI: "",
