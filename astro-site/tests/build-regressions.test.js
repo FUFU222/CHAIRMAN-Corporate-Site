@@ -222,6 +222,32 @@ test("about-us build ships officer modal scaffolding", () => {
   assert.ok(document.querySelectorAll("[data-officer-modal-trigger]").length > 0);
 });
 
+test("about-us build renders Yuuka as a linked media calligrapher profile", () => {
+  runBuild({
+    CI: "",
+    MICROCMS_SERVICE_DOMAIN: "",
+    MICROCMS_API_KEY: "",
+    MICROCMS_ENDPOINT: "blog"
+  });
+
+  const dom = new JSDOM(readBuiltHtml(path.join("about-us", "index.html")));
+  const { document } = dom.window;
+  const yuukaLink = Array.from(document.querySelectorAll(".team-minimal-grid-media .team-minimal-item-link")).find((node) =>
+    node.textContent.includes("Yuuka")
+  );
+  const projectYuuka = Array.from(document.querySelectorAll(".team-minimal-grid-project .team-minimal-item")).find((node) =>
+    node.textContent.includes("Yuuka")
+  );
+
+  assert.ok(yuukaLink, "Expected Yuuka to render as a linked media profile");
+  assert.equal(projectYuuka, undefined, "Expected Yuuka to move out of the management team grid");
+  assert.equal(yuukaLink.getAttribute("href"), "https://www.instagram.com/yuuka_calligrapher/");
+  assert.equal(yuukaLink.getAttribute("target"), "_blank");
+  assert.equal(yuukaLink.getAttribute("rel"), "noopener noreferrer");
+  assert.ok(yuukaLink.textContent.includes("書道家"));
+  assert.ok(yuukaLink.querySelector('img[alt="Yuuka"]'));
+});
+
 test("header build ships explicit mobile menu dismiss controls", () => {
   runBuild({
     CI: "",

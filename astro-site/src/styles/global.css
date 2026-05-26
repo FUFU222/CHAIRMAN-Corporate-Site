@@ -975,14 +975,25 @@ body.page-about .team-minimal-grid {
   justify-content: center;
 }
 
+body.page-about .team-minimal-grid-project {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 764px;
+  margin: 0 auto;
+}
+
+body.page-about .team-minimal-grid-project .team-minimal-item {
+  width: min(100%, 240px);
+}
+
 body.page-about .team-minimal-grid-officers {
   grid-template-columns: repeat(3, minmax(0, 272px));
   gap: 36px 24px;
 }
 
 body.page-about .team-minimal-grid-media {
-  max-width: 520px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 764px;
+  grid-template-columns: repeat(3, minmax(0, 240px));
   margin: 0 auto;
 }
 
@@ -3287,6 +3298,10 @@ body.page-home .company-facts dt {
     gap: 36px;
     margin: 0 auto;
     justify-content: center;
+  }
+
+  body.page-about .team-minimal-grid-project .team-minimal-item {
+    width: 100%;
   }
 
   body.page-about .team-minimal-name {

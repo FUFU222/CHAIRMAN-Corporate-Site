@@ -9,6 +9,7 @@ import marketerTwo from "../assets/images/teamMemberImage3.jpg";
 import creatorOne from "../assets/images/teamMemberImage5.jpg";
 import creatorTwo from "../assets/images/teamMemberImage6.jpg";
 import creatorThree from "../assets/images/teamMemberImage7.jpg";
+import yuukaImage from "../assets/images/yuuka_image.jpg";
 import type { MediaProfile, Officer, TeamMember } from "../lib/types";
 
 export const officers: Officer[] = [
@@ -59,6 +60,12 @@ export const mediaProfiles: MediaProfile[] = [
     role: "インフルエンサー",
     image: mrTokyoImage,
     href: "https://www.instagram.com/mr.tokyo.adventures/"
+  },
+  {
+    name: "Yuuka",
+    role: "書道家",
+    image: yuukaImage,
+    href: "https://www.instagram.com/yuuka_calligrapher/"
   }
 ];
 
