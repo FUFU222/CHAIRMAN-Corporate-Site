@@ -307,15 +307,17 @@ test("home build shows inline news summary copy and three corporate tags", () =>
 
   const dom = new JSDOM(readBuiltHtml("index.html"));
   const { document } = dom.window;
-  const firstNewsItem = document.querySelector(".news-list--inline .news-list__item");
+  const newsItems = Array.from(document.querySelectorAll(".news-list--inline .news-list__item"));
+  const mediaNewsItem = newsItems.find((item) => item.textContent?.includes("美的スペシャル6月号増刊"));
 
-  assert.ok(firstNewsItem, "Expected the home page to render an inline news item");
+  assert.ok(newsItems.length > 0, "Expected the home page to render inline news items");
+  assert.ok(mediaNewsItem, "Expected the home page inline news list to include the media coverage article");
   assert.ok(
-    firstNewsItem.textContent?.includes(
+    mediaNewsItem.textContent?.includes(
       "株式会社小学館発行の美容誌『美的スペシャル6月号増刊』にて、弊社が運営する「KOSOLIFE」をタレントの指原莉乃様の美容習慣としてご紹介いただきました。"
     )
   );
-  assert.ok(firstNewsItem.textContent?.includes("メディア掲載 / KOSOLIFE"));
+  assert.ok(mediaNewsItem.textContent?.includes("メディア掲載 / KOSOLIFE"));
 });
 
 test("home build clips horizontal overflow on mobile", () => {
