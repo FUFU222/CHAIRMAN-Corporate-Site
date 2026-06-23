@@ -68,7 +68,8 @@ export const businesses = [
 export const companyFacts = [
   { label: "屋号", value: "株式会社CHAIR MAN" },
   { label: "設立", value: "2022年6月10日" },
-  { label: "所在地", value: "〒107-0062 東京都港区南青山2-2-15" },
+  { label: "本店所在地", value: "千葉県市原市ちはら台南5-1-1-1-803" },
+  { label: "東京営業所", value: "東京都渋谷区恵比寿2-27-10" },
   { label: "代表者", value: "田中 透" },
   { label: "資本金", value: "1,000,000円" },
   { label: "酵素玄米製造工場", value: "〒329-2216 栃木県塩谷郡塩谷町大字上寺島1618番地4" }
