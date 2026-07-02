@@ -1,0 +1,57 @@
+# .github/workflows/prod-deploy.yml
+name: Deploy to Xserver (Production)
+
+# main ブランチへの push かつ public_html 以下の変更でのみ発火
+# workflow_dispatch はデプロイ失敗時の手動再実行用
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "public_html/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # コードをチェックアウト
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 公開フォルダを FTPS/SFTP で同期
+      - name: Deploy production folder via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.XSERVER_HOST }}
+          username: ${{ secrets.XSERVER_USERNAME }}
+          password: ${{ secrets.XSERVER_PASSWORD }}
+          protocol: ftps
+          local-dir: public_html/ # ローカル側の公開フォルダ
+          server-dir: public_html/ # サーバー上の公開フォルダ
+          exclude: |
+            videos/**/*.mp4
+            videos/**/*.webm
+
+      # デプロイ後に本番が応答するか検証（FTPS タイムアウトで本番未反映のまま気づけなかった事故の再発対策）
+      - name: Verify production is live
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 https://chairman-official.com/)
+          echo "HTTP status: $status"
+          [ "$status" = "200" ]
+
+      # 失敗時は Issue を自動作成して確実に気づけるようにする
+      - name: Notify failure via GitHub issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "本番デプロイ失敗: run #${{ github.run_number }}" \
+            --body "Deploy to Xserver (Production) が失敗しました。本番サイトが旧状態のままの可能性があります。ログを確認して再実行してください: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
