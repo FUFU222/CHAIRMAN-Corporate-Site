@@ -32,6 +32,9 @@
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
+  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -46,6 +49,7 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 body.is-nav-open,
@@ -3134,35 +3138,36 @@ body.page-home .company-facts dt {
   .site-header__nav {
     position: fixed;
     inset: 0;
-    display: grid;
-    align-content: center;
-    justify-items: center;
-    gap: 24px;
-    padding: calc(var(--header-height) + 44px) 28px 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
     z-index: 2;
-    opacity: 0;
     pointer-events: none;
-    transform: translateY(12px);
-    transition: opacity 0.22s ease, transform 0.22s ease;
   }
 
   .site-header__nav.is-open {
-    opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
   }
 
   .site-header__nav-surface {
     display: grid;
+    align-content: center;
     justify-items: center;
     gap: 20px;
-    width: min(100%, 360px);
-    padding: 18px 20px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 28px;
+    width: min(78%, 360px);
+    padding: calc(var(--header-height) + 24px) 28px 40px;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px 0 0 24px;
     background: rgba(40, 28, 31, 0.24);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+    box-shadow: -24px 0 60px rgba(0, 0, 0, 0.16);
     backdrop-filter: blur(18px);
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    overflow-y: auto;
+  }
+
+  .site-header__nav.is-open .site-header__nav-surface {
+    transform: translateX(0);
   }
 
   .site-header__close {
@@ -3535,10 +3540,11 @@ body.page-home .company-facts dt {
   }
 
   body.page-home .hero__visual {
-    width: 100vw;
+    width: auto;
     min-height: clamp(260px, 64vw, 420px);
     max-width: none;
-    margin-left: calc(50% - 50vw);
+    margin-left: calc((100vw - var(--shell-wide)) / -2);
+    margin-right: calc((100vw - var(--shell-wide)) / -2);
   }
 
   body.page-home .hero__signature {
