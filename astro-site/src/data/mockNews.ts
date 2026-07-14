@@ -21,6 +21,54 @@ function article(partial: Omit<NewsArticle, "excerpt">): NewsArticle {
 
 export const mockNews: NewsArticle[] = [
   article({
+    id: "livapon-japan-festival-canada-2026",
+    slug: "livapon-japan-festival-canada-2026",
+    title: "LIVAPONが「Japan Festival CANADA」へ進出",
+    description:
+      "LIVAPONは、2026年8月15日〜16日にカナダ・トロントで開催される「Japan Festival CANADA2026」へ、スペシャルスポンサーとして出展します。",
+    publishedAt: "2026-07-14T00:00:00.000Z",
+    categories: [
+      { id: "livapon", name: "LIVAPON" },
+      { id: "overseas-expansion", name: "海外展開" }
+    ],
+    eyecatch: null,
+    author: tanaka,
+    contentHtml: `
+      <p>当社が運営する「LIVAPON」は、2026年8月15日〜16日にカナダ・トロントで開催される日本文化イベント「Japan Festival CANADA2026」へ出展することが決定しました。あわせて、本イベントのスペシャルスポンサーとして参画します。</p>
+      <h2>出展の背景</h2>
+      <p>構想段階から日本各地の工房や生産地を訪れ、実際に商品を見て、触れ、職人との対話を通じて、その背景にある歴史や文化に触れてきました。大切な文化だからこそ、日本国内だけに留めるのではなく、世界中の日本を愛する人々に知ってもらいたい。Japan Festival CANADA2026への出展は、その実現に向けた大きな一歩です。</p>
+      <h2>Japan Festival CANADA2026について</h2>
+      <p>カナダ・トロントで開催される日本文化イベントで、LIVAPONは今回スペシャルスポンサーとして参画します。会場では、日本の職人技や文化的背景を紹介するとともに、LIVAPONが取り扱う商品や今後展開するサービスについても発信してまいります。</p>
+      <h2>今後の展開</h2>
+      <p>今後は、日本の伝統技術を職人から直接学び、技術や精神性を体得できる新たなサービスも近日発表予定です。</p>
+      <p>LIVAPONは、Japan Festival CANADAのスペシャルスポンサーとして、日本と世界をつなぐ文化の架け橋を目指してまいります。</p>
+    `
+  }),
+  article({
+    id: "livapon-project-release",
+    slug: "livapon-project-release",
+    title: "日本の伝統文化を世界へ届ける「LIVAPON」をリリースしました",
+    description:
+      "日本各地に受け継がれてきた伝統文化や職人の技術を、その背景にある歴史とともに世界へ届けるプロジェクト「LIVAPON」をリリースしました。",
+    publishedAt: "2026-07-14T00:00:00.000Z",
+    categories: [{ id: "livapon", name: "LIVAPON" }],
+    eyecatch: null,
+    author: tanaka,
+    contentHtml: `
+      <p>日本各地に受け継がれてきた伝統文化や職人の技術を世界へ届ける新たなプロジェクト「LIVAPON」をリリースしました。</p>
+      <p>LIVAPONは、日本の職人が手がける本物の商品を厳選し、その背景にある歴史や文化、作り手の哲学とともに紹介・販売するECサイトです。</p>
+      <h2>取り組みの背景</h2>
+      <p>日本には、長い年月をかけて磨かれてきた技術や、地域ごとに受け継がれてきた文化が数多く存在します。一方で、職人の高齢化や後継者不足、認知機会の減少などにより、その価値や歴史が次の世代へ十分に継承されていないという課題もあります。</p>
+      <p>LIVAPONでは、単に商品を販売するのではなく、職人の技術、考え方、作品が生まれた土地の歴史まで含めて世界へ伝えることを目指します。</p>
+      <h2>現地での取材を重ねて</h2>
+      <p>構想以来、実際に日本各地へ足を運び、商品を見て、触れ、職人との対話を重ねてきました。その中で、日本の職人が持つ繊細な技術力や品質へのこだわりは、世界に誇ることのできる価値であると実感しています。</p>
+      <h2>今後の展開</h2>
+      <p>今後は商品の販売に加え、日本の職人から直接技術を学び、その技や考え方を体得できる新たなサービスも発表予定です。</p>
+      <p>LIVAPONは、日本の文化を商品として消費するのではなく、その背景にある歴史や技術とともに未来へつなぐ存在を目指してまいります。</p>
+      <p><a href="https://livapon.com/" target="_blank" rel="noopener noreferrer">LIVAPON公式サイトはこちら</a></p>
+    `
+  }),
+  article({
     id: "livapon-online-store-launch",
     slug: "livapon-online-store-launch",
     title: "オンラインストア LIVAPONをオープンしました",
