@@ -26,6 +26,9 @@ if (menuToggle && menuPanel && menuOverlay) {
     menuPanel.classList.toggle("is-open", nextExpanded);
     menuOverlay.hidden = !nextExpanded;
     document.body.classList.toggle("is-nav-open", nextExpanded);
+    if (nextExpanded && header) {
+      header.classList.remove("is-hidden");
+    }
   });
 
   menuOverlay.addEventListener("click", closeMenu);
@@ -56,6 +59,10 @@ if (header) {
     () => {
       if (window.innerWidth > 820) {
         header.classList.remove("is-hidden");
+        return;
+      }
+
+      if (document.body.classList.contains("is-nav-open")) {
         return;
       }
 
