@@ -260,9 +260,10 @@ test("header build ships explicit mobile menu dismiss controls", () => {
   const { document } = dom.window;
   const siteScript = readBuiltModuleScript("index.html", "site");
 
-  assert.ok(document.querySelector("[data-menu-close]"));
+  assert.ok(document.querySelector("[data-menu-toggle]"));
   assert.ok(document.querySelector("[data-menu-surface]"));
   assert.match(siteScript, /event\.target === menuPanel/);
+  assert.match(siteScript, /event\.key === "Escape"/);
 });
 
 test("sns-marketing build shows the empty state when microCMS articles are unavailable", () => {
