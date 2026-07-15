@@ -249,12 +249,13 @@ body.is-dialog-open .site-header {
   transform-origin: left center;
 }
 
-.site-header__contact {
+.site-header__nav .site-header__contact {
   padding: 10px 15px;
-  border: 1px solid rgba(141, 8, 32, 0.16);
+  border: none;
   border-radius: 999px;
-  color: var(--accent);
-  background: transparent;
+  color: #ffffff;
+  background: var(--accent);
+  font-weight: 700;
 }
 
 .site-header__toggle,
