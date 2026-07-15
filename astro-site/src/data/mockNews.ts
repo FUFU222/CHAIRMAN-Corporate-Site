@@ -2,6 +2,7 @@ import ceoImage from "../assets/images/CEO-image.webp";
 import jfcStageImage from "../assets/images/JFC_stage_image.webp";
 import bitekiCoverImage from "../assets/images/news/biteki-2026-06-koso-life/cover.jpg";
 import livaponOpenImage from "../assets/images/news/livapon-online-store-launch/cover.svg";
+import jfcaCoverImage from "../assets/images/news/livapon-japan-festival-canada-2026/cover.jpg";
 import type { NewsArticle } from "../lib/types";
 import { buildExcerpt } from "../lib/format";
 
@@ -26,12 +27,12 @@ export const mockNews: NewsArticle[] = [
     title: "LIVAPONが「Japan Festival CANADA」へ進出",
     description:
       "LIVAPONは、2026年8月15日〜16日にカナダ・トロントで開催される「Japan Festival CANADA2026」へ、スペシャルスポンサーとして出展します。",
-    publishedAt: "2026-07-14T00:00:00.000Z",
+    publishedAt: "2026-07-15T00:00:00.000Z",
     categories: [
       { id: "livapon", name: "LIVAPON" },
       { id: "overseas-expansion", name: "海外展開" }
     ],
-    eyecatch: null,
+    eyecatch: jfcaCoverImage,
     author: tanaka,
     contentHtml: `
       <p>当社が運営する「LIVAPON」は、2026年8月15日〜16日にカナダ・トロントで開催される日本文化イベント「Japan Festival CANADA2026」へ出展することが決定しました。あわせて、本イベントのスペシャルスポンサーとして参画します。</p>
@@ -50,9 +51,9 @@ export const mockNews: NewsArticle[] = [
     title: "日本の伝統文化を世界へ届ける「LIVAPON」をリリースしました",
     description:
       "日本各地に受け継がれてきた伝統文化や職人の技術を、その背景にある歴史とともに世界へ届けるプロジェクト「LIVAPON」をリリースしました。",
-    publishedAt: "2026-07-14T00:00:00.000Z",
+    publishedAt: "2026-07-15T00:00:00.000Z",
     categories: [{ id: "livapon", name: "LIVAPON" }],
-    eyecatch: null,
+    eyecatch: livaponOpenImage,
     author: tanaka,
     contentHtml: `
       <p>日本各地に受け継がれてきた伝統文化や職人の技術を世界へ届ける新たなプロジェクト「LIVAPON」をリリースしました。</p>
@@ -65,28 +66,6 @@ export const mockNews: NewsArticle[] = [
       <h2>今後の展開</h2>
       <p>今後は商品の販売に加え、日本の職人から直接技術を学び、その技や考え方を体得できる新たなサービスも発表予定です。</p>
       <p>LIVAPONは、日本の文化を商品として消費するのではなく、その背景にある歴史や技術とともに未来へつなぐ存在を目指してまいります。</p>
-      <p><a href="https://livapon.com/" target="_blank" rel="noopener noreferrer">LIVAPON公式サイトはこちら</a></p>
-    `
-  }),
-  article({
-    id: "livapon-online-store-launch",
-    slug: "livapon-online-store-launch",
-    title: "オンラインストア LIVAPONをオープンしました",
-    description:
-      "株式会社CHAIRMANは、日本各地で生まれたこだわりの商品を世界中のお客様へ届けるオンラインストア「LIVAPON」をオープンしました。",
-    publishedAt: "2026-05-16T00:00:00.000Z",
-    categories: [{ id: "livapon", name: "LIVAPON" }],
-    eyecatch: livaponOpenImage,
-    author: tanaka,
-    contentHtml: `
-      <p>株式会社CHAIRMANは、日本各地で生まれたこだわりの商品を世界中のお客様へ届けるオンラインストア「LIVAPON」をオープンしました。</p>
-      <h2>取り扱いジャンル</h2>
-      <p>LIVAPONでは、工芸品、陶磁器、食品、飲料、アパレル、生活雑貨、化粧品など、さまざまなジャンルの商品を取り扱ってまいります。</p>
-      <h2>LIVAPONが目指すもの</h2>
-      <p>当サイトでは、単に商品を販売するだけではなく、作り手の背景や、地域に根づく技術・文化も含めて紹介し、日本の商品が持つ魅力を海外へ届けることを目指しています。</p>
-      <h2>今後の展開</h2>
-      <p>今後は、商品ラインナップの拡充に加え、作り手のストーリーやブランドの背景を伝えるコンテンツも順次公開していく予定です。</p>
-      <p>株式会社CHAIRMANでは、LIVAPONを通じて、日本の作り手と世界中のお客様をつなぐ取り組みを進めてまいります。</p>
       <p><a href="https://livapon.com/" target="_blank" rel="noopener noreferrer">LIVAPON公式サイトはこちら</a></p>
     `
   }),
