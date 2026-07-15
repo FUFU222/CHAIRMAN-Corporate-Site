@@ -3220,18 +3220,16 @@ body.page-home .company-facts dt {
     position: fixed;
     inset: 0;
     z-index: 1;
+    display: block;
     background: rgba(20, 13, 16, 0.72);
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.22s ease;
   }
 
-  .site-header__overlay[hidden] {
-    display: none;
-  }
-
   .site-header__overlay:not([hidden]) {
-    display: block;
     opacity: 1;
+    pointer-events: auto;
   }
 
   .role-grid,
