@@ -3171,7 +3171,6 @@ body.page-home .company-facts dt {
     align-items: stretch;
     gap: 0;
     width: 100%;
-    margin-top: auto;
   }
 
   .site-header__nav ul > li {
@@ -3195,17 +3194,16 @@ body.page-home .company-facts dt {
     display: none;
   }
 
-  .site-header__contact {
+  .site-header__nav .site-header__contact {
     justify-content: center;
     width: 100%;
     min-height: 52px;
     margin-top: 28px;
-    margin-bottom: auto;
     border: none;
     border-radius: 999px;
     background: var(--accent);
     color: #ffffff;
-    font-weight: 500;
+    font-weight: 700;
   }
 
   body.is-nav-open .site-header {
