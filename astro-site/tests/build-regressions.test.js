@@ -308,16 +308,16 @@ test("home build shows inline news summary copy and three corporate tags", () =>
   const dom = new JSDOM(readBuiltHtml("index.html"));
   const { document } = dom.window;
   const newsItems = Array.from(document.querySelectorAll(".news-list--inline .news-list__item"));
-  const jfcNewsItem = newsItems.find((item) => item.textContent?.includes("Japan Festival CANADA"));
+  const mediaNewsItem = newsItems.find((item) => item.textContent?.includes("美的スペシャル6月号増刊"));
 
   assert.ok(newsItems.length > 0, "Expected the home page to render inline news items");
-  assert.ok(jfcNewsItem, "Expected the home page inline news list to include the latest LIVAPON article");
+  assert.ok(mediaNewsItem, "Expected the home page inline news list to include the media coverage article");
   assert.ok(
-    jfcNewsItem.textContent?.includes(
-      "LIVAPONは、2026年8月15日〜16日にカナダ・トロントで開催される「Japan Festival CANADA2026」へ、スペシャルスポンサーとして出展します。"
+    mediaNewsItem.textContent?.includes(
+      "株式会社小学館発行の美容誌『美的スペシャル6月号増刊』にて、弊社が運営する「KOSOLIFE」をタレントの指原莉乃様の美容習慣としてご紹介いただきました。"
     )
   );
-  assert.ok(jfcNewsItem.textContent?.includes("LIVAPON / 海外展開"));
+  assert.ok(mediaNewsItem.textContent?.includes("メディア掲載 / KOSOLIFE"));
 });
 
 test("home build clips horizontal overflow on mobile", () => {
