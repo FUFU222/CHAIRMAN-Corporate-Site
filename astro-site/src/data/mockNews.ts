@@ -2,7 +2,6 @@ import ceoImage from "../assets/images/CEO-image.webp";
 import jfcStageImage from "../assets/images/JFC_stage_image.webp";
 import bitekiCoverImage from "../assets/images/news/biteki-2026-06-koso-life/cover.jpg";
 import livaponOpenImage from "../assets/images/news/livapon-online-store-launch/cover.svg";
-import jfcaCoverImage from "../assets/images/news/livapon-japan-festival-canada-2026/cover.jpg";
 import type { NewsArticle } from "../lib/types";
 import { buildExcerpt } from "../lib/format";
 
@@ -22,37 +21,12 @@ function article(partial: Omit<NewsArticle, "excerpt">): NewsArticle {
 
 export const mockNews: NewsArticle[] = [
   article({
-    id: "livapon-japan-festival-canada-2026",
-    slug: "livapon-japan-festival-canada-2026",
-    title: "LIVAPONが「Japan Festival CANADA」へ進出",
-    description:
-      "LIVAPONは、2026年8月15日〜16日にカナダ・トロントで開催される「Japan Festival CANADA2026」へ、Official Japanese Heritage Partnerとして参画し、日本の職人文化を世界へ発信します。",
-    publishedAt: "2026-07-15T00:00:00.000Z",
-    categories: [
-      { id: "livapon", name: "LIVAPON" },
-      { id: "overseas-expansion", name: "海外展開" }
-    ],
-    eyecatch: jfcaCoverImage,
-    author: tanaka,
-    contentHtml: `
-      <p>当社が運営する「LIVAPON」は、2026年8月15日〜16日にカナダ・トロントで開催される日本文化イベント「Japan Festival CANADA2026」へ出展することが決定しました。あわせて、本イベントのOfficial Japanese Heritage Partnerとして参画します。</p>
-      <h2>出展の背景</h2>
-      <p>構想段階から日本各地の工房や生産地を訪れ、実際に商品を見て、触れ、職人との対話を通じて、その背景にある歴史や文化に触れてきました。大切な文化だからこそ、日本国内だけに留めるのではなく、世界中の日本を愛する人々に知ってもらいたい。Japan Festival CANADA2026への出展は、その実現に向けた大きな一歩です。</p>
-      <h2>Japan Festival CANADA2026について</h2>
-      <p>カナダ・トロントで開催される日本文化イベントで、LIVAPONは今回Official Japanese Heritage Partnerとして参画します。会場では、日本の職人技や文化的背景を紹介するとともに、LIVAPONが取り扱う商品や今後展開するサービスについても発信してまいります。</p>
-      <h2>今後の展開</h2>
-      <p>今後は、日本の伝統技術を職人から直接学び、技術や精神性を体得できる新たなサービスも近日発表予定です。</p>
-      <p>LIVAPONは、Japan Festival CANADAのOfficial Japanese Heritage Partnerとして、日本と世界をつなぐ文化の架け橋を目指してまいります。</p>
-      <p><a href="https://www.japanfestivalcanada.com/" target="_blank" rel="noopener noreferrer">Japan Festival CANADA公式サイトはこちら</a></p>
-    `
-  }),
-  article({
     id: "livapon-project-release",
     slug: "livapon-project-release",
     title: "日本の伝統文化を世界へ届ける「LIVAPON」をリリースしました",
     description:
       "日本各地に受け継がれてきた伝統文化や職人の技術を、その背景にある歴史とともに世界へ届けるプロジェクト「LIVAPON」をリリースしました。",
-    publishedAt: "2026-07-15T00:00:00.000Z",
+    publishedAt: "2026-07-16T00:00:00.000Z",
     categories: [{ id: "livapon", name: "LIVAPON" }],
     eyecatch: livaponOpenImage,
     author: tanaka,
