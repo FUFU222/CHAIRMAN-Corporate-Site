@@ -24,6 +24,22 @@ RewriteRule ^news-detail\.html$ /sns-marketing/? [R=301,L]
     Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://cdnjs.cloudflare.com https://www.google.com https://www.gstatic.com https://www.recaptcha.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://www.google-analytics.com https://www.google.com https://www.recaptcha.net; frame-src 'self' https://chairman-official.com https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://recaptcha.google.com https://script.google.com https://script.googleusercontent.com"
 </IfModule>
 
+# HTMLは毎回サーバーへ再検証させ、古いキャッシュが固着しないようにする
+# （ETag/Last-Modifiedによる条件付きGETは有効なので、内容が同じなら304で軽量に返る）
+<IfModule mod_headers.c>
+    <FilesMatch "\.html$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# ビルド時にファイル名へハッシュが付く静的アセットは、内容が変われば
+# ファイル名も変わるため長期キャッシュしても安全
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|webp|avif|woff2?|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
 ### BEGIN XPageSpeed - Do not edit the contents of this block! ###
 XPagespeedDisableFilters xoptimize_javascript
 XPagespeedDisableFilters lazyload_javascript
