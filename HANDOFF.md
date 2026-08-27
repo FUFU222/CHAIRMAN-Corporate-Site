@@ -34,7 +34,7 @@
 | 本番ホスティング | Xserver（FTPS配備） | GitHub Actions Secrets: `XSERVER_HOST` / `XSERVER_USERNAME` / `XSERVER_PASSWORD`（`.github/workflows/prod-deploy.yml` が参照） |
 | ドメイン | `chairman-official.com` | レジストラ・支払い方法は未確認（本文書末尾「要確認」参照） |
 | SNSノウハウ集CMS | microCMS | GitHub Actions Secrets: `MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY`。ローカルは `astro-site/.env`（gitignore対象、値は各自取得） |
-| 問い合わせフォーム送信先 | Google Apps Script（`astro-site/apps-script/contact.gs` がソース。**デプロイはGoogle UIでの手動作業**。**実行アカウントは a.tanaka@chairman.jp**、個人アカウント依存。詳細は「6. 未完了・既知の課題」参照） | エンドポイントURL: GitHub Actions Secret `CHAIRMAN_APPS_SCRIPT_ENDPOINT`。reCAPTCHAシークレットキー等の Script Properties は **Google Apps Script側にのみ存在し、このリポジトリには一切ない** |
+| 問い合わせフォーム送信先 | Google Apps Script（`astro-site/apps-script/contact.gs` がソース。**デプロイはGoogle UIでの手動作業**。**管理アカウントが特定できていない（要再調査）**。詳細は「6. 未完了・既知の課題」参照） | エンドポイントURL: GitHub Actions Secret `CHAIRMAN_APPS_SCRIPT_ENDPOINT`。reCAPTCHAシークレットキー等の Script Properties は **Google Apps Script側にのみ存在し、このリポジトリには一切ない** |
 | Bot対策 | Google reCAPTCHA v2 | サイトキー: `CHAIRMAN_RECAPTCHA_SITE_KEY`（公開情報扱い）。シークレットキーはApps Script側のみ |
 | アクセス解析 | Google Analytics | `PUBLIC_GA_ID`（`.github/workflows/preview-deploy.yml` 内に値が直書きされている＝非秘匿情報） |
 | CI/CD | GitHub Actions | Secrets一覧は GitHub リポジトリの Settings > Secrets and variables > Actions で確認 |
