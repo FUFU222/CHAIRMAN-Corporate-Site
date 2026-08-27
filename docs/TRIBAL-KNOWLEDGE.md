@@ -64,6 +64,15 @@
 
 ## 意思決定の経緯と保留中の論点
 
+- **問い合わせフォームのApps Scriptが所在不明になり、2026-08-27に作り直した実績がある。**
+  元のスクリプトがどのGoogleアカウントで作られたか特定できず（reCAPTCHAはa.tanaka@chairman.jpと
+  確認できたが、Apps Scriptだけ別アカウントだったと見られる）、実際に問い合わせメールが届いて
+  いなかった疑いがあった。復旧手順は[../docs/RUNBOOKS.md](RUNBOOKS.md)の
+  「問い合わせフォームのApps Scriptが見つからない場合」に恒久化してある。**教訓**:
+  Google系サービスを新規に設定するときは、プロジェクト名を「無題のプロジェクト」のまま
+  残さないこと、複数のGoogleサービス（reCAPTCHA・Apps Script等）を同時に設定する際は
+  同一アカウントに統一することを徹底しないと、この種の「誰も触れない設定」が生まれる。
+
 - **本番切替は一度revertされている。** コミット `f749815`「feat: prepare astro production cutover」が
   直後に `31d036a`「Revert "feat: prepare astro production cutover"」で取り消され、後日改めて
   `77f2327`「feat: prepare preview-approved astro cutover」で切替が行われている

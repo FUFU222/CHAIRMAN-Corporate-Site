@@ -119,6 +119,49 @@ preview環境（`codex/site-refresh-preview` ブランチ → `/preview/` 配下
 
 ---
 
+## 問い合わせフォームのApps Scriptが見つからない場合（作り直す）
+
+**トリガー**: 問い合わせが顧客に届いていない疑いがあり、`astro-site/apps-script/contact.gs`に対応する
+Apps Scriptプロジェクトが管理アカウントの[script.google.com/home/all](https://script.google.com/home/all)
+に見当たらない（2026-08-27に一度発生。経緯は[../HANDOFF.md](../HANDOFF.md)の「6. 未完了・既知の課題」参照）。
+
+**事前確認（探す）**:
+1. `script.google.com/home/all`の「プロジェクトのアクセス権：オーナー権限」フィルタを解除して再確認
+2. 左メニューの「すべてのプロジェクト」「共有済み」「ゴミ箱」を確認
+3. 見つからない場合、[google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)で
+   サイトキー（`public_html/contact/index.html`の`data-sitekey`属性で確認できる）のオーナーを確認する。
+   reCAPTCHAとApps Scriptは別アカウントで作られていることがあるため、これも見つかる保証はない
+4. 疎通確認だけなら、現在の本番デプロイURL（`public_html/contact/index.html`の`action`/`data-endpoint`
+   属性）へGETリクエストを送る。`astro-site/apps-script/contact.gs`の`doGet()`が返す
+   "CHAIRMAN contact endpoint is running." が返れば少なくともデプロイ自体は生きている
+   （ただし誰が管理しているかは分からない）
+
+**見つからなかった場合の手順（作り直す）**:
+1. [script.new](https://script.new)で新規プロジェクトを作成する。**プロジェクト名は必ず具体的に付ける**
+   （「無題のプロジェクト」のまま放置すると次回また同じ問題が起きる）
+2. [../astro-site/apps-script/contact.gs](../astro-site/apps-script/contact.gs)の内容を貼り付ける
+3. 「プロジェクトの設定」→「スクリプト プロパティ」で以下を設定する
+   - `NOTIFY_TO`: 通知先メールアドレス
+   - `RECAPTCHA_SECRET_KEY`: reCAPTCHA管理画面の「reCAPTCHAのキー」から取得
+   - `RECAPTCHA_ALLOWED_HOSTNAMES`: `chairman-official.com`
+   - `SHEET_ID` / `SHEET_NAME`: スプレッドシートへも記録したい場合のみ（任意。未設定でもメール送信・
+     自動返信は動く。[../astro-site/apps-script/contact.gs:74](../astro-site/apps-script/contact.gs:74)）
+4. 「デプロイ」→「新しいデプロイ」→種類「ウェブアプリ」。実行ユーザー: 自分、アクセス権: 全員
+5. 発行された新しい`/exec` URLをGETリクエストで疎通確認する
+6. 新URLをGitHub Actions Secret `CHAIRMAN_APPS_SCRIPT_ENDPOINT`（`gh secret set`または設定画面）と
+   [../astro-site/.env.example](../astro-site/.env.example)に反映する
+7. `public_html/contact/index.html`内の旧URL（`action`属性と`data-endpoint`属性の2箇所）を
+   新URLに文字列置換する（microCMS認証情報が無くフル再ビルドできない場合の代替手段。
+   フル再ビルドできるなら通常のビルド手順で問題ない）
+8. コミット・pushして本番反映を確認する
+
+**検証方法（省略しない）**:
+- 本番の問い合わせフォームから実際に送信し、通知メール・自動返信メールの両方が届くことを確認する
+  （reCAPTCHAは人間が実際にチェックする必要があるため、この確認はAIエージェントには代行できない）
+- 届かない場合はApps Scriptの「実行数」タブでエラーの有無を確認する
+
+---
+
 ## 本番ロールバック
 
 **トリガー**: デプロイ後に表示崩れ・機能停止など、切り戻しが必要な問題が発生した。
