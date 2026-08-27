@@ -86,7 +86,7 @@
 
 **確認済み（2026-08-27、田中さんへの確認より）**: Google Apps Script（問い合わせフォームの実行基盤）の実行アカウントは
 a.tanaka@chairman.jp。つまり田中さんが離脱すると、この個人アカウント経由で動いているApps Scriptの実行権限・
-`MailApp.sendEmail`の送信元（[astro-site/apps-script/contact.gs:215,270](astro-site/apps-script/contact.gs)）・
+`MailApp.sendEmail`の送信元（[astro-site/apps-script/contact.gs:215](astro-site/apps-script/contact.gs:215)、[:270](astro-site/apps-script/contact.gs:270)）・
 reCAPTCHA/microCMSとの紐付け設定が失われる可能性がある。離脱前に、後任者のGoogleアカウントで
 Apps Scriptを再デプロイし直す（実行ユーザーを付け替える）作業が必要になる。
 
