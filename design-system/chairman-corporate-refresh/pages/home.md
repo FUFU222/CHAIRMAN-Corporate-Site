@@ -1,5 +1,9 @@
 # Home Page Override
 
+> **この文書は初期デザイン方針案であり、一部は実装と一致しません**（例: 見出しフォントは
+> Zen Kaku Gothic Newではなく明朝体系が使われている）。詳細は
+> [../../../docs/TRIBAL-KNOWLEDGE.md](../../../docs/TRIBAL-KNOWLEDGE.md) を参照。
+
 ## Intent
 
 - Reference mood: calm Japanese corporate site with editorial whitespace and restrained trust signals

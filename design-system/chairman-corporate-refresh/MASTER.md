@@ -1,5 +1,11 @@
 # Design System Master File
 
+> **この文書は初期デザイン方針案であり、実際に出荷されたデザインとは一致しません。**
+> 例: アクセントカラーはピンク`#EC4899`ではなくダークレッド`#8d0820`、見出しフォントはLibre Bodoniでは
+> なくNoto Serif JP系。詳細は [../../docs/TRIBAL-KNOWLEDGE.md](../../docs/TRIBAL-KNOWLEDGE.md) の
+> 「design-system/ の位置づけ」を参照。今後のスタイル判断は実際のCSS（`astro-site/src/styles/`）と
+> 本番サイトの表示を正とすること。
+
 > **LOGIC:** When building a specific page, first check `design-system/pages/[page-name].md`.
 > If that file exists, its rules **override** this Master file.
 > If not, strictly follow the rules below.
