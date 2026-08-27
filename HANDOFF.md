@@ -84,11 +84,37 @@
 - microCMS / reCAPTCHA の管理者アカウント所在
 - Xserver・ドメイン・microCMS等の契約が田中さん個人アカウント紐付けになっていないか（個人カード払いは離脱時にサービス停止リスクがある）
 
-**確認済み（2026-08-27、田中さんへの確認より）**: Google Apps Script（問い合わせフォームの実行基盤）の実行アカウントは
-a.tanaka@chairman.jp。つまり田中さんが離脱すると、この個人アカウント経由で動いているApps Scriptの実行権限・
-`MailApp.sendEmail`の送信元（[astro-site/apps-script/contact.gs:215](astro-site/apps-script/contact.gs:215)、[:270](astro-site/apps-script/contact.gs:270)）・
-reCAPTCHA/microCMSとの紐付け設定が失われる可能性がある。離脱前に、後任者のGoogleアカウントで
-Apps Scriptを再デプロイし直す（実行ユーザーを付け替える）作業が必要になる。
+**Google Apps Script（問い合わせフォームの実行基盤）の管理アカウントが特定できていない（2026-08-27時点、要再調査）**:
+当初「a.tanaka@chairman.jpのはず」という申告があったが、そのアカウントで
+[script.google.com/home/all](https://script.google.com/home/all) を確認したところ該当スクリプトが
+見当たらなかった。つまり**現時点でこのApps Scriptを編集・調査できる人が誰もいない可能性がある**。
+これは離脱リスクという将来の話ではなく、**今すでに管理不能になっているかもしれない**という現在の問題。
+
+分かっている事実（コードで裏取り済み）:
+- 本番で使われているデプロイURLは
+  `https://script.google.com/macros/s/AKfycbzqNH2O1z-piHM2Nzk3NomDc51pehOxdnfm0U9WW616sINKEtqUd9KcVvj5XtH-tjxt/exec`
+  （[public_html/contact/index.html](public_html/contact/index.html)に埋め込み済みの値と
+  [astro-site/.env.example](astro-site/.env.example)の値が一致することで確認）
+- このURLへのGETリクエストは200を返し、`astro-site/apps-script/contact.gs:43`の`doGet()`が返す
+  "CHAIRMAN contact endpoint is running." という文言がそのまま返ってくる。**デプロイ自体は生きている**
+- gitのコミット履歴（`git log --follow -- astro-site/apps-script/contact.gs`）を遡っても、
+  どのGoogleアカウントでデプロイしたかを示す記録はリポジトリ内に無い
+  （git commit authorはtnkakr_0817@icloud.comだが、これはGitHubの識別情報でありGoogleアカウントとは無関係）
+
+次に試すべきこと（未実施）:
+- reCAPTCHA管理画面（[google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)）に
+  心当たりのある各Googleアカウントでログインし、サイトキー
+  `6LdiwYcsAAAAAFFwCOlutzJiA2OshOrT-hBR0NIp`（`chairman-official.com`向け）の管理者を探す。
+  Apps Scriptとreqcaptchaは同じ人が同時期に設定した可能性が高く、Apps Script本体より
+  reCAPTCHA管理画面の方が心当たりのあるアカウントを絞り込みやすい
+- Google Driveの「ゴミ箱」「自分と共有」も確認する（標準的なスタンドアロンApps Scriptなら
+  デプロイしたアカウントのDriveに必ず存在するはずで、home/allに出ないのはゴミ箱・アーカイブ・
+  別アカウントのいずれか）
+- 見つからない場合、`NOTIFY_TO`・`RECAPTCHA_SECRET_KEY`等のScript Propertiesを誰も変更できない
+  状態が既に発生している。復旧させるには、Apps Scriptを新規に作り直し
+  （ソースは[astro-site/apps-script/contact.gs](astro-site/apps-script/contact.gs)にある）、
+  新しい`/exec` URLを`CHAIRMAN_APPS_SCRIPT_ENDPOINT`（GitHub Secrets）と
+  `astro-site/.env.example`に反映し直し、`npm run build`し直して`public_html/`へ反映する必要がある
 
 ## 7. AIエージェントと引き継ぐ場合
 
