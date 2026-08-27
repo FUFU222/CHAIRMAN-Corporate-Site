@@ -40,6 +40,10 @@
 | CI/CD | GitHub Actions | Secrets一覧は GitHub リポジトリの Settings > Secrets and variables > Actions で確認 |
 | 障害通知 | GitHub Issue自動起票 | `prod-deploy.yml` のデプロイ失敗時に自動作成。運用は [docs/RUNBOOKS.md](docs/RUNBOOKS.md) 参照 |
 
+上表の `MICROCMS_*` / `CHAIRMAN_APPS_SCRIPT_ENDPOINT` / `CHAIRMAN_RECAPTCHA_SITE_KEY` / `PUBLIC_GA_ID` は
+いずれも `preview-deploy.yml` が参照する値であり、`prod-deploy.yml` はこれらを一切参照しない
+（本番はCIでビルドしないため。[docs/TRIBAL-KNOWLEDGE.md](docs/TRIBAL-KNOWLEDGE.md) 参照）。
+
 `config_private/microcms.php.example` とリポジトリ直下の `.env` はどのコードからも参照されておらず、旧実装の残骸の可能性が高い（未使用と断定はしていない。[docs/TRIBAL-KNOWLEDGE.md](docs/TRIBAL-KNOWLEDGE.md) 参照）。
 
 ## 4. 定型イベント → 手順書マップ
@@ -69,7 +73,7 @@
 - **未マージのfeatureブランチが多数残存**（`fix-cache-control`, `mobile-menu-visual-refresh`, `publish-livapon-release` 等）。本番反映がブランチのマージではなく「ローカルbuild結果を直接 `public_html/` にコミット」で行われることが多いため、ブランチの内容が既に別の形で本番へ反映済みなのか、未反映のまま放置されているのか、ブランチ単位では判別できない。着手前に対象ブランチの差分と本番の現状を必ず突き合わせること。
 - **`f749815`（本番切替）が一度 `31d036a` でrevertされ、後日改めて切替されている**。revertの理由はコミットメッセージに残っておらず不明。
 - **ルート直下の `.env` と `config_private/microcms.php.example` の用途が特定できていない**（コード内に参照なし）。誤って削除すると何かが壊れるリスクもゼロではないため、正体を確認してから整理すること。
-- **design-system/ が実装と乖離**: 初期デザイン方針案（ピンクアクセント、Libre Bodoni、Government/Public Serviceカテゴリ）のまま更新されておらず、実際の出荷デザイン（ダークレッド `#8d0820`、Noto Serif JP / Zen Kaku Gothic New、編集的コーポレートトーン）と一致しない。今後のスタイル判断の参照先にしないこと。
+- **design-system/ が実装と乖離**: 初期デザイン方針案（ピンクアクセント、Libre Bodoni、Government/Public Serviceカテゴリ）のまま更新されておらず、実際の出荷デザイン（ダークレッド `#8d0820`、Google Fontsを使わないシステムフォント運用、編集的コーポレートトーン）と一致しない。今後のスタイル判断の参照先にしないこと。
 
 ### 要確認（契約・支払い関連 — コードからは分からない）
 

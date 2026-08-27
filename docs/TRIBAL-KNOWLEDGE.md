@@ -12,7 +12,10 @@
   対象ファイルとして `index.html`, `about-us.html`, `contact.html`, `news.html`, `news-detail.html`,
   `privacy.html`, `livapon.html` を `public_html/` 直下からハードコードで探すが、Astro移行後の
   `public_html/` はディレクトリ形式（`about-us/index.html` 等）に変わっており、これらのファイル名は
-  存在しない。実行すると `fs.readFileSync` が ENOENT で即失敗する。移行前（旧・素のHTMLサイト時代）
+  存在しない。実行すると最初のターゲット（`index.html`）の時点で
+  `Expected exactly 1 header block in index.html, but found 0` という例外で即失敗する
+  （Astro移行後のHTMLは `<header id="header">` ではなく `<header class="site-header" data-header>` という
+  異なるマークアップになっており、スクリプトの正規表現が一致しないため）。移行前（旧・素のHTMLサイト時代）
   のヘッダー/フッター同期ツールがそのまま取り残されている。
 
 - **`npm run check`（`astro check`）は既知の型エラーを1件常に返す。**
@@ -85,7 +88,7 @@
   範囲では行っていない（判断材料の提示のみ）。
 
 - **GitHub Issue #19「本番デプロイ失敗: run #6」（2026-07-16作成）がopenのまま。**
-  Actions実行履歴を確認したところ、該当コミットは後続の実行で成功しており実害はないが、
+  Actions実行履歴を確認したところ、該当runは最終的に成功ステータスになっており実害はないが、
   自動作成されたIssueを閉じる運用が徹底されていない。
 
 ## design-system/ の位置づけ（実装と乖離あり）
@@ -96,11 +99,22 @@
 | 項目 | MASTER.md の記載 | 実際（本番CSS・`apps-script/contact.gs`のブランドカラー定数から確認） |
 |---|---|---|
 | アクセントカラー | ピンク `#EC4899` | ダークレッド `#8d0820` |
-| 見出しフォント | Libre Bodoni | Noto Serif JP系（`about-us`のCSSで確認） |
+| 見出しフォント | Libre Bodoni | システムの明朝体フォント（`astro-site/src/styles/global.css`の`--font-serif`で確認。Google Fontsは意図的に不使用） |
 | カテゴリ想定 | Government/Public Service | 編集的コーポレートサイト |
 
 `pages/home.md` のオーバーライドにも「Japanese headings use Zen Kaku Gothic New」という記載があるが、
-実際の見出しは明朝体（`Hiragino Mincho ProN, Yu Mincho, "Noto Serif JP", serif`）が使われている。
+実際の見出しは明朝体（`--font-serif: "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "Hiragino Mincho Pro",
+"MS PMincho", serif`。`astro-site/src/styles/global.css:21`）が使われている。Google Fontsは意図的に
+使っていない（`astro-site/tests/build-regressions.test.js`に "build uses system serif fonts without
+Google Fonts render blocking" という専用テストがあり、ビルド出力に `Noto Serif JP` 等のGoogle Fonts名が
+含まれないことをアサートしている）。
+
+**注意**: `public_html/_astro/` には過去のビルドで生成された、現在どのHTMLからも参照されていない
+古いハッシュ付きCSS/JSファイルが残存している（ビルド成果物を上書きコピーする際に古いファイルを
+削除していないため）。中には `Noto Serif JP` を含む古いCSSも残っており、`public_html/`を直接grepすると
+誤った結論を導く。フォント・配色を確認する際は必ず `astro-site/src/styles/global.css`（ソース）と、
+現在のHTMLが実際に参照しているハッシュ付きファイル（`public_html/index.html`内の`<link>`タグで
+確認できる）を見ること。
 
 **今後のスタイル判断は `design-system/` ではなく、実際のCSS（`astro-site/src/styles/`）と本番サイトの
 表示を正とすること。** `design-system/` は初期構想の記録として残すに留める。
