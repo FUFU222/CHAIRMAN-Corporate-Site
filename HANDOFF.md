@@ -34,7 +34,7 @@
 | 本番ホスティング | Xserver（FTPS配備） | GitHub Actions Secrets: `XSERVER_HOST` / `XSERVER_USERNAME` / `XSERVER_PASSWORD`（`.github/workflows/prod-deploy.yml` が参照） |
 | ドメイン | `chairman-official.com` | レジストラ・支払い方法は未確認（本文書末尾「要確認」参照） |
 | SNSノウハウ集CMS | microCMS | GitHub Actions Secrets: `MICROCMS_SERVICE_DOMAIN` / `MICROCMS_API_KEY`。ローカルは `astro-site/.env`（gitignore対象、値は各自取得） |
-| 問い合わせフォーム送信先 | Google Apps Script（`astro-site/apps-script/contact.gs` がソース。**デプロイはGoogle UIでの手動作業**。**管理アカウントが特定できていない（要再調査）**。詳細は「6. 未完了・既知の課題」参照） | エンドポイントURL: GitHub Actions Secret `CHAIRMAN_APPS_SCRIPT_ENDPOINT`。reCAPTCHAシークレットキー等の Script Properties は **Google Apps Script側にのみ存在し、このリポジトリには一切ない** |
+| 問い合わせフォーム送信先 | Google Apps Script（`astro-site/apps-script/contact.gs` がソース。**デプロイはGoogle UIでの手動作業**。**管理アカウントは a.tanaka@chairman.jp**（2026-08-27に旧スクリプト所在不明のため作り直し。経緯は「6. 未完了・既知の課題」参照）） | エンドポイントURL: GitHub Actions Secret `CHAIRMAN_APPS_SCRIPT_ENDPOINT`。reCAPTCHAシークレットキー等の Script Properties は **Google Apps Script側にのみ存在し、このリポジトリには一切ない** |
 | Bot対策 | Google reCAPTCHA v2 | サイトキー: `CHAIRMAN_RECAPTCHA_SITE_KEY`（公開情報扱い）。シークレットキーはApps Script側のみ |
 | アクセス解析 | Google Analytics | `PUBLIC_GA_ID`（`.github/workflows/preview-deploy.yml` 内に値が直書きされている＝非秘匿情報） |
 | CI/CD | GitHub Actions | Secrets一覧は GitHub リポジトリの Settings > Secrets and variables > Actions で確認 |
@@ -55,6 +55,7 @@
 | 通常の本番デプロイ | [docs/RUNBOOKS.md #本番デプロイ](docs/RUNBOOKS.md#本番デプロイ通常フロー) |
 | 本番デプロイが失敗した | [docs/RUNBOOKS.md #デプロイ失敗時対応](docs/RUNBOOKS.md#本番デプロイ失敗時の対応) |
 | 問い合わせフォーム（Apps Script）を更新する | [docs/RUNBOOKS.md #Apps Script更新](docs/RUNBOOKS.md#問い合わせフォームapps-scriptを更新する) |
+| 問い合わせフォームのApps Scriptが見つからない | [docs/RUNBOOKS.md #Apps Script紛失時](docs/RUNBOOKS.md#問い合わせフォームのapps-scriptが見つからない場合作り直す) |
 | 本番で表示崩れ等が起きてロールバックしたい | [docs/RUNBOOKS.md #ロールバック](docs/RUNBOOKS.md#本番ロールバック) |
 
 ## 5. 関係者
@@ -81,40 +82,38 @@
 
 - Xserverの契約者・支払い方法・契約更新期限
 - `chairman-official.com` ドメインのレジストラ・支払い方法・更新期限（自動更新設定の有無）
-- microCMS / reCAPTCHA の管理者アカウント所在
+- microCMSの管理者アカウント所在（reCAPTCHAとApps Scriptはa.tanaka@chairman.jpと確認済み）
 - Xserver・ドメイン・microCMS等の契約が田中さん個人アカウント紐付けになっていないか（個人カード払いは離脱時にサービス停止リスクがある）
 
-**Google Apps Script（問い合わせフォームの実行基盤）の管理アカウントが特定できていない（2026-08-27時点、要再調査）**:
-当初「a.tanaka@chairman.jpのはず」という申告があったが、そのアカウントで
-[script.google.com/home/all](https://script.google.com/home/all) を確認したところ該当スクリプトが
-見当たらなかった。つまり**現時点でこのApps Scriptを編集・調査できる人が誰もいない可能性がある**。
-これは離脱リスクという将来の話ではなく、**今すでに管理不能になっているかもしれない**という現在の問題。
+**解決済み（2026-08-27）: Google Apps Scriptが所在不明だったため作り直した。**
 
-分かっている事実（コードで裏取り済み）:
-- 本番で使われているデプロイURLは
-  `https://script.google.com/macros/s/AKfycbzqNH2O1z-piHM2Nzk3NomDc51pehOxdnfm0U9WW616sINKEtqUd9KcVvj5XtH-tjxt/exec`
-  （[public_html/contact/index.html](public_html/contact/index.html)に埋め込み済みの値と
-  [astro-site/.env.example](astro-site/.env.example)の値が一致することで確認）
-- このURLへのGETリクエストは200を返し、`astro-site/apps-script/contact.gs:43`の`doGet()`が返す
-  "CHAIRMAN contact endpoint is running." という文言がそのまま返ってくる。**デプロイ自体は生きている**
-- gitのコミット履歴（`git log --follow -- astro-site/apps-script/contact.gs`）を遡っても、
-  どのGoogleアカウントでデプロイしたかを示す記録はリポジトリ内に無い
-  （git commit authorはtnkakr_0817@icloud.comだが、これはGitHubの識別情報でありGoogleアカウントとは無関係）
+経緯: 問い合わせフォームの実行基盤であるGoogle Apps Scriptについて、当初「a.tanaka@chairman.jpのはず」
+という申告があったが、実際に本人が[script.google.com/home/all](https://script.google.com/home/all)
+（オーナー権限フィルタ解除、共有済み、ゴミ箱まで確認）を調べても該当スクリプトが見つからなかった。
+reCAPTCHA側の管理者はa.tanaka@chairman.jpと確認できた（[google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)
+のオーナー欄で確認）一方、Apps Script側だけどのアカウントで作られたか特定できず、**運用開始後、
+誰も設定を変更・調査できない状態になっていたと考えられる**（実際に問い合わせが顧客に届いていなかった
+可能性が高い。担当者からの報告あり）。gitのコミット履歴を遡っても、どのGoogleアカウントで
+デプロイしたかを示す記録はリポジトリ内に見つからなかった。
 
-次に試すべきこと（未実施）:
-- reCAPTCHA管理画面（[google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)）に
-  心当たりのある各Googleアカウントでログインし、サイトキー
-  `6LdiwYcsAAAAAFFwCOlutzJiA2OshOrT-hBR0NIp`（`chairman-official.com`向け）の管理者を探す。
-  Apps ScriptとreCAPTCHAは同じ人が同時期に設定した可能性が高く、Apps Script本体より
-  reCAPTCHA管理画面の方が心当たりのあるアカウントを絞り込みやすい
-- Google Driveの「ゴミ箱」「自分と共有」も確認する（標準的なスタンドアロンApps Scriptなら
-  デプロイしたアカウントのDriveに必ず存在するはずで、home/allに出ないのはゴミ箱・アーカイブ・
-  別アカウントのいずれか）
-- 見つからない場合、`NOTIFY_TO`・`RECAPTCHA_SECRET_KEY`等のScript Propertiesを誰も変更できない
-  状態が既に発生している。復旧させるには、Apps Scriptを新規に作り直し
-  （ソースは[astro-site/apps-script/contact.gs](astro-site/apps-script/contact.gs)にある）、
-  新しい`/exec` URLを`CHAIRMAN_APPS_SCRIPT_ENDPOINT`（GitHub Secrets）と
-  `astro-site/.env.example`に反映し直し、`npm run build`し直して`public_html/`へ反映する必要がある
+対応: 旧スクリプトを探すのは断念し、a.tanaka@chairman.jpで新しいApps Scriptプロジェクト
+「CHAIRMAN コーポレート問い合わせ（20260827作成）」を作成し直した。Script Propertiesは
+`NOTIFY_TO=information@chairman.jp`、`RECAPTCHA_SECRET_KEY`（reCAPTCHA管理画面から取得した値）、
+`RECAPTCHA_ALLOWED_HOSTNAMES=chairman-official.com`を設定（`SHEET_ID`は使わない方針のため未設定
+＝スプレッドシートへの記録はされないが、メール送受信には影響しない）。新しい`/exec` URLを
+GitHub Actions Secret `CHAIRMAN_APPS_SCRIPT_ENDPOINT`・[astro-site/.env.example](astro-site/.env.example)
+に反映し、`public_html/contact/index.html`内の旧URL（2箇所: `action`属性と`data-endpoint`属性）を
+新URLに置換して本番へ反映した（microCMS認証情報がこの環境に無く`npm run build`によるフル再ビルドが
+できなかったため、コミット`92e4ad1`と同様に対象箇所のみ文字列置換で対応）。
+
+**今後の注意**: 新しいApps Scriptの管理アカウントはa.tanaka@chairman.jpで確定している。ただし
+「なぜ元のスクリプトのアカウントが分からなくなったか」自体は未解明（外部委託時の設定か、
+過去の別担当者・別セッションによるものかは不明）。今後Google系サービスを新規に設定する際は、
+**必ずa.tanaka@chairman.jpなど会社として追跡できるアカウントに統一し、プロジェクト名も
+「無題のプロジェクト」のままにしない**（今回の新規作成分は日付入りの名前を付けている）。
+実際にメール到達を確認するテスト送信は本ドキュメント更新時点でまだ実施していない。
+次に触る人は[docs/RUNBOOKS.md](docs/RUNBOOKS.md)の該当手順で実送信テストを行い、
+通知メール・自動返信メールの両方が届くことを確認すること。
 
 ## 7. AIエージェントと引き継ぐ場合
 
