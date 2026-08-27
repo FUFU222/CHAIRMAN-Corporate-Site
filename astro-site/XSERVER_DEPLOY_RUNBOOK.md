@@ -1,5 +1,11 @@
 # CHAIRMAN Astro 本番公開 Runbook for Xserver
 
+> **この文書は歴史的記録です（2026年3月時点、Astro本番切替前に作成）。**
+> 切替は既に完了しており、本番は現在この手順書の説明どおりの「旧HTMLサイト」ではなく
+> Astro移行後の状態です。日常のデプロイ手順は現行の正本 [../docs/RUNBOOKS.md](../docs/RUNBOOKS.md) と
+> [../docs/TRIBAL-KNOWLEDGE.md](../docs/TRIBAL-KNOWLEDGE.md) を参照してください。
+> 以下は切替時の判断根拠・詳細手順の記録として残しています。
+
 この文書は、Astro で構築した CHAIRMAN サイトを Xserver 上で安全に公開するための作業手順書です。
 
 対象読者:
