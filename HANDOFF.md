@@ -105,7 +105,7 @@
 - reCAPTCHA管理画面（[google.com/recaptcha/admin](https://www.google.com/recaptcha/admin)）に
   心当たりのある各Googleアカウントでログインし、サイトキー
   `6LdiwYcsAAAAAFFwCOlutzJiA2OshOrT-hBR0NIp`（`chairman-official.com`向け）の管理者を探す。
-  Apps Scriptとreqcaptchaは同じ人が同時期に設定した可能性が高く、Apps Script本体より
+  Apps ScriptとreCAPTCHAは同じ人が同時期に設定した可能性が高く、Apps Script本体より
   reCAPTCHA管理画面の方が心当たりのあるアカウントを絞り込みやすい
 - Google Driveの「ゴミ箱」「自分と共有」も確認する（標準的なスタンドアロンApps Scriptなら
   デプロイしたアカウントのDriveに必ず存在するはずで、home/allに出ないのはゴミ箱・アーカイブ・
